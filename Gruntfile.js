@@ -2,6 +2,16 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    csslint: {
+      strict: {
+        options: {
+          import: 2
+        },
+        src: ['assets/styles/**/*.css']
+      }
+    },
+
     jshint: {
       files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
       options: {
@@ -31,13 +41,10 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          // includes files within path and its sub-directories
           {expand: true, src: ['assets/**'], dest: 'dist/'},
-
-          // includes files within path and its sub-directories
           {expand: true, flatten: true, src: ['server/**'], dest: 'dist/'},
-          // includes files within path and its sub-directories
           {expand: true, src: ['src/**'], dest: 'dist/'},
+          {expand: true, src: ['bower_components/**'], dest: 'dist/'},
         ],
       },
     },
@@ -62,9 +69,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
 
-  grunt.registerTask('test', ['jshint', 'mochaTest']);
-
-  grunt.registerTask('default', ['jshint', 'copy', 'express']);
+  grunt.registerTask('lint', ['jshint', 'csslint']);
+  grunt.registerTask('test', ['lint', 'mochaTest']);
+  grunt.registerTask('default', ['lint', 'copy', 'express']);
 
 };
