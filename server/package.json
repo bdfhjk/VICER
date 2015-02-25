@@ -1,0 +1,12 @@
+{
+  "name": "viper-server",
+  "version": "1.0.0",
+  "description": "Server for running VIPER as standalone app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Team VIPER",
+  "license": "ISC"
+}

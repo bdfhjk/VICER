@@ -1,0 +1,24 @@
+{
+  "name": "viperoid",
+  "version": "0.0.0",
+  "authors": [
+    "Mariusz Kierski <mariusz.kierski@gmail.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.5",
+    "when": "~3.7.2",
+    "requirejs": "~2.1.16"
+  }
+}
