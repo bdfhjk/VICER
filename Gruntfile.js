@@ -24,6 +24,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint']
@@ -60,6 +61,15 @@ module.exports = function(grunt) {
       }
     },
 
+    execute: {
+	compileParser: {
+	    options: {
+		args: ['dist/'],
+	    },
+	    src: ['src/backend/parser/Make.js']
+	}
+    },
+
     clean: ["dist"]
   });
 
@@ -70,9 +80,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-execute');
 
   grunt.registerTask('lint', ['jshint', 'csslint']);
   grunt.registerTask('test', ['lint', 'mochaTest']);
+  grunt.registerTask('parser', ['execute:compileParser']);
   grunt.registerTask('default', ['lint', 'copy', 'express']);
 
 };
