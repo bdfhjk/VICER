@@ -63,6 +63,9 @@ module.exports = function(grunt) {
 
     execute: {
 	compileParser: {
+	    options: {
+		args: ['dist/'],
+	    },
 	    src: ['src/backend/parser/Make.js']
 	}
     },
