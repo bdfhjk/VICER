@@ -1,9 +1,39 @@
 <html>
   <head>
     <title>VIPER</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="bower_components/codemirror/theme/solarized.css">
     <link rel="stylesheet" href="styles/viper.css">
   </head>
   <body>
-    <script data-main="frontend/index" src="bower_components/requirejs/require.js"></script>
+  <div class="container-fluid">
+    <div class="row">
+      <center><img src="images/logo.png" width="100%" /></center>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+	<textarea rows="12" cols="50" id="code">
+void main()
+{
+  printf("Hello world!");
+}</textarea>
+	<div class="jumbotron">Compiling... <br> Compilation successfull.</div>
+      </div>
+      <div class="col-md-8">
+	<div class="jumbotron">.lay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displaydisplay dispaly display display display displayisplay dispaly display display display display</div>
+	<div class="row">
+	  <center>
+             <button type="button" class="btn btn-default btn-lg">Compile</button>
+	     <button type="button" class="btn btn-primary btn-lg">Step</button>
+             <button type="button" class="btn btn-info btn-lg">Step over</button>
+             <button type="button" class="btn btn-success btn-lg">Start</button>
+             <button type="button" class="btn btn-warning btn-lg">Stop</button>
+             <button type="button" class="btn btn-danger btn-lg">End</button>
+          </center>
+	</div>
+     </div>
+  </div>
+  <script data-main="frontend/index" src="bower_components/requirejs/require.js"></script>
   </body>
 </html>
