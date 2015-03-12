@@ -1,0 +1,39 @@
+Wnioski z researchu o Jisonie:
+
+Nikt za bardzo nie wie, jak użyć __lexera__, gdy jest wygenerowany do pliku.
+Najfaniej by było, gdyby importować moduł, w którym są zdefiniowane zmienne lexer i parser. [może tak jest właśnie, tylko ja nie umiem]
+
+Żeby zobaczyć, jak działa lekser, zrobiłem run_lexer.js, któremu daje się plik, żeby pokazać, jak działa lexer, gdy się go ma na zmiennej w programie.
+Generalnie, jak się go ma w zmiennej lexer, to można robić dwie rzeczy:
+    --lexer.lex() -- daje następny token, lub EOF (=1).
+    --lexer.yytext -- daje tekst stanowiący ostatni token
+    --lexer.yylen -- długość ostatniego tokenu
+
+Są jeszcze jakieś inne opcje jak lokacja, ale są trudne i nie rozumiem. Generalnie zero dokumentacji.
+
+Potem, gdy dla __parsera__ w Jisonie, który wykorzystuje w tle ów lexer, specyfikuje się, jak ma budować wartość wynikową,
+to dla symboli terminalnych (tokenów) można wykorzystać właśnie wszystkie te lexer.<atrybut> 
+(oczywiście wtedy po prostu się pisze <atrubut1> + <atrybut2> i nie widać, że tam był jakiś lexer,
+ale de facto to lexer wyznacza możliwości), a wartość dla symboli nieterminalnych buduje się dynamicznie.
+
+Są jeszcze jakieś dodatkowe możliwości parsera, z których można korzystać, np. wywołanie parsera z argumentem.
+Niestety znowu zero dokumentacji. Żeby mieć mgliste pojęcie, co się da, to trzeba przeczytać wszystkie example i testy parsera, co pobieżnie zrobiłem.
+
+W każdym razie dodawanie kontekstu do parsera
+----
+(jak to się robi w FLEX/BIZON, by sparsować C -- bo C nie da się sparsować bez kontekstu przez typedefa, patrz np.: 
+http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-cs-grammar-revisited )
+----
+wydaje się nieprzewidziane (trzeba by ogarnąć, czy tam są jakieś "stany", a ogarnanie takich rzeczy jest kosztowne),
+więc nasz subset C musi być bezkontestowy. 
+W przyszłości przy budowaniu naszego drzewa AST nie będziemy mogli robić żadnych checków, bo praktycznie każdy check 
+(zgodność typów, konieczność deklaracji zmiennych, zgodność parametrów aktualnych z formalnymi), wymaga kontekstu
+więc po prostu nasze drzewo AST będzie odpowiadać strukturze syntaktycznej programu, a potem będziemy je pewnie wielokrotnie przechodzić, żeby sprawdzić
+wszystkie kontekstowe warunki. W ogóle trzeba będzie się wywiedzieć, jak się przerabia takie drzewo, żeby dało się program odpalić.
+
+Ale zanim zrobimy jakieś AST drzewa i cuda musimy poprawić gramatykę (wywalić storage-specifiery (typedef do nich należy, więc za jednym zamachem...).
+Trzeba się zastanowić, czy potrzebujemy const (bo volatile to na pewno nie).
+Mimo, że my nie będziemy obsługiwać tych wywalonych słów kluczowych, to proponuje zostawić je w gramatyce, żeby ktoś nie użył sobie potem "auto",
+jako nazwę zmiennej.
+
+Zapytajmy się naszego promotora, jak się robi interpreter. On się zna na tym.
