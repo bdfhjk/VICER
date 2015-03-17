@@ -24,3 +24,20 @@ circle {
 .q6-9 { fill: rgb(184,225,134); }
 .q7-9 { fill: rgb(127,188,65); }
 .q8-9 { fill: rgb(77,146,33); }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 25%;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: monospace;
+  height: 75%;
+  color: black;
+}
+
+
