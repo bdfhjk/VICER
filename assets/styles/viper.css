@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+  background-color: white;
 }
 
 path {
@@ -28,16 +28,25 @@ circle {
 .footer {
   position: absolute;
   bottom: 0;
-  height: 25%;
+  height: 22%;
   width: 100%;
   background-color: #f5f5f5;
 }
 
 .CodeMirror {
-  /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 75%;
+  height: 68%;
   color: black;
 }
 
+.jumbotron {
+  height: 75%;
+  overflow-x:auto;
+  overflow-y:auto;
+  margin: auto auto;
+}
 
+.container-fluid {
+  padding-right: 0px;
+  padding-left: 0px;
+}
