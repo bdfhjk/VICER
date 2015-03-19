@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/viper.css">
   </head>
-  <body>
-  <div class="container-fluid">
-    <div class="col-md-4">
-      <div class="row">
+  <body style="width: 100%">
+  <div>
+    <div id="codearea" style="min-width: 400px; display: inline-block; float: left;">
+      <div>
       <textarea rows="18" cols="50" id="code">
 void main()
 {
   printf("Hello world!");
 }</textarea>
       </div>
-      <div class="row">
-        <center>
+      <div style="margin: 0 auto; background-color: #fcfadc;">
+		<center>
           <button type="button" class="btn btn-success"><i class="fa fa-rocket"></i>&nbsp Start</button>
           <button type="button" class="btn btn-primary"><i class="fa fa-share"></i>&nbsp Step</button>
           <button type="button" class="btn btn-info"><i class="fa fa-share-square"></i>&nbsp Step over</button>
@@ -27,17 +27,12 @@ void main()
         </center>
       </div>
     </div>
-    <div class="col-md-8" style="margin: auto, auto;">
-      <div class="row">
-        <center><div id="display"></div></center>
-      </div>
-    </div>
-  </div>
+    <div style="min-width: 500px; display: inline-block; float: right;" id="display"> </div>
 
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <div class="jumbotron">
+        <div class="jumbotron" style="padding-left: 10px; padding-right: 10px;">
           <span class="label label-primary">Compiling... </span>
           <br>
           <samp>Compilation successfull.</samp>

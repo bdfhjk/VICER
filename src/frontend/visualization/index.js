@@ -28,10 +28,10 @@ define(["d3js"], function(){
       e = dc.documentElement,
       g = dc.getElementsByTagName('body')[0];
       
-      x = w.innerWidth || e.clientWidth || g.clientWidth;
-      y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+      x = e.clientWidth;//w.innerWidth || e.clientWidth || g.clientWidth;
+      y = e.clientHeight;//w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-      width = x * 0.65;
+      width = Math.min(x - 430, x * 0.67);
       height = y * 0.75;
 
       vertices = d3.range(100).map(function(d) {
@@ -48,7 +48,9 @@ define(["d3js"], function(){
           .attr("height", height)
           .on("mousemove", function() { vertices[0] = d3.mouse(this); redraw(); });
 
-      path = svg.append("g").selectAll("path");
+      path = svg.append("g").selectAll("path")
+		  .attr("width", width)
+          .attr("height", height);
 
       svg.selectAll("circle")
           .data(vertices.slice(1))
@@ -56,7 +58,7 @@ define(["d3js"], function(){
           .attr("transform", function(d) { return "translate(" + d + ")"; })
           .attr("r", 1.5);
 
-      svg.attr("width", x).attr("height", y);
+      svg.attr("width", width).attr("height", height);
       
       redraw();
     }
