@@ -12,4 +12,11 @@ define(["cm/lib/codemirror",
                   cm.setSize("100%", "100%");
                 }
             });
+
+            updateSize();
+			window.addEventListener('resize', updateSize);
+
+			function updateSize(){
+				document.getElementById('codearea').style.width = Math.max(430, document.documentElement.clientWidth * 0.33);
+			}
         });
