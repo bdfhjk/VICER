@@ -1,3 +1,52 @@
 body {
-    background-color: #008080;
+  background-color: white;
+}
+
+path {
+  stroke: #fff;
+}
+
+path:first-child {
+  fill: yellow !important;
+}
+
+circle {
+  fill: #000;
+  pointer-events: none;
+}
+
+.q0-9 { fill: rgb(197,27,125); }
+.q1-9 { fill: rgb(222,119,174); }
+.q2-9 { fill: rgb(241,182,218); }
+.q3-9 { fill: rgb(253,224,239); }
+.q4-9 { fill: rgb(247,247,247); }
+.q5-9 { fill: rgb(230,245,208); }
+.q6-9 { fill: rgb(184,225,134); }
+.q7-9 { fill: rgb(127,188,65); }
+.q8-9 { fill: rgb(77,146,33); }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 22%;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+.CodeMirror {
+  font-family: monospace;
+  height: 68%;
+  color: black;
+}
+
+.jumbotron {
+  height: 75%;
+  overflow-x:auto;
+  overflow-y:auto;
+  margin: auto auto;
+}
+
+.container-fluid {
+  padding-right: 0px;
+  padding-left: 0px;
 }

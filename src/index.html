@@ -1,9 +1,62 @@
 <html>
   <head>
     <title>VIPER</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="bower_components/codemirror/theme/solarized.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/viper.css">
   </head>
   <body>
-    <script data-main="frontend/index" src="bower_components/requirejs/require.js"></script>
+  <div class="container-fluid">
+    <div class="col-md-4">
+      <div class="row">
+      <textarea rows="18" cols="50" id="code">
+void main()
+{
+  printf("Hello world!");
+}</textarea>
+      </div>
+      <div class="row">
+        <center>
+          <button type="button" class="btn btn-success"><i class="fa fa-rocket"></i>&nbsp Start</button>
+          <button type="button" class="btn btn-primary"><i class="fa fa-share"></i>&nbsp Step</button>
+          <button type="button" class="btn btn-info"><i class="fa fa-share-square"></i>&nbsp Step over</button>
+          <button type="button" class="btn btn-warning"><i class="fa fa-shield"></i>&nbsp Stop</button>
+          <button type="button" class="btn btn-danger"><i class="fa fa-square"></i>&nbsp End</button>
+        </center>
+      </div>
+    </div>
+    <div class="col-md-8" style="margin: auto, auto;">
+      <div class="row">
+        <center><div id="display"></div></center>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <span class="label label-primary">Compiling... </span>
+          <br>
+          <samp>Compilation successfull.</samp>
+          <br>
+          <span class="label label-success">Running... </span>
+          <br>
+          <samp>Hello world.</samp>
+          <br>
+          <span class="label label-danger">Segmentation fault</span>
+          <br>
+          <samp>segfault at 10 ip 00007f9bebcca90d sp 00007fffb62705f0 error 4 in libQtWebKit.so.4.5.2[7f9beb83a000+f6f000]<br>
+segfault at 10 ip 00007fa44d78890d sp 00007fff43f6b720 error 4 in libQtWebKit.so.4.5.2[7fa44d2f8000+f6f000]<br>
+segfault at 11 ip 00007f2b0022acee sp 00007fff368ea610 error 4 in libQtWebKit.so.4.5.2[7f2aff9f7000+f6f000]<br>
+segfault at 11 ip 00007f24b21adcee sp 00007fff7379ded0 error 4 in libQtWebKit.so.4.5.2[7f24b197a000+f6f000]</samp>
+         </div>
+       </div>
+       <p class="text-muted">VIPER</p>
+     </div>
+  </footer> 
+  <script data-main="frontend/index" src="bower_components/requirejs/require.js"></script>
   </body>
 </html>
