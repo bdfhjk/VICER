@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/viper.css">
   </head>
-  <body style="width: 100%">
-  <div>
-    <div id="codearea" style="min-width: 400px; display: inline-block; float: left;">
+  <body>
+  <div id="container-codearea">
+    <div id="codearea">
       <div>
       <textarea rows="18" cols="50" id="code">
 void main()
@@ -17,22 +17,22 @@ void main()
   printf("Hello world!");
 }</textarea>
       </div>
-      <div style="margin: 0 auto; background-color: #fcfadc;">
+      <div id="container-buttons">
 		<center>
-          <button type="button" class="btn btn-success"><i class="fa fa-rocket"></i>&nbsp Start</button>
-          <button type="button" class="btn btn-primary"><i class="fa fa-share"></i>&nbsp Step</button>
-          <button type="button" class="btn btn-info"><i class="fa fa-share-square"></i>&nbsp Step over</button>
-          <button type="button" class="btn btn-warning"><i class="fa fa-shield"></i>&nbsp Stop</button>
-          <button type="button" class="btn btn-danger"><i class="fa fa-square"></i>&nbsp End</button>
+          <button type="button" id="btn-start" class="btn btn-mini btn-success"><i class="fa fa-rocket"></i>&nbsp; Start</button>
+          <button type="button" id="btn-step" class="btn btn-mini btn-primary"><i class="fa fa-share"></i>&nbsp; Step</button>
+          <button type="button" id="btn-step-over" class="btn btn-mini btn-info"><i class="fa fa-share-square"></i>&nbsp; Step over</button>
+          <button type="button" id="btn-stop" class="btn btn-mini btn-warning"><i class="fa fa-shield"></i>&nbsp; Stop</button>
+          <button type="button" id="btn-end" class="btn btn-mini btn-danger"><i class="fa fa-square"></i>&nbsp; End</button>
         </center>
       </div>
     </div>
-    <div style="min-width: 500px; display: inline-block; float: right;" id="display"> </div>
+    <div id="display"> </div>
 
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <div class="jumbotron" style="padding-left: 10px; padding-right: 10px;">
+        <div class="jumbotron">
           <span class="label label-primary">Compiling... </span>
           <br>
           <samp>Compilation successfull.</samp>

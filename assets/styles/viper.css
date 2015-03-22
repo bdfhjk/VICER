@@ -1,5 +1,6 @@
 body {
   background-color: white;
+  width: 100%;
 }
 
 path {
@@ -35,7 +36,7 @@ circle {
 
 .CodeMirror {
   font-family: monospace;
-  height: 70%;
+  /*height: 70%;*/
   color: black;
 }
 
@@ -45,9 +46,38 @@ circle {
   overflow-y:auto;
   margin: auto auto;
   padding: 10px 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .container-fluid {
   padding-right: 0px;
   padding-left: 0px;
+}
+
+.btn {
+  font-size: 12px;
+}
+
+#codearea {
+  min-width: 400px;
+  display: inline-block;
+  float: left;
+}
+
+#container-codearea {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#container-buttons {
+  padding: 3px 10px;
+  margin: 0 auto;
+  background-color: #fcfadc;
+}
+
+#display {
+  display: inline-block;
+  float: right;
 }
