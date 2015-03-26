@@ -22,7 +22,8 @@ define(["cm/lib/codemirror",
         g = dc.getElementsByTagName('body')[0];
         x = e.clientWidth;
         y = e.clientHeight;
-		document.getElementById('codearea').style.width = Math.max(430, document.documentElement.clientWidth * 0.33);
+		document.getElementById('codearea').style.width = Math.max(430, document.documentElement.clientWidth * 0.33) - 10;
 		document.getElementById('codearea').style.height = y - 55;
 	}
+    return cm;
 });

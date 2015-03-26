@@ -1,4 +1,4 @@
-define(['jquery', 'backend'], function(){
+define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend, my_console, cm){
 
     var executionDelay = 1000;
     var loop = 0;
@@ -6,10 +6,10 @@ define(['jquery', 'backend'], function(){
     function nextStep(){
         backend.nextStep()
             .then(function(executionResult) {
-                alert(executionResult.description);
+                my_console.addToConsole('run', executionResult.description);
             })
             .catch(function(err) {
-                alert(err.stack);
+                my_console.addToConsole('exception', err.stack);
             })
             .done();
     }
@@ -17,10 +17,10 @@ define(['jquery', 'backend'], function(){
     function nextStepOver(){
         backend.nextStepOver()
             .then(function(executionResult) {
-                alert(executionResult.description);
+                my_console.addToConsole('run', executionResult.description);
             })
             .catch(function(err) {
-                alert(err.stack);
+                my_console.addToConsole('exception', err.stack);
             })
             .done();
     }
@@ -29,30 +29,34 @@ define(['jquery', 'backend'], function(){
         loop = setInterval(nextStep, executionDelay);
     }
 
-    $('#btn-start').click(function(){
-        backend.runProgram("x=2")
+    function stopExecution(){
+        clearInterval(loop);
+    }
+
+    function startExecution(){
+        stopExecution();
+        backend.runProgram(cm.doc.getValue())
             .then(function(result) {
-                alert("Compilation result:" + result);
+                my_console.addToConsole('compile', result);
                 initiateExecution();
             })
             .catch(function(err) {
-                alert(err.stack);
+                my_console.addToConsole('exception', err.stack);
             })
             .done();
-    });
+    }
+
+    $('#btn-start').click(startExecution);
 
     $('#btn-step').click(nextStep);
+
     $('#btn-step-over').click(nextStepOver);
 
-    $('#btn-stop').click(function(){
-        clearInterval(loop);
-    });
+    $('#btn-stop').click(stopExecution);
 
     $('#btn-end').click(function(){
-        backend.clean()
-            .catch(function(err) {
-                alert(err.stack);
-            })
-            .done();
+        stopExecution();
+        backend.clean();
+        my_console.clearConsole();
     });
 });

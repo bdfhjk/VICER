@@ -13,6 +13,7 @@ requirejs.config({
         { name: 'jquery', location: '../bower_components/jquery/dist', main: 'jquery.min'},
         { name: 'backend', location: '../backend', main: 'index'},
         { name: 'code_input', location: 'code_input', main: 'index'},
+        { name: 'console', location: 'console', main: 'index'},
         { name: 'visualization', location: 'visualization', main: 'index'},
         { name: 'interface', location: 'interface', main: 'index'},
         { name: 'd3js', location: '../bower_components/d3', main: 'd3.min'}
@@ -22,7 +23,7 @@ requirejs.config({
 var backend;
 
 function initBackend() {
-    require(['backend', 'code_input', 'visualization', 'interface'], function(_backend) {
+    require(['backend', 'console', 'visualization', 'interface'], function(_backend) {
         backend = _backend;
     });
 }

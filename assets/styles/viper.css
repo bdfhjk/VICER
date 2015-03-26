@@ -1,6 +1,7 @@
 body {
   background-color: white;
   width: 100%;
+  overflow: hidden;
 }
 
 path {
@@ -41,7 +42,7 @@ circle {
 }
 
 .jumbotron {
-  height: 75%;
+  height: 80%;
   overflow-x:auto;
   overflow-y:auto;
   margin: auto auto;
@@ -68,6 +69,7 @@ circle {
 #container-codearea {
   height: 100%;
   width: 100%;
+  padding: 5px;
   overflow: hidden;
 }
 
@@ -80,4 +82,14 @@ circle {
 #display {
   display: inline-block;
   float: right;
+}
+
+#console {
+  width: 100%;
+  padding: 10px 40px;
+}
+
+.console-label {
+  padding: 7px 0px;
+  display: block;
 }
