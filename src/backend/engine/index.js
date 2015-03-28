@@ -11,6 +11,12 @@ define(["mod_parser", "mod_executor", "mod_data_structures"], function(parser, e
             .then(dataStructures.interpret);
     }
 
+    /* Mock up */
+    function nextStepOver() {
+        return executor.processNext(process)
+            .then(dataStructures.interpret);
+    }
+
     function clean() {
         process = undefined;
     }
