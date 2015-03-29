@@ -24,6 +24,7 @@ define(["mod_parser", "mod_executor", "mod_data_structures"], function(parser, e
     return {
         runProgram: runProgram,
         nextStep: nextStep,
+        nextStepOver: nextStepOver,
         clean: clean
     };
 });

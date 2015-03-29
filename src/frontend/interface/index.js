@@ -46,17 +46,15 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
             .done();
     }
 
-    $('#btn-start').click(startExecution);
-
-    $('#btn-step').click(nextStep);
-
-    $('#btn-step-over').click(nextStepOver);
-
-    $('#btn-stop').click(stopExecution);
-
-    $('#btn-end').click(function(){
+    function endExecution(){
         stopExecution();
         backend.clean();
         my_console.clearConsole();
-    });
+    }
+
+    $('#btn-start').click(startExecution);
+    $('#btn-step').click(nextStep);
+    $('#btn-step-over').click(nextStepOver);
+    $('#btn-stop').click(stopExecution);
+    $('#btn-end').click(endExecution);
 });

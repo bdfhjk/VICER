@@ -16,6 +16,14 @@ requirejs.config({
         { name: 'console', location: 'console', main: 'index'},
         { name: 'visualization', location: 'visualization', main: 'index'},
         { name: 'interface', location: 'interface', main: 'index'},
+        { name: 'visualization', location: 'visualization', main: 'index'},
+        { name: 'variables', location: 'variables', main: 'index'},
+        { name: 'lists', location: 'lists', main: 'index'},
+        { name: 'tables', location: 'tables', main: 'index'},
+        { name: 'trees', location: 'trees', main: 'index'},
+        { name: 'pointers', location: 'pointers', main: 'index'},
+        { name: 'stack', location: 'stack', main: 'index'},
+        { name: 'variable', location: 'variable', main: 'index'},
         { name: 'd3js', location: '../bower_components/d3', main: 'd3.min'}
     ]
 });

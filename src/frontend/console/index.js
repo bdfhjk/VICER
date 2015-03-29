@@ -3,27 +3,29 @@ define(['jquery'], function(){
     var last_type = -1;
 
     function addToConsole(type, text){
-            $('.jumbotron').append('<br />');
+        $('#console-output').append('<br />');
         if (last_type != type){
             switch(type) {
                 case "compile":
-                    $('.jumbotron').append('<span class="console-label"><span class="label label-primary">Compiling... </span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-primary">Compiling... </span></span>');
                     break;
                 case "run":
-                    $('.jumbotron').append('<span class="console-label"><span class="label label-success">Running... </span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-success">Running... </span></span>');
                     break;
                 case "exception":
-                    $('.jumbotron').append('<span class="console-label"><span class="label label-danger">Exception...</span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-danger">Exception...</span></span>');
                     break;
             }
             last_type = type;
         }
-        $('.jumbotron').append(text);
-        $('.jumbotron').scrollTop($('.jumbotron')[0].scrollHeight - $('.jumbotron').height());
+        $('#console-output').append(text);
+
+        //Scroll the textbox to the last line.
+        $('#console-output').scrollTop($('#console-output')[0].scrollHeight - $('#console-output').height());
     }
 
     function clearConsole(){
-        $('.jumbotron').html('Welcome to VIPER!');
+        $('#console-output').html('Welcome to VIPER!');
         last_type = -1;
     }
 
