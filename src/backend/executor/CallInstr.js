@@ -1,4 +1,4 @@
-define(["./functionCall"], function(functionCall) {
+define(["./FunctionCall"], function(functionCall) {
 
     var callFunction = functionCall.callFunction;
 
