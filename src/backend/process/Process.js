@@ -1,9 +1,17 @@
-define(function() {
+define(["./Memory", "./Environment", "./ValueTypes", "./ExecutionContext"], 
+    function(Memory, Environment, valueTypes, ExecutionContext) {
 
     function Process() {
-        this.toString = function() { return "A compiled process."; };
+        this.memory = new Memory();        
+        this.environment = new Environment(this.memory);
+        this.callStack = [];
     }
 
-    return Process;
+    return {
+        Process: Process,
+        valueTypes: valueTypes,
+        Environment: Environment,
+        ExecutionContext: ExecutionContext
+    };
 
 });
