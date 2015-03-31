@@ -1,6 +1,4 @@
-define(["./functionCall"], function(functionCall) {
-
-    var callFunction = functionCall.callFunction;
+define(function() {
 
     function BranchInstr() {
 
