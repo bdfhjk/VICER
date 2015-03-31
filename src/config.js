@@ -1,4 +1,5 @@
-var baseUrl = (typeof require === "function") ? __dirname : undefined; 
+var isInNode = (typeof require === "function");
+var baseUrl = isInNode ? __dirname : undefined; 
 
 requirejs.config({
     shim : {
@@ -9,6 +10,7 @@ requirejs.config({
         { name: 'when', location: '../bower_components/when', main: 'when' },
         { name: 'cm', location: '../bower_components/codemirror', main: 'codemirror'},
         { name: 'd3js', location: '../bower_components/d3', main: 'd3.min'},
+        { name: 'jquery', location: '../bower_components/jquery/dist', main: 'jquery.min'},
 
         { name: 'mod_engine', location: 'backend/engine', main: 'index'},
         { name: 'mod_executor', location: 'backend/executor', main: 'index'},
@@ -17,7 +19,20 @@ requirejs.config({
         { name: 'mod_parser', location: 'backend/parser', main: 'index'},
 
         { name: 'backend', location: 'backend', main: 'index'},
-        { name: 'code_input', location: 'code_input', main: 'index'},
-        { name: 'visualization', location: 'visualization', main: 'index'}
+        { name: 'code_input', location: 'frontend/code_input', main: 'index'},
+        { name: 'console', location: 'frontend/console', main: 'index'},
+        { name: 'visualization', location: 'frontend/visualization', main: 'index'},
+
+        { name: 'variables', location: 'frontend/variables', main: 'index'},
+        { name: 'lists', location: 'frontend/lists', main: 'index'},
+        { name: 'tables', location: 'frontend/tables', main: 'index'},
+        { name: 'trees', location: 'frontend/trees', main: 'index'},
+        { name: 'pointers', location: 'frontend/pointers', main: 'index'},
+        { name: 'stack', location: 'frontend/stack', main: 'index'},
+        { name: 'variable', location: 'frontend/variable', main: 'index'},
     ]
 });
+
+if (!isInNode) {
+    require(["frontend/index"]);
+}
