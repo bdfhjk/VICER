@@ -1,5 +1,5 @@
-var isInNode = (typeof require === "function");
-var baseUrl = isInNode ? __dirname : undefined; 
+var isInNode = (typeof define !== "function");
+var baseUrl = isInNode ? __dirname : "."; 
 
 requirejs.config({
     shim : {
@@ -22,6 +22,7 @@ requirejs.config({
         { name: 'code_input', location: 'frontend/code_input', main: 'index'},
         { name: 'console', location: 'frontend/console', main: 'index'},
         { name: 'visualization', location: 'frontend/visualization', main: 'index'},
+        { name: 'interface', location: 'frontend/interface', main: 'index'},
 
         { name: 'variables', location: 'frontend/variables', main: 'index'},
         { name: 'lists', location: 'frontend/lists', main: 'index'},
