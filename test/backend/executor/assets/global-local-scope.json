@@ -1,0 +1,60 @@
+{
+    "global": {
+        "a": { 
+            "type": "int"
+        }
+    }, 
+    "functions": {
+        "main": { 
+            "returns": { "type": "void" },
+            "args": [],
+            "env": {
+                "b": { "type": "int" }
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "a"
+                },
+                "1": {
+                    "type": "PUT",
+                    "param": 2
+                },
+                "2": {
+                    "type": "ASSIGN"
+                },
+                "3": {
+                    "type": "RESOLVE",
+                    "param": "b"
+                },
+                "4": {
+                    "type": "PUT",
+                    "param": 3
+                },
+                "5": {
+                    "type": "ASSIGN"
+                },
+                "6": {
+                    "type": "RESOLVE",
+                    "param": "a"
+                },
+                "7": {
+                    "type": "FETCH"
+                },
+                "8": {
+                    "type": "RESOLVE",
+                    "param": "b"
+                },
+                "9": {
+                    "type": "FETCH"
+                },
+                "10": {
+                    "type": "ADD"
+                },
+                "11": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}

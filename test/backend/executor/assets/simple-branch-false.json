@@ -1,0 +1,39 @@
+{
+    "global": {
+
+    }, 
+    "functions": {
+        "main": { 
+            "returns": { "type": "void" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "PUT",
+                    "param": 0
+                },
+                "1": {
+                    "type": "BRANCH",
+                    "true": 2,
+                    "false": 4
+                },
+                "2": {
+                    "type": "PUT",
+                    "param": 42
+                },
+                "3": {
+                    "type": "RETURN"
+                },
+                "4": {
+                    "type": "PUT",
+                    "param": 21
+                },
+                "5": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}

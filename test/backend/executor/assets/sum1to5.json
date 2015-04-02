@@ -1,0 +1,120 @@
+{
+    "global": {
+        "result": { "type": "int" }
+    }, 
+    "functions": {
+        "main": { 
+            "returns": { "type": "void" },
+            "args": [],
+            "env": {
+                "i": { "type": "int" }
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "1": {
+                    "type": "PUT",
+                    "param": 0
+                },
+                "2": {
+                    "type": "ASSIGN"
+                },
+                "3": {
+                    "type": "RESOLVE",
+                    "param": "result"
+                },
+                "4": {
+                    "type": "PUT",
+                    "param": 0
+                },
+                "5": {
+                    "type": "ASSIGN",
+                    "next": "WHILE-CONDITION"
+                },
+                "WHILE-CONDITION": {
+                    "type": "RESOLVE",
+                    "param": "i",
+                    "next": "7"
+                },
+                "7": {
+                    "type": "FETCH"
+                },
+                "8": {
+                    "type": "PUT",
+                    "param": 6
+                },
+                "9": {
+                    "type": "EQ"
+                },
+                "10": {
+                    "type": "NOT"
+                },
+                "11": {
+                    "type": "BRANCH",
+                    "true": "TRUE",
+                    "false": "FALSE"
+                },
+                "TRUE": {
+                    "type": "RESOLVE",
+                    "param": "result",
+                    "next": "12"
+                },
+                "12": {
+                    "type": "RESOLVE",
+                    "param": "result"
+                },
+                "13": {
+                    "type": "FETCH" 
+                },
+                "14": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "15": {
+                    "type": "FETCH" 
+                },
+                "16": {
+                    "type": "ADD" 
+                },
+                "17": {
+                    "type": "ASSIGN"
+                },
+                "18": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "19": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "20": {
+                    "type": "FETCH" 
+                },
+                "21": {
+                    "type": "PUT",
+                    "param": 1
+                },
+                "22": {
+                    "type": "ADD" 
+                },
+                "23": {
+                    "type": "ASSIGN",
+                    "next": "WHILE-CONDITION"
+                },
+                "FALSE": {
+                    "type": "RESOLVE",
+                    "param": "result",
+                    "next": "24"
+                },
+                "24": {
+                    "type": "FETCH" 
+                },
+                "25": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}

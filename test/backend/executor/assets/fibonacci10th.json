@@ -1,0 +1,138 @@
+{
+    "global": {
+
+    }, 
+    "functions": {
+        "main": { 
+            "returns": { "type": "void" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "PUT",
+                    "param": 10
+                },
+                "1": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "2": {
+                    "type": "CALL"
+                },
+                "3": {
+                    "type": "RETURN"
+                }
+            }
+        },
+        "fib": {
+            "returns": { "type": "int" },
+            "args": ["n"],
+            "env": {
+                "n": {"type": "int"}
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "PUT",
+                    "param": 0
+                },
+                "3": {
+                    "type": "EQ"
+                },
+                "4": {
+                    "type": "BRANCH",
+                    "true": "N-EQ-0",
+                    "false": "N-NEQ-0"
+                },
+                "N-EQ-0": {
+                    "type": "PUT",
+                    "param": 0,
+                    "next": "RETURN"
+                },
+                "N-NEQ-0": {
+                    "type": "RESOLVE",
+                    "param": "n",
+                    "next": "5"
+                },
+                "5": {
+                    "type": "FETCH"
+                },
+                "6": {
+                    "type": "PUT",
+                    "param": 1
+                },
+                "7": {
+                    "type": "EQ"
+                },
+                "8": {
+                    "type": "BRANCH",
+                    "true": "N-EQ-1",
+                    "false": "N-NEQ-1"
+                },
+                "N-EQ-1": {
+                    "type": "PUT",
+                    "param": 1,
+                    "next": "RETURN"
+                },
+                "N-NEQ-1": {
+                    "type": "RESOLVE",
+                    "param": "n",
+                    "next": "9"
+                },
+                "9": {
+                    "type": "FETCH"
+                },
+                "10": {
+                    "type": "PUT",
+                    "param": -1
+                },
+                "11": {
+                    "type": "ADD"
+                },
+                "12": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "13": {
+                    "type": "CALL"
+                },
+                "14": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "15": {
+                    "type": "FETCH"
+                },
+                "16": {
+                    "type": "PUT",
+                    "param": -2
+                },
+                "17": {
+                    "type": "ADD"
+                },
+                "18": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "19": {
+                    "type": "CALL"
+                },
+                "20": {
+                    "type": "ADD",
+                    "next": "RETURN"
+                },
+                "RETURN": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}
