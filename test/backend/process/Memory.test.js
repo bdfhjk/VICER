@@ -31,6 +31,12 @@ describe("VM Memory", function() {
         expect(mem.fetch(loc)).to.equal(2);
     });
 
+    it ("should properly read from an at(0) call of a variable", function() {
+        var loc = mem.alloc(VAR_T);
+        mem.assign(loc, 2);
+        expect(mem.fetch(mem.at(loc, 0))).to.equal(2);
+    });
+
     it ("should properly access an array element", function() {
         var loc = mem.alloc(ARRAY_T);
         mem.assign(mem.at(loc, 2), 42);
@@ -46,5 +52,5 @@ describe("VM Memory", function() {
         var loc = mem.alloc(ARRAY_T);
         expect(function() { mem.assign(loc, 10); }).to.throw(Error);
     });
-    
+
 });

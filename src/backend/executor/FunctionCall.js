@@ -13,7 +13,7 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
         for (var arg in args) {
             proc.memory.assign(env.resolve(arg), args[arg]);
         }
-        var execContext = new ExecutionContext("?", env, fun.cfg);
+        var execContext = new ExecutionContext("?", env, fun.cfg, fun.returnType);
         proc.callStack.push(execContext);
     }
 

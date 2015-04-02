@@ -1,7 +1,8 @@
 define(function() {
 
-    function ExecutionContext(name, env, cfg) {
+    function ExecutionContext(name, env, cfg, returnType) {
         this.name = name;
+        this.returnType = returnType;
         this.environment = env;
         this.cfg = cfg;
         this.next = null;
@@ -9,6 +10,9 @@ define(function() {
     }
 
     ExecutionContext.prototype.push = function push(val) {
+        if (DEBUG.EXEC_STACK_OP) {
+            console.log("Pushing " + JSON.stringify(val));
+        }
         this.stack.push(val);
     };
 
@@ -16,7 +20,11 @@ define(function() {
         if (this.stack.length === 0) {
             throw new Error("Attempted to pop from empty stack.");
         }
-        return this.stack.pop();
+        var val = this.stack.pop();
+        if (DEBUG.EXEC_STACK_OP) {
+            console.log("Popping " + JSON.stringify(val));
+        }
+        return val;
     };
 
     return ExecutionContext;

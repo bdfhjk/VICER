@@ -31,6 +31,13 @@ define(function() {
 
     Memory.prototype.at = function at(loc, index) {
         var locArray = this.fetch(loc);
+        if (!Array.isArray(locArray)) {
+            if (index === 0) {
+                return loc; //simulate a 1-element array
+            } else {
+                throw new Error("Attempted to use a non-zero index to refer to a single element");
+            }
+        }
         if (!(index in locArray)) {
             throw new Error("Attempted to access an array outside of its bounds");
         }
@@ -38,19 +45,19 @@ define(function() {
     };
 
     Memory.prototype.getBaseAndOffset = function getBaseAndOffset(loc) {
-        return this.locBase[loc];
+        return this.locBaseOffset[loc];
     };
 
     Memory.prototype.fetch = function fetch(loc) {
         if (!(loc in this.cells)) {
-            throw new Error("segfault: accessed " + loc);
+            throw new Error("Attempted to fetch a nonexistent location " + loc);
         }
         return this.cells[loc].value;
     };
 
     Memory.prototype.assign = function assign(loc, val) {
         if (!(loc in this.cells)) {
-            throw new Error("segfault: assigned " + loc);
+            throw new Error("Attempted to assign to a nonexistent location " + loc);
         }
         if (this.cells[loc].meta.type === "array") {
             throw new Error("Attempted to assign to an array allocation table");

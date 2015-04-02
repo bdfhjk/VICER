@@ -8,15 +8,22 @@ define(function() {
         this.value = chr;
     }
 
-    function FunctionValue(args, env, cfg) {
+    function FunctionValue(returnType, args, env, cfg) {
+        this.returnType = returnType;
         this.args = args;
         this.env = env;
         this.cfg = cfg;
     }
 
+    function PointerValue(base, offset) {
+        this.base = base;
+        this.offset = offset;
+    }
+
     return {
         IntValue: IntValue,
         CharValue: CharValue,
-        FunctionValue: FunctionValue
+        FunctionValue: FunctionValue,
+        PointerValue: PointerValue
     };
 });

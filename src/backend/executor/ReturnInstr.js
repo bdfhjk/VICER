@@ -5,7 +5,7 @@ define(function() {
     }
 
     ReturnInstr.prototype.invoke = function invoke(context, process) {
-        var isVoid = false; // todo implement
+        var isVoid = context.returnType.type === "void";
         var returnValue = 0;
         if (!isVoid)
             returnValue = context.pop();

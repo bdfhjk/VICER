@@ -60,7 +60,7 @@ describe("Executor", function() {
 
             /*
                 int add(int a, int b) {
-                    return a+b;
+                    return a + b;
                 }
 
                 int main() {
@@ -132,7 +132,73 @@ describe("Executor", function() {
                     return fib(10);
                 }
             */
-        }
+        },
+        {
+            description: "String literal",
+            file: "string-literal.json",
+            expected: 33 // char code of '!'
+
+            /*
+                char* hello;
+
+                int main() {
+                    hello = "Hello, world!";
+                    return hello[12];
+                }
+            */
+        },
+        {
+            description: "Adder upon pointers",
+            file: "adder-upon-pointers.json",
+            expected: 6
+
+            /*
+                int add(int* a, int* b) {
+                    return *a + *b;
+                }
+
+                int main() {
+                    int a;
+                    int b;
+                    a = 4;
+                    b = 2;
+                    return add(&a, &b);
+                }
+            */
+        },
+        {
+            description: "Fibonacci 10th - dynamic",
+            file: "fibonacci10th-dynamic.json",
+            expected: 55
+
+            /*
+                int fibval[11];
+                
+                int fib(int n) {
+                    if (n == 0)
+                        return 0;
+                    if (n == 1)
+                        return 1;
+                    if (fibval[n] != 0)
+                        return fibval[i];
+                    fibval[n] = fib(n-1) + fib(n-2);
+                    return fibval[n];
+                }
+
+                void zeroArray() {
+                    int i;
+                    i = 0;
+                    while (i <= 10) {
+                        fibval[i] = 0;
+                        i++;
+                    }    
+                }
+
+                int main() {
+                    return fib(10);
+                }
+            */
+        },
     ]
     .map(function(testCase) {
         it (testCase.description, function() {

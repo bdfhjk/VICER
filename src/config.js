@@ -39,5 +39,6 @@ if (!isInNode) {
 }
 
 DEBUG = {
-    VM_INSTRUCTIONS: false
+    VM_INSTRUCTIONS: false,
+    EXEC_STACK_OP: false
 };

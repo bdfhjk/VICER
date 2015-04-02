@@ -11,7 +11,7 @@
     },
     "functions": {
         "main": { 
-            "returns": { "type": "void" },
+            "returns": { "type": "int" },
             "args": [],
             "env": {
 

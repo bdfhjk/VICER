@@ -1,0 +1,377 @@
+{
+    "global": {
+        "fibval": { 
+            "type": "array", 
+            "of": { 
+                "type": "int"
+            },
+            "size": 11
+        }
+    },
+    "values": {
+        "_10": 10,
+        "_n1": -1,
+        "_n2": -2,
+        "_0": 0,
+        "_1": 1 
+    },
+    "functions": {
+        "main": { 
+            "returns": { "type": "int" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "zeroArray"
+                },
+                "1": {
+                    "type": "CALL"
+                },
+                "2": {
+                    "type": "RESOLVE",
+                    "param": "_10"
+                },
+                "3": {
+                    "type": "FETCH"
+                },
+                "4": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "5": {
+                    "type": "CALL"
+                },
+                "6": {
+                    "type": "RETURN"
+                }
+            }
+        },
+        "fib": {
+            "returns": { "type": "int" },
+            "args": ["n"],
+            "env": {
+                "n": {"type": "int"}
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "RESOLVE",
+                    "param": "_0"
+                },
+                "3": {
+                    "type": "FETCH"
+                },
+                "4": {
+                    "type": "EQ"
+                },
+                "5": {
+                    "type": "BRANCH",
+                    "true": "N-EQ-0",
+                    "false": "N-NEQ-0"
+                },
+                "N-EQ-0": {
+                    "type": "RESOLVE",
+                    "param": "_0",
+                    "next": "FETCHRETURN"
+                },
+                "N-NEQ-0": {
+                    "type": "RESOLVE",
+                    "param": "n",
+                    "next": "6"
+                },
+                "6": {
+                    "type": "FETCH"
+                },
+                "7": {
+                    "type": "RESOLVE",
+                    "param": "_1"
+                },
+                "8": {
+                    "type": "FETCH"
+                },
+                "9": {
+                    "type": "EQ"
+                },
+                "10": {
+                    "type": "BRANCH",
+                    "true": "N-EQ-1",
+                    "false": "N-NEQ-1"
+                },
+                "N-EQ-1": {
+                    "type": "RESOLVE",
+                    "param": "_1",
+                    "next": "FETCHRETURN"
+                },
+                "N-NEQ-1": {
+                    "type": "RESOLVE",
+                    "param": "fibval",
+                    "next": "11"
+                },
+                "11": {
+                    "type": "REF"
+                },
+                "12": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "13": {
+                    "type": "FETCH"
+                },
+                "14": {
+                    "type": "PADD"
+                },
+                "15": {
+                    "type": "DEREF"
+                },
+                "16": {
+                    "type": "FETCH"
+                },
+                "17": {
+                    "type": "BRANCH",
+                    "true": "FROM-CACHE",
+                    "false": "MUST-EVAL"
+                },
+                "FROM-CACHE": {
+                    "type": "RESOLVE",
+                    "param": "fibval",
+                    "next": "18"
+                },
+                "18": {
+                    "type": "REF"
+                },
+                "19": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "20": {
+                    "type": "FETCH"
+                },
+                "21": {
+                    "type": "PADD"
+                },
+                "22": {
+                    "type": "DEREF",
+                    "next": "FETCHRETURN"
+                },
+
+                "MUST-EVAL": {
+                    "type": "RESOLVE",
+                    "param": "fibval",
+                    "next": "23"
+                },
+                "23": {
+                    "type": "REF"
+                },
+                "24": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "25": {
+                    "type": "FETCH"
+                },
+                "26": {
+                    "type": "PADD"
+                },
+                "27": {
+                    "type": "DEREF"
+                },
+                "28": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "29": {
+                    "type": "FETCH"
+                },
+                "30": {
+                    "type": "RESOLVE",
+                    "param": "_n1"
+                },
+                "31": {
+                    "type": "FETCH"
+                },
+                "32": {
+                    "type": "ADD"
+                },
+                "33": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "34": {
+                    "type": "CALL"
+                },
+                "35": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "36": {
+                    "type": "FETCH"
+                },
+                "37": {
+                    "type": "RESOLVE",
+                    "param": "_n2"
+                },
+                "38": {
+                    "type": "FETCH"
+                },
+                "39": {
+                    "type": "ADD"
+                },
+                "40": {
+                    "type": "RESOLVE",
+                    "param": "fib"
+                },
+                "41": {
+                    "type": "CALL"
+                },
+                "42": {
+                    "type": "ADD"
+                },
+                "43": {
+                    "type": "ASSIGN"
+                },
+                "44": {
+                    "type": "RESOLVE",
+                    "param": "fibval"
+                },
+                "45": {
+                    "type": "REF"
+                },
+                "46": {
+                    "type": "RESOLVE",
+                    "param": "n"
+                },
+                "47": {
+                    "type": "FETCH"
+                },
+                "48": {
+                    "type": "PADD"
+                },
+                "49": {
+                    "type": "DEREF",
+                    "next": "FETCHRETURN"
+                },
+                "FETCHRETURN": {
+                    "type": "FETCH",
+                    "next": "RETURN"
+                },
+                "RETURN": {
+                    "type": "RETURN"
+                }
+            }
+        },
+        "zeroArray": {
+            "returns": { "type": "void" },
+            "args": [],
+            "env": {
+                "i": { "type": "int" }
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "1": {
+                    "type": "RESOLVE",
+                    "param": "_0"
+                },
+                "2": {
+                    "type": "FETCH"
+                },
+                "3": {
+                    "type": "ASSIGN",
+                    "next": "WHILE-COND"
+                },
+                "WHILE-COND": {
+                    "type": "RESOLVE",
+                    "param": "i",
+                    "next": "4"
+                },
+                "4": {
+                    "type": "FETCH"
+                },
+                "5": {
+                    "type": "RESOLVE",
+                    "param": "_10"
+                },
+                "6": {
+                    "type": "FETCH"
+                },
+                "7": {
+                    "type": "LEQ"
+                },
+                "8": {
+                    "type": "BRANCH",
+                    "true": "9",
+                    "false": "RETURN"
+                },
+                "9": {
+                    "type": "RESOLVE",
+                    "param": "fibval"
+                },
+                "10": {
+                    "type": "REF"
+                },
+                "11": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "12": {
+                    "type": "FETCH"
+                },
+                "13": {
+                    "type": "PADD"
+                },
+                "14": {
+                    "type": "DEREF"
+                },
+                "15": {
+                    "type": "RESOLVE",
+                    "param": "_0"
+                },
+                "16": {
+                    "type": "FETCH"
+                },
+                "17": {
+                    "type": "ASSIGN"
+                },
+                "18": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "19": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "20": {
+                    "type": "FETCH"
+                },
+                "21": {
+                    "type": "RESOLVE",
+                    "param": "_1"
+                },
+                "22": {
+                    "type": "FETCH"
+                },
+                "23": {
+                    "type": "ADD"
+                },
+                "24": {
+                    "type": "ASSIGN",
+                    "next": "WHILE-COND"
+                },
+                "RETURN": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}
