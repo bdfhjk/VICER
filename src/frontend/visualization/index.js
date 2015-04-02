@@ -56,30 +56,64 @@ define(["d3js",
       .attr("height", getHeight());
     svg.attr("width", getWidth()).attr("height", getHeight());
 
-    stack.draw();
-    variables.drawSector(variablesList, variablesSectors);
-    lists.drawSector(listsList, listsSectors);
-    tables.drawSector(tablesList, tablesSectors);
-    trees.drawSector(treesList, treesSectors);
-    pointers.drawSector(pointersList, pointersSectors);
+    stack.draw(svg);
+    variables.drawSector(svg, variablesList, variablesSectors, getWidth(), 0);
+    lists.drawSector(svg, listsList, listsSectors);
+    tables.drawSector(svg, tablesList, tablesSectors);
+    trees.drawSector(svg, treesList, treesSectors);
+    pointers.drawSector(svg, pointersList, pointersSectors);
     }
 
-    function changeVariable() {}
+    function changeVariable(name, value) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].value = value;
+          variablesList[i].isnew = true;
+          found = true;
+        }
+      }
+      if (!found)
+        variablesList.push({name: name, value: value, isnew: true});
+    }
+
     function changeList() {}
     function changeTable() {}
     function changeTree() {}
     function changePointer() {}
     function changeStack() {}
 
+    function clearState() {
+      for(i = 0; i < variablesList.length; i++){
+        variablesList[i].isnew = false;
+      }
+      for(i = 0; i < listsList.length; i++){
+        variablesList[i].isnew = false;
+      }
+      for(i = 0; i < tablesList.length; i++){
+        variablesList[i].isnew = false;
+      }
+      for(i = 0; i < treesList.length; i++){
+        variablesList[i].isnew = false;
+      }
+      for(i = 0; i < pointersList.length; i++){
+        variablesList[i].isnew = false;
+      }
+    }
+
     function update(){
+      // just for test
+      changeVariable("test" + String(Math.floor((Math.random() * 6) + 1)),
+                     Math.floor((Math.random() * 100000000) + 1));
+
       sectorLimit = getHeight() / SECTOR_SIZE;
       useStack = false;
 
-      var variablesDemand = variables.demand(variablesList, useStack),
-          listsDemand = lists.demand(listsList, useStack),
-          tablesDemand = tables.demand(tablesList, useStack),
-          treesDemand = trees.demand(treesList, useStack),
-          pointersDemand = pointers.demand(pointersList, useStack);
+      var variablesDemand = variables.demand(variablesList, getWidth()),
+          listsDemand = lists.demand(listsList, getWidth()),
+          tablesDemand = tables.demand(tablesList, getWidth()),
+          treesDemand = trees.demand(treesList, getWidth()),
+          pointersDemand = pointers.demand(pointersList, getWidth());
 
       pointersSectors = Math.min(pointersDemand, sectorLimit);
       pointersSectors = Math.min(pointersSectors, POINTERS_LIMIT);
@@ -128,7 +162,5 @@ define(["d3js",
     }
 
     window.onresize = redraw;
-
-    update();
-    redraw();
+    return {update: update, redraw: redraw, clearState: clearState};
   });

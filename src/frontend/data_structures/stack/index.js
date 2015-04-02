@@ -1,6 +1,6 @@
 define(["d3js"], function(){
-  function draw() {}
-  
+  function draw(svg) {}
+
   return {
     draw: draw
   };
