@@ -8,13 +8,14 @@ define([
     "./BranchInstr",
     "./EqInstr",
     "./LeqInstr",
+    "./LessInstr",
     "./NotInstr",
     "./RefInstr",
     "./DerefInstr",
     "./PaddInstr"
     ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, AssignInstr,
-                CallInstr, BranchInstr, EqInstr, LeqInstr, NotInstr, RefInstr,
-                DerefInstr, createPointerOp) {
+                CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
+                RefInstr, DerefInstr, createPointerOp) {
 
         return {
             "RESOLVE": ResolveInstr,
@@ -26,6 +27,7 @@ define([
             "BRANCH": BranchInstr,
             "EQ": EqInstr,
             "LEQ": LeqInstr,
+            "LESS": LessInstr,
             "NOT": NotInstr,
             "REF": RefInstr,
             "DEREF": DerefInstr,
