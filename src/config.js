@@ -37,3 +37,7 @@ requirejs.config({
 if (!isInNode) {
     require(["frontend/index"]);
 }
+
+DEBUG = {
+    VM_INSTRUCTIONS: false
+};

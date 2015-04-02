@@ -1,11 +1,11 @@
-define(function() {
+define(["./TypeCheck"], function(tc) {
 
     function NotInstr() {
 
     }
 
     NotInstr.prototype.invoke = function invoke(context, process) {
-        var a = context.pop();
+        var a = tc.verifyInt(context.pop());
         context.push(a ? 0 : 1);
     };
 

@@ -17,13 +17,8 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
         proc.callStack.push(execContext);
     }
 
-    function uncallFunction(proc) {
-
-    }
-
     return {
         callFunctionByName: callFunctionByName,
         callFunction: callFunction,
-        uncallFunction: uncallFunction
     };
 });

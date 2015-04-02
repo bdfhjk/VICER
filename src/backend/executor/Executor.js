@@ -12,7 +12,8 @@ define(["mod_process", "./CfgBuilder", "./EnvBuilder", "./FunctionCall"], functi
             return false;
         }
         var currentInstr = top.next || top.cfg;
-        console.log(currentInstr.toString());
+        if (DEBUG.VM_INSTRUCTIONS)
+            console.log(currentInstr.toString());
         top.next = currentInstr.invoke(top, process) || currentInstr.next;
         return true;
     }

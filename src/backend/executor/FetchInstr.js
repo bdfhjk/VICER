@@ -1,11 +1,11 @@
-define(function() {
+define(["./TypeCheck"], function(tc) {
 
     function FetchInstr() {
 
     }
 
     FetchInstr.prototype.invoke = function invoke(context, process) {
-        var loc = context.pop();
+        var loc = tc.verifyLoc(context.pop());
         context.push(process.memory.fetch(loc));
     };
 

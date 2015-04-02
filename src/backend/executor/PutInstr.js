@@ -1,7 +1,7 @@
-define(function() {
+define(["./TypeCheck"], function(tc) {
 
     function PutInstr(num) {
-        this.num = num;
+        this.num = tc.verifyInt(num);
     }
 
     PutInstr.prototype.invoke = function invoke(context, process) {

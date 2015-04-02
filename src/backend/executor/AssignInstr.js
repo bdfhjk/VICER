@@ -1,4 +1,4 @@
-define(function() {
+define(["./TypeCheck"], function(tc) {
 
     function AssignInstr() {
 
@@ -6,7 +6,7 @@ define(function() {
 
     AssignInstr.prototype.invoke = function invoke(context, process) {
         var val = context.pop();
-        var loc = context.pop();
+        var loc = tc.verifyLoc(context.pop());
         process.memory.assign(loc, val);
     };
 

@@ -25,8 +25,10 @@ define(["./InstructionSet"], function(InstructionSet) {
         cache[nodeId] = node;
         node.next = buildNode(cfgTemplate, templItem.next || (Number(nodeId) + 1));
         // for BRANCH instruction
-        node.true = buildNode(cfgTemplate, templItem.true);
-        node.false = buildNode(cfgTemplate, templItem.false);
+        if (templItem.true)
+            node.true = buildNode(cfgTemplate, templItem.true);
+        if (templItem.false)
+            node.false = buildNode(cfgTemplate, templItem.false);
         return node;
     }
 

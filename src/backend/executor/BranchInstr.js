@@ -1,11 +1,11 @@
-define(function() {
+define(["./TypeCheck"], function(tc) {
 
     function BranchInstr() {
 
     }
 
     BranchInstr.prototype.invoke = function invoke(context, process) {
-        var cond = context.pop();
+        var cond = tc.verifyInt(context.pop());
         if (cond === 0) {
             return this.false;
         } else {
