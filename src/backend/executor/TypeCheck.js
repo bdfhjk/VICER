@@ -11,6 +11,6 @@ define(function() {
     return {
         verifyInt: verify('number', function(num) { return num === Math.round(num); }),
         verifyPtr: function() { throw new Error("not implemented"); },
-        verifyLoc: verify('number')
+        verifyLoc: verify('string')
     };
 });

@@ -10,6 +10,7 @@ define(["./FunctionCall"], function(functionCall) {
         var funLoc = context.pop();
         var func = process.memory.fetch(funLoc);
         var args = {};
+
         for (var i = 0; i < func.args.length; i++) {
             args[func.args[i]] = context.pop();
         }

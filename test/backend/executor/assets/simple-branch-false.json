@@ -1,7 +1,12 @@
 {
     "global": {
 
-    }, 
+    },
+    "values": {
+        "_0": 0,
+        "_21": 21,
+        "_42": 42
+    },
     "functions": {
         "main": { 
             "returns": { "type": "void" },
@@ -11,26 +16,35 @@
             },
             "cfg": {
                 "0": {
-                    "type": "PUT",
-                    "param": 0
+                    "type": "RESOLVE",
+                    "param": "_0"
                 },
                 "1": {
-                    "type": "BRANCH",
-                    "true": 2,
-                    "false": 4
+                    "type": "FETCH"
                 },
                 "2": {
-                    "type": "PUT",
-                    "param": 42
+                    "type": "BRANCH",
+                    "true": 3,
+                    "false": 6
                 },
                 "3": {
-                    "type": "RETURN"
+                    "type": "RESOLVE",
+                    "param": "_42"
                 },
                 "4": {
-                    "type": "PUT",
-                    "param": 21
+                    "type": "FETCH"
                 },
                 "5": {
+                    "type": "RETURN"
+                },
+                "6": {
+                    "type": "RESOLVE",
+                    "param": "_21"
+                },
+                "7": {
+                    "type": "FETCH"
+                },
+                "8": {
                     "type": "RETURN"
                 }
             }

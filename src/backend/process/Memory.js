@@ -10,7 +10,7 @@ define(function() {
     };
 
     Memory.prototype.alloc = function alloc(type) {
-        var newId = this.nextId();
+        var newId = String(this.nextId());
         this.cells[newId] = { meta: type, value: null };
         return newId;
     };
@@ -23,14 +23,14 @@ define(function() {
         if (!(loc in this.cells)) {
             throw new Error("segfault: accessed " + loc);
         }
-        return this.cells[loc];
+        return this.cells[loc].value;
     };
 
     Memory.prototype.assign = function assign(loc, val) {
         if (!(loc in this.cells)) {
             throw new Error("segfault: assigned " + loc);
         }
-        this.cells[loc] = val;
+        this.cells[loc].value = val;
     };
 
     Memory.prototype.dealloc = function dealloc(loc) {

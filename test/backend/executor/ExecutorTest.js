@@ -137,7 +137,7 @@ describe("Executor", function() {
     .map(function(testCase) {
         it (testCase.description, function() {
             var asset = require("./assets/" + testCase.file);
-            var proc = Executor.createProcess(asset.global, asset.functions);
+            var proc = Executor.createProcess(asset.global, asset.functions, asset.values);
             expect(Executor.finish(proc)).to.equal(testCase.expected);
         });
     }.bind(this));

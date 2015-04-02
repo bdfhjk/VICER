@@ -3,7 +3,11 @@
         "a": { 
             "type": "int"
         }
-    }, 
+    },
+    "values": {
+        "_2": 2,
+        "_3": 3
+    },
     "functions": {
         "main": { 
             "returns": { "type": "void" },
@@ -17,41 +21,47 @@
                     "param": "a"
                 },
                 "1": {
-                    "type": "PUT",
-                    "param": 2
+                    "type": "RESOLVE",
+                    "param": "_2"
                 },
                 "2": {
-                    "type": "ASSIGN"
+                    "type": "FETCH"
                 },
                 "3": {
+                    "type": "ASSIGN"
+                },
+                "4": {
                     "type": "RESOLVE",
                     "param": "b"
                 },
-                "4": {
-                    "type": "PUT",
-                    "param": 3
-                },
                 "5": {
-                    "type": "ASSIGN"
+                    "type": "RESOLVE",
+                    "param": "_3"
                 },
                 "6": {
-                    "type": "RESOLVE",
-                    "param": "a"
+                    "type": "FETCH"
                 },
                 "7": {
-                    "type": "FETCH"
+                    "type": "ASSIGN"
                 },
                 "8": {
                     "type": "RESOLVE",
-                    "param": "b"
+                    "param": "a"
                 },
                 "9": {
                     "type": "FETCH"
                 },
                 "10": {
-                    "type": "ADD"
+                    "type": "RESOLVE",
+                    "param": "b"
                 },
                 "11": {
+                    "type": "FETCH"
+                },
+                "12": {
+                    "type": "ADD"
+                },
+                "13": {
                     "type": "RETURN"
                 }
             }

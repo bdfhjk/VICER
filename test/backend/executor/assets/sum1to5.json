@@ -1,7 +1,12 @@
 {
     "global": {
         "result": { "type": "int" }
-    }, 
+    },
+    "values": {
+        "_0": 0,
+        "_1": 1,
+        "_6": 6
+    },
     "functions": {
         "main": { 
             "returns": { "type": "void" },
@@ -15,43 +20,52 @@
                     "param": "i"
                 },
                 "1": {
-                    "type": "PUT",
-                    "param": 0
+                    "type": "RESOLVE",
+                    "param": "_0"
                 },
                 "2": {
-                    "type": "ASSIGN"
+                    "type": "FETCH"
                 },
                 "3": {
+                    "type": "ASSIGN"
+                },
+                "4": {
                     "type": "RESOLVE",
                     "param": "result"
                 },
-                "4": {
-                    "type": "PUT",
-                    "param": 0
-                },
                 "5": {
+                    "type": "RESOLVE",
+                    "param": "_0"
+                },
+                "6": {
+                    "type": "FETCH"
+                },
+                "7": {
                     "type": "ASSIGN",
                     "next": "WHILE-CONDITION"
                 },
                 "WHILE-CONDITION": {
                     "type": "RESOLVE",
                     "param": "i",
-                    "next": "7"
-                },
-                "7": {
-                    "type": "FETCH"
+                    "next": "8"
                 },
                 "8": {
-                    "type": "PUT",
-                    "param": 6
+                    "type": "FETCH"
                 },
                 "9": {
-                    "type": "EQ"
+                    "type": "RESOLVE",
+                    "param": "_6"
                 },
                 "10": {
-                    "type": "NOT"
+                    "type": "FETCH"
                 },
                 "11": {
+                    "type": "EQ"
+                },
+                "12": {
+                    "type": "NOT"
+                },
+                "13": {
                     "type": "BRANCH",
                     "true": "TRUE",
                     "false": "FALSE"
@@ -59,59 +73,62 @@
                 "TRUE": {
                     "type": "RESOLVE",
                     "param": "result",
-                    "next": "12"
-                },
-                "12": {
-                    "type": "RESOLVE",
-                    "param": "result"
-                },
-                "13": {
-                    "type": "FETCH" 
+                    "next": "14"
                 },
                 "14": {
                     "type": "RESOLVE",
-                    "param": "i"
+                    "param": "result"
                 },
                 "15": {
                     "type": "FETCH" 
                 },
                 "16": {
-                    "type": "ADD" 
+                    "type": "RESOLVE",
+                    "param": "i"
                 },
                 "17": {
-                    "type": "ASSIGN"
-                },
-                "18": {
-                    "type": "RESOLVE",
-                    "param": "i"
-                },
-                "19": {
-                    "type": "RESOLVE",
-                    "param": "i"
-                },
-                "20": {
                     "type": "FETCH" 
                 },
-                "21": {
-                    "type": "PUT",
-                    "param": 1
-                },
-                "22": {
+                "18": {
                     "type": "ADD" 
                 },
+                "19": {
+                    "type": "ASSIGN"
+                },
+                "20": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "21": {
+                    "type": "RESOLVE",
+                    "param": "i"
+                },
+                "22": {
+                    "type": "FETCH" 
+                },
                 "23": {
+                    "type": "RESOLVE",
+                    "param": "_1"
+                },
+                "24": {
+                    "type": "FETCH"
+                },
+                "25": {
+                    "type": "ADD" 
+                },
+                "26": {
                     "type": "ASSIGN",
                     "next": "WHILE-CONDITION"
                 },
                 "FALSE": {
                     "type": "RESOLVE",
                     "param": "result",
-                    "next": "24"
+                    "next": "27"
                 },
-                "24": {
+                "27": {
                     "type": "FETCH" 
                 },
-                "25": {
+                "28": {
                     "type": "RETURN"
                 }
             }

@@ -1,7 +1,11 @@
 {
     "global": {
 
-    }, 
+    },
+    "values": {
+        "_2": 2,
+        "_4": 4
+    },
     "functions": {
         "main": { 
             "returns": { "type": "void" },
@@ -11,21 +15,27 @@
             },
             "cfg": {
                 "0": {
-                    "type": "PUT",
-                    "param": 4
+                    "type": "RESOLVE",
+                    "param": "_4"
                 },
                 "1": {
-                    "type": "PUT",
-                    "param": 2
+                    "type": "FETCH"
                 },
                 "2": {
                     "type": "RESOLVE",
-                    "param": "add"
+                    "param": "_2"
                 },
                 "3": {
-                    "type": "CALL"
+                    "type": "FETCH"
                 },
                 "4": {
+                    "type": "RESOLVE",
+                    "param": "add"
+                },
+                "5": {
+                    "type": "CALL"
+                },
+                "6": {
                     "type": "RETURN"
                 }
             }

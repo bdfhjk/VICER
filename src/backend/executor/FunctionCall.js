@@ -4,7 +4,7 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
     var ExecutionContext = mod_process.ExecutionContext;
 
     function callFunctionByName(proc, name, args) {
-        return callFunction(proc, proc.memory.fetch(proc.environment.resolve(name), args));
+        return callFunction(proc, proc.memory.fetch(proc.environment.resolve(name)), args);
     }
 
     function callFunction(proc, fun, args) {
