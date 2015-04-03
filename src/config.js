@@ -11,10 +11,13 @@ requirejs.config({
         { name: 'cm', location: '../bower_components/codemirror', main: 'codemirror'},
         { name: 'd3js', location: '../bower_components/d3', main: 'd3.min'},
         { name: 'jquery', location: '../bower_components/jquery/dist', main: 'jquery.min'},
+        { name: 'sprintf', location: '../bower_components/sprintf/dist', main: 'sprintf.min'},
+        { name: 'eventEmitter', location: '../bower_components/eventEmitter', main: 'EventEmitter.min'},
 
         { name: 'mod_engine', location: 'backend/engine', main: 'index'},
         { name: 'mod_executor', location: 'backend/executor', main: 'index'},
         { name: 'mod_process', location: 'backend/process', main: 'index'},
+        { name: 'mod_stdlib', location: 'backend/stdlib', main: 'index'},
         { name: 'mod_data_structures', location: 'backend/data_structures', main: 'index'},
         { name: 'mod_parser', location: 'backend/parser', main: 'index'},
 

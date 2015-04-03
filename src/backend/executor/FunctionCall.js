@@ -8,6 +8,21 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
     }
 
     function callFunction(proc, fun, args) {
+        if (fun.std) {
+            callStdFunction(proc, fun, args);
+        } else {
+            callCfgFunction(proc, fun, args);
+        }
+    }
+
+    function callStdFunction(proc, fun, args) {
+        var returnVal = fun.std(args, proc);
+        if (returnVal !== undefined) {
+            proc.callStack.push(returnVal);
+        }
+    }
+
+    function callCfgFunction(proc, fun, args) {
         var env = new Environment(proc.memory, proc.environment);
         buildEnv(env, fun.env);
         for (var arg in args) {

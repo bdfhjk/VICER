@@ -1,5 +1,5 @@
-define(["mod_process", "./CfgBuilder", "./EnvBuilder", "./FunctionCall", "./AllocValues"], 
-    function(mod_process, buildCfg, buildEnv, functionCall, allocValues) {
+define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./FunctionCall", "./AllocValues"], 
+    function(mod_process, mod_stdlib, buildCfg, buildEnv, functionCall, allocValues) {
 
     var Process = mod_process.Process;
     var Environment = mod_process.Environment;
@@ -24,9 +24,10 @@ define(["mod_process", "./CfgBuilder", "./EnvBuilder", "./FunctionCall", "./Allo
         return process.exitCode;
     }
 
-    function createProcess(envTemplate, functions, values) {
-        var proc = new Process();
+    function createProcess(envTemplate, functions, values, world) {
+        var proc = new Process(world);
         buildEnv(proc.environment, envTemplate);
+        allocValues(proc, mod_stdlib.getStdLibFunctions());
         allocValues(proc, functions);
         allocValues(proc, values);
         callFunctionByName(proc, "main");

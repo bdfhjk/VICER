@@ -14,6 +14,7 @@ define(["mod_process", "./CfgBuilder"], function(mp, buildCfg) {
             mem.assign(loc, value);
         },
         "string": function(mem, env, value, name) {
+            value += '\0';
             var loc = env.add(name, { 
                 type: "array",
                 of: { type: "char" },
@@ -25,7 +26,8 @@ define(["mod_process", "./CfgBuilder"], function(mp, buildCfg) {
         },
         "object": function(mem, env, fun, name) {
             var loc = env.add(name, { type: "function" });
-            mem.assign(loc, new mp.valueTypes.FunctionValue(fun.returns, fun.args, fun.env, buildCfg(fun.cfg)));
+            var cfg = fun.cfg ? buildCfg(fun.cfg) : undefined;
+            mem.assign(loc, new mp.valueTypes.FunctionValue(fun.returns, fun.args, fun.env, cfg, fun.std));
         }
     };
 
