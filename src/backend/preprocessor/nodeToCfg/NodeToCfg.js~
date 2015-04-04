@@ -1,0 +1,20 @@
+define([
+    './Return'
+], function (Return) {
+    var ID_LENGTH = 16;
+    
+    function randomString(length) {
+	return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
+    }
+
+    function generateUniqueId() {
+	return randomString(ID_LENGTH);
+    }
+
+    function CfgFromNode(instr) {
+	this.graph = {};
+	this.first = null;
+	this.last = null;
+    };
+
+    CfgFromNode.prototype.
