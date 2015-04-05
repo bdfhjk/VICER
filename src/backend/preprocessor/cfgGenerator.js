@@ -5,9 +5,10 @@ define([
     './cfgGenerator/FunctionCall',
     './cfgGenerator/Constant',
     './cfgGenerator/If',
+    './cfgGenerator/While',
     './cfgGenerator/Compare',
     './cfgGenerator/Eq'
-], function (Return, Add, ImplicitCall, FunctionCall, Constant, If, Compare, Eq) {
+], function (Return, Add, ImplicitCall, FunctionCall, Constant, If, While, Compare, Eq) {
 
     function generateCfg(node) {
 	var generators = {
@@ -17,6 +18,7 @@ define([
 	    'FUNCTION_CALL' : FunctionCall,
 	    'CONSTANT': Constant,
 	    'IF': If,
+	    'WHILE': While,
 	    'COMPARE': Compare,
 	    'EQ': Eq
 	};

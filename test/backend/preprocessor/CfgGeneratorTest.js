@@ -15,6 +15,11 @@ describe('cfgGenerator', function () {
 	    description: 'blah blah blah',
 	    file: 'ast.json',
 	    expected: null
+	},
+	{
+	    description: 'blah blah blah',
+	    file: 'ast2.json',
+	    expected: null
 	}
     ]
 	.map(function(testCase) {
