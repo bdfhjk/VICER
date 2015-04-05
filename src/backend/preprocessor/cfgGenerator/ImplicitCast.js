@@ -1,7 +1,7 @@
 define([
     '../Cfg'
 ], function (Cfg) {
-    function ImplicitCall(paramNode) {
+    function ImplicitCast(paramNode) {
 	var variableName = paramNode.name;
 
 	var resolveInstr = new Cfg({
@@ -18,6 +18,6 @@ define([
     }
 
     return (function () {
-	return ImplicitCall;
+	return ImplicitCast;
     });
 });

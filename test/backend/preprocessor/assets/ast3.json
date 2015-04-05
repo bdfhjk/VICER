@@ -1,0 +1,129 @@
+{
+    "type": "TRANSLATION_UNIT",
+    "name": "Program",
+    "declarations": [
+	{
+	    "type": "FUNCTION",
+	    "name": "fib",
+	    "returns": {
+		"type": "INT"
+	    },
+	    "parameters": [
+		{
+		    "type": "INT",
+		    "name": "n"
+		}
+	    ],
+	    "body": [
+		{
+		    "type": "IF",
+		    "condition": {
+			"type": "EQ",
+			"left": {
+			    "type": "IMPLICIT_CAST",
+			    "name": "n"
+			},
+			"right": {
+			    "type": "CONSTANT",
+			    "value": 0
+			}
+		    },
+		    "true": {
+			"type": "RETURN",
+			"value": {
+			    "type": "CONSTANT",
+			    "value": 0
+			}
+		    },
+		    "false": null
+		},
+		{
+		    "type": "IF",
+		    "condition": {
+			"type": "EQ",
+			"left": {
+			    "type": "IMPLICIT_CAST",
+			    "name": "n"
+			},
+			"right": {
+			    "type": "CONSTANT",
+			    "value": 1
+			}
+		    },
+		    "true": {
+			"type": "RETURN",
+			"value": {
+			    "type": "CONSTANT",
+			    "value": 1
+			}
+		    },
+		    "false": null
+		},
+		{
+		    "type": "RETURN",
+		    "value": {
+			"type": "ADD",
+			"left": {
+			    "type": "FUNCTION_CALL",
+			    "name": "fib",
+			    "parameters": [
+				{
+				    "type": "SUB",
+				    "left": {
+					"type": "IMPLICIT_CAST",
+					"name": "n"
+				    },
+				    "right": {
+					"type": "CONSTANT",
+					"value": 1
+				    }
+				}
+			    ]
+			},
+			"right": {
+			    "type": "FUNCTION_CALL",
+			    "name": "fib",
+			    "parameters": [
+				{
+				    "type": "SUB",
+				    "left": {
+					"type": "IMPLICIT_CAST",
+					"name": "n"
+				    },
+				    "right": {
+					"type": "CONSTANT",
+					"value": 2
+				    }
+				}
+			    ]
+			}
+		    }
+		}
+	    ]
+	},
+	{
+	    "type": "FUNCTION",
+	    "name": "main",
+	    "returns": {
+		"type": "INT"
+	    },
+	    "parameters": [],
+	    "body": [
+		{
+		    "type": "RETURN",
+		    "value": {
+			"type": "FUNCTION_CALL",
+			"name": "fib",
+			"parameters": [
+			    {
+				"type": "CONSTANT",
+				"value": 10
+			    }
+			]
+		    }
+		}
+	    ]
+	}
+    ]
+}
+

@@ -4,8 +4,11 @@ define([
     var cfgGenerator;
     
     function If(paramNode) {
+	var noopInstr = new Cfg({
+	    type: 'NOOP'
+	});
 	var tt = cfgGenerator(paramNode.true);
-	var ff = cfgGenerator(paramNode.false);
+	var ff = paramNode.false ? cfgGenerator(paramNode.false) : noopInstr;
 	var condition = cfgGenerator(paramNode.condition);
 
 	var branchInstr = new Cfg({

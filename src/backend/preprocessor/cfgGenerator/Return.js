@@ -4,7 +4,7 @@ define([
     var cfgGenerator;
     
     function Return(paramNode) {
-	var cfgFromParam = cfgGenerator(paramNode.rvalue);
+	var cfgFromParam = cfgGenerator(paramNode.value);
 	if(!cfgFromParam)
 	    throw new Error('Something occured during processing node ' + paramNode);
 

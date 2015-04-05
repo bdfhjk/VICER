@@ -7,8 +7,6 @@ define([
 	var body = cfgGenerator(paramNode.body);
 	var condition = cfgGenerator(paramNode.condition);
 
-	console.log(body);
-
 	var noopInstr = new Cfg({
 	    type: 'NOOP'
 	});
