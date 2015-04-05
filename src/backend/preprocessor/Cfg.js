@@ -40,5 +40,26 @@ define(function () {
 	this.last = cfg.last;
     };
 
+    Cfg.prototype.mergeTwoLeft = function mergeTwoLeft(cfgLeft, cfgRight) {
+	for(var nodeIdL in cfgLeft.graph) {
+	    this.graph[nodeIdL] = cfgLeft.graph[nodeIdL];
+	}
+	for(var nodeIdR in cfgRight.graph) {
+	    this.graph[nodeIdR] = cfgRight.graph[nodeIdR];
+	}
+
+	var noopId = generateUniqueId();
+	this.graph[noopId] = {
+	    "type": "NOOP",
+	    "next": null
+	};
+
+	this.graph[this.last].true = cfgLeft.first;
+	this.graph[this.last].false = cfgRight.first;
+	this.graph[cfgLeft.last].next = noopId;
+	this.graph[cfgRight.last].next = noopId;
+	this.last = noopId;
+    };
+
     return Cfg;
 });

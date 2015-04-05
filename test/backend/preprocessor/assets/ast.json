@@ -1,11 +1,22 @@
 {
-    "type": "ADD",
-    "left": {
-	"type": "IMPLICIT_CALL",
-	"name": "a"
+    "type": "IF",
+    "condition": {
+	"type": "ADD",
+	"left": {
+	    "type": "IMPLICIT_CALL",
+	    "name": "a"
+	},
+	"right": {
+	    "type": "IMPLICIT_CALL",
+	    "name": "b"
+	}
     },
-    "right": {
-	"type": "IMPLICIT_CALL",
-	"name": "b"
+    "true": {
+	"type": "CONSTANT",
+	"value": 1
+    },
+    "false": {
+	"type": "CONSTANT",
+	"value": 2
     }
 }
