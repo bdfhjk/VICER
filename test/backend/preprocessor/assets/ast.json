@@ -1,0 +1,11 @@
+{
+    "type": "ADD",
+    "left": {
+	"type": "IMPLICIT_CALL",
+	"name": "a"
+    },
+    "right": {
+	"type": "IMPLICIT_CALL",
+	"name": "b"
+    }
+}
