@@ -2,6 +2,6 @@ int a(void) {
     return 0;
 }
 
-char * b(void) {
+int *b(void) {
     return "krewetka";
 }

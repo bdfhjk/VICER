@@ -23,7 +23,7 @@ describe("Parser Grammar", function() {
             file: "hello_world.c",
             expected: "ok"
         },
-        {
+/*        {
             description: "Advanced global structs",
             file: "advanced_global_structs.c",
             expected: "ok"
@@ -32,7 +32,7 @@ describe("Parser Grammar", function() {
             description: "Expressions",
             file: "expressions.c",
             expected: "ok"
-        },
+        }, */
         {
             description: "Simple for",
             file: "simple_for.c",
@@ -43,7 +43,7 @@ describe("Parser Grammar", function() {
             file: "simple_if.c",
             expected: "ok"
         },
-        {
+/*        {
             description: "Simple global structs",
             file: "simple_global_structs.c",
             expected: "ok"
@@ -52,13 +52,13 @@ describe("Parser Grammar", function() {
             description: "Simple variable declarations",
             file: "simple_var_decls.c",
             expected: "ok"
-        },
+        },*/
         {
             description: "Simple while loop",
             file: "simple_while.c",
             expected: "ok"
         },
-        {
+/*        {
             description: "Struct forward declarations",
             file: "struct_forward_declarations.c",
             expected: "ok"
@@ -67,7 +67,7 @@ describe("Parser Grammar", function() {
             description: "Structs in blocks",
             file: "structs_in_blocks.c",
             expected: "ok"
-        },
+        }, */
         {
             description: "Two functions",
             file: "two_functions.c",
