@@ -7,9 +7,11 @@ define([
     './cfgGenerator/Constant',
     './cfgGenerator/If',
     './cfgGenerator/While',
+    './cfgGenerator/Break',
+    './cfgGenerator/Continue',
     './cfgGenerator/Compare',
     './cfgGenerator/Eq'
-], function (Return, Add, Sub, ImplicitCast, FunctionCall, Constant, If, While, Compare, Eq) {
+], function (Return, Add, Sub, ImplicitCast, FunctionCall, Constant, If, While, Break, Continue, Compare, Eq) {
 
     function generateCfg(node) {
 	var generators = {
@@ -21,6 +23,8 @@ define([
 	    'CONSTANT': Constant,
 	    'IF': If,
 	    'WHILE': While,
+	    'BREAK': Break,
+	    'CONTINUE': Continue,
 	    'COMPARE': Compare,
 	    'EQ': Eq
 	};

@@ -16,12 +16,23 @@ define([
 	    'false': noopInstr.graph.first
 	});
 
-	condition.mergeLeft(branchInstr);
-	condition.mergeTwoLeft(body, noopInstr);
+	var result = condition;
+	result.mergeLeft(branchInstr);
+	result.mergeTwoLeft(body, noopInstr);
 
-	condition.graph[body.last].next = condition.first;
+	result.graph[body.last].next = result.first;
 
-	return condition;
+	for(var node in result.graph) {
+	    if(result.graph[node].type == 'BREAK') {
+		result.graph[node].type = 'NOOP';
+		result.graph[node].next = result.last;
+	    } else if(result.graph[node].type == 'CONTINUE') {
+		result.graph[node].type = 'NOOP';
+		result.graph[node].next = result.first;
+	    }
+	}
+
+	return result;
     }
 
     return (function(_cfgGenerator) {
