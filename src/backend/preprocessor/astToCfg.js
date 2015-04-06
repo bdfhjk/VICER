@@ -43,6 +43,17 @@ define([
 
 	    var cfg = this.generateFunctionFromBody(funcDef.body);
 
+	    // mark the first node
+	    var firstId = cfg.first;
+	    cfg = cfg.graph;
+	    cfg[0] = cfg[firstId];
+	    cfg[firstId] = undefined; // will delete erase both?
+	    
+	    for(var l in cfg.graph) {
+		if(cfg[l].next == firstId)
+		    cfg[l].next = 0;
+	    }
+
 	    var functionDesc = {
 		returns: funcDef.returns,
 		args: args,

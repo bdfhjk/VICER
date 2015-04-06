@@ -3,6 +3,13 @@
     "name": "Program",
     "declarations": [
 	{
+	    "type": "VARIABLE",
+	    "name": "n",
+	    "of": {
+		"type": "INT"
+	    }
+	},
+	{
 	    "type": "FUNCTION",
 	    "name": "main",
 	    "returns": {
@@ -22,14 +29,17 @@
 			    }
 			},
 			{
-			    "type": "COMPARE",
-			    "left": {
-				"type": "IMPLICIT_CAST",
-				"name": "n"
-			    },
-			    "right": {
-				"type": "CONSTANT",
-				"value": 10
+			    "type": "NOT",
+			    "value": {
+				"type": "EQ",
+				"left": {
+				    "type": "IMPLICIT_CAST",
+				    "name": "n"
+				},
+				"right": {
+				    "type": "CONSTANT",
+				    "value": 10
+				}
 			    }
 			},
 			{
@@ -52,7 +62,7 @@
 			{
 			    "type": "IF",
 			    "condition": {
-				"type": "COMPARE",
+				"type": "EQ",
 				"left": {
 				    "type": "IMPLICIT_CAST",
 				    "name": "n"
@@ -74,14 +84,8 @@
 		{
 		    "type": "RETURN",
 		    "value": {
-			"type": "FUNCTION_CALL",
-			"name": "fib",
-			"parameters": [
-			    {
-				"type": "CONSTANT",
-				"value": 10
-			    }
-			]
+			"type": "IMPLICIT_CAST",
+			"name": "n"
 		    }
 		}
 	    ]
