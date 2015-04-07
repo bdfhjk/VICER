@@ -13,13 +13,15 @@ define(function () {
     var blockEdges = [
 	'body',
 	'true',
-	'false'
+	'false',
+	'parameters'
     ];
     
     function generateEnvironment(ast) {
 	blocks = 0;
 	env = {};
 	var nameDict = {};
+	var astParameters = ast.parameters;
 
 	// add parameters to substitution, and add them to env
 	for(var i = 0; i < ast.parameters.length; i++) {
@@ -28,7 +30,9 @@ define(function () {
 	}
 
 	// visit nodes
+	ast.parameters = null;
 	visitAst(ast, nameDict, ast.name);
+	ast.parameters = astParameters;
 	return env;
     }
 
