@@ -1,7 +1,7 @@
 define(function () {
     var _ = require('underscore');
     
-    var blocks, env;
+    var blocks, env, constants, constantsNum;
 
     var nonBlockEdges = [
 	'value',
@@ -20,6 +20,8 @@ define(function () {
     function generateEnvironment(ast) {
 	blocks = 0;
 	env = {};
+	constants = {};
+	constantsNum = 0;
 	var nameDict = {};
 	var astParameters = ast.parameters;
 
@@ -33,7 +35,13 @@ define(function () {
 	ast.parameters = null;
 	visitAst(ast, nameDict, ast.name);
 	ast.parameters = astParameters;
-	return env;
+
+	var result = {
+	    env: env,
+	    constants: constants
+	};
+	
+	return result;
     }
 
     function visitAst(ast, nameDict, prefix) {
@@ -46,6 +54,16 @@ define(function () {
 	    console.log('ast.name = ' + ast.name);
 	    console.log('nameDict[ast.name] = ' + nameDict[ast.name]);
 	    ast.name = nameDict[ast.name];
+	    return;
+	}
+
+	// substitute constants with implicit casts
+	if(ast.type === 'CONSTANT') {
+	    ast.type = 'IMPLICIT_CAST';
+	    if(!constants[ast.value])
+		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
+	    ast.name = constants[ast.value];
+	    ast.value = null;
 	    return;
 	}
 
@@ -83,6 +101,7 @@ define(function () {
 	    var blockEdge = blockEdges[b];
 	    if(!ast[blockEdge])
 		continue;
+	    console.log('ENTERING BLOCK_EDGE ' + blockEdge);
 	    for(var k = 0; k < ast[blockEdge].length; k++) {
 		var newPrefix = prefix + '_' + ast.type + blocks++;
 		visitAst(ast[blockEdge][k], nameDict, newPrefix);

@@ -3,6 +3,8 @@ define([
     './envGenerator'
 ], function(cfgGenerator, envGenerator) {
 
+    var _ = require('underscore');
+
     function AST(_astObj) {
 	this.astObj = _astObj;
 	this.preprocessed = {};
@@ -25,6 +27,7 @@ define([
     AST.prototype.generateFunctions = function generateFunctions() {
 	// generate functions
 	this.preprocessed.functions = {};
+	this.preprocessed.values = {};
 	for(var i = 0; i < this.astObj.declarations.length; i++) {
 	    if(this.astObj.declarations[i].type !== "FUNCTION")
 		continue;
@@ -38,15 +41,12 @@ define([
 	    for(var j = 0; j < funcDef.parameters.length; j++)
 		args.push(funcDef.name + '_PARAMETER_' + funcDef.parameters[j].name);
 
-	    var env = envGenerator(funcDef);
-
-	    // var env = {};
-	    // for(var k = 0; k < funcDef.parameters; k++)
-	    // {
-	    // 	env[funcDef.parameters[k].name] = {
-	    // 	    type: funcDef.parameters[k].type
-	    // 	};
-	    // }
+	    var envAndValues = envGenerator(funcDef);
+	    var env = envAndValues.env;
+	    var values = {};
+	    for(var val in envAndValues.constants) {
+		values[envAndValues.constants[val]] = val;
+	    }
 
 	    var cfg = this.generateFunctionFromBody(funcDef.body);
 
@@ -68,6 +68,7 @@ define([
 		cfg: cfg
 	    };
 	    this.preprocessed.functions[funcDef.name] = functionDesc;
+	    this.preprocessed.values = _.extend(this.preprocessed.values, values);
 	}
     };
 
