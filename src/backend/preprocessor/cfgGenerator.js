@@ -1,5 +1,6 @@
 define([
     './cfgGenerator/Return',
+    './cfgGenerator/CompoundStatement',
     './cfgGenerator/Add',
     './cfgGenerator/Sub',
     './cfgGenerator/ImplicitCast',
@@ -13,11 +14,12 @@ define([
     './cfgGenerator/Compare',
     './cfgGenerator/Eq',
     './cfgGenerator/Not'
-], function (Return, Add, Sub, ImplicitCast, Assign, FunctionCall, If, While, For, Break, Continue, Compare, Eq, Not) {
+], function (Return, CompoundStatement, Add, Sub, ImplicitCast, Assign, FunctionCall, If, While, For, Break, Continue, Compare, Eq, Not) {
 
     function generateCfg(node) {
 	var generators = {
 	    'RETURN': Return,
+	    'compound_statement': CompoundStatement,
 	    'ADD' : Add,
 	    'SUB': Sub,
 	    'IMPLICIT_CAST' : ImplicitCast,

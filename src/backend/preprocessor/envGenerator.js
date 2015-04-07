@@ -7,14 +7,16 @@ define(function () {
 	'value',
 	'left',
 	'right',
-	'condition'
+	'condition',
+	'true',
+	'false',
+	'parameters',
+	'body',
+	'rexpression'
     ];
 
     var blockEdges = [
-	'body',
-	'true',
-	'false',
-	'parameters'
+	'statements'
     ];
     
     function generateEnvironment(ast) {
@@ -23,12 +25,12 @@ define(function () {
 	constants = {};
 	constantsNum = 0;
 	var nameDict = {};
-	var astParameters = ast.parameters;
+	var astParameters = ast.param_names;
 
 	// add parameters to substitution, and add them to env
-	for(var i = 0; i < ast.parameters.length; i++) {
-	    nameDict[ast.parameters[i].name] = ast.name + '_PARAMETER_' + ast.parameters[i].name;
-	    env[nameDict[ast.parameters[i].name]] = ast.parameters[i].type;
+	for(var i = 0; i < astParameters.length; i++) {
+	    nameDict[astParameters[i]] = ast.name + '_PARAMETER_' + astParameters[i];
+	    env[nameDict[astParameters[i]]] = ast.prototype.param_tvalues[i].name;
 	}
 
 	// visit nodes
@@ -67,7 +69,7 @@ define(function () {
 	    return;
 	}
 
-	// visit declarations
+	// if is compound_statement, visit declarations
 	if(ast.declarations) {
 	    for(var i = 0; i < ast.declarations.length; i++) {
 		if(ast.declarations[i].type !== 'VARIABLE')

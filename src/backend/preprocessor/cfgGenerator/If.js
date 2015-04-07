@@ -8,17 +8,15 @@ define([
 	    type: 'NOOP'
 	});
 
-	var tt = cfgGenerator(paramNode.true[0]);
-	for(var i = 1; i < paramNode.true.length; i++)
-	    tt.mergeLeft(cfgGenerator(paramNode.true[i]));
-	
-	var ff = noopInstr;
-	if(paramNode.false) {
-	    ff = cfgGenerator(paramNode.false[0]);
-	    for(var j = 1; j < paramNode.false.length; j++)
-		ff.mergeLeft(cfgGenerator(paramNode.false[j]));
-	}
+	console.log(paramNode);
+	console.log(paramNode.true);
+	console.log(paramNode.false);
 
+	var tt = cfgGenerator(paramNode.true);
+	console.log("TT");
+	console.log(tt);
+	var ff = paramNode.false ? cfgGenerator(paramNode.false) : noopInstr;
+	
 	var condition = cfgGenerator(paramNode.condition);
 
 	var branchInstr = new Cfg({

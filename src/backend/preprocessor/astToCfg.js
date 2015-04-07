@@ -13,12 +13,12 @@ define([
     AST.prototype.retrieveGlobals = function retrieveGlobals() {
 	// retrieve globals
 	this.preprocessed.global = {};
-	for(var i = 0; i < this.astObj.declarations.length; i++) {
-	    if(this.astObj.declarations[i].type !== "VARIABLE")
+	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if(this.astObj.external_declarations[i].type !== "declaration")
 		continue;
-	    var varDef = this.astObj.declarations[i];
+	    var varDef = this.astObj.external_declarations[i];
 	    var globalVariable = {
-		type: varDef.of.type
+		type: varDef.tvalue.name
 	    };
 	    this.preprocessed.global[varDef.name] = globalVariable;
 	}
@@ -28,18 +28,18 @@ define([
 	// generate functions
 	this.preprocessed.functions = {};
 	this.preprocessed.values = {};
-	for(var i = 0; i < this.astObj.declarations.length; i++) {
-	    if(this.astObj.declarations[i].type !== "FUNCTION")
+	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if(this.astObj.external_declarations[i].type !== "function_definition")
 		continue;
-	    var funcDef = this.astObj.declarations[i];
+	    var funcDef = this.astObj.external_declarations[i];
 	    
 	    var args = [];
 	    console.log('FUNCDEF');
 	    console.log(funcDef);
 	    console.log('PARAMETERSS');
 	    console.log(funcDef.parameters);
-	    for(var j = 0; j < funcDef.parameters.length; j++)
-		args.push(funcDef.name + '_PARAMETER_' + funcDef.parameters[j].name);
+	    for(var j = 0; j < funcDef.param_names.length; j++)
+		args.push(funcDef.name + '_PARAMETER_' + funcDef.param_names[j]);
 
 	    var envAndValues = envGenerator(funcDef);
 	    var env = envAndValues.env;
@@ -48,7 +48,7 @@ define([
 		values[envAndValues.constants[val]] = val;
 	    }
 
-	    var cfg = this.generateFunctionFromBody(funcDef.body);
+	    var cfg = cfgGenerator(funcDef.body);
 
 	    // mark the first node
 	    var firstId = cfg.first;
@@ -72,16 +72,16 @@ define([
 	}
     };
 
-    AST.prototype.generateFunctionFromBody = function generateFunctionFromBody(body) {
-	if(body.length === 0)
-	    return null;
+    // AST.prototype.generateFunctionFromBody = function generateFunctionFromBody(body) {
+    // 	if(body.length === 0)
+    // 	    return null;
 
-	var result = cfgGenerator(body[0]);
-	for(var i = 1; i < body.length; i++)
-	    result.mergeLeft(cfgGenerator(body[i]));
+    // 	var result = cfgGenerator(body[0]);
+    // 	for(var i = 1; i < body.length; i++)
+    // 	    result.mergeLeft(cfgGenerator(body[i]));
 
-	return result;
-    };
+    // 	return result;
+    // };
 
     return {
 	AST: AST
