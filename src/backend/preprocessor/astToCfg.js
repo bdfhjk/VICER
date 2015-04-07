@@ -1,6 +1,7 @@
 define([
-    './cfgGenerator'
-], function(cfgGenerator) {
+    './cfgGenerator',
+    './envGenerator'
+], function(cfgGenerator, envGenerator) {
 
     function AST(_astObj) {
 	this.astObj = _astObj;
@@ -30,16 +31,22 @@ define([
 	    var funcDef = this.astObj.declarations[i];
 	    
 	    var args = [];
-	    for(var j = 0; j < funcDef.parameters; j++)
-		args.push(funcDef.parameters[j].name);
+	    console.log('FUNCDEF');
+	    console.log(funcDef);
+	    console.log('PARAMETERSS');
+	    console.log(funcDef.parameters);
+	    for(var j = 0; j < funcDef.parameters.length; j++)
+		args.push(funcDef.name + '_PARAMETER_' + funcDef.parameters[j].name);
 
-	    var env = {};
-	    for(var k = 0; k < funcDef.parameters; k++)
-	    {
-		env[funcDef.parameters[k].name] = {
-		    type: funcDef.parameters[k].type
-		};
-	    }
+	    var env = envGenerator(funcDef);
+
+	    // var env = {};
+	    // for(var k = 0; k < funcDef.parameters; k++)
+	    // {
+	    // 	env[funcDef.parameters[k].name] = {
+	    // 	    type: funcDef.parameters[k].type
+	    // 	};
+	    // }
 
 	    var cfg = this.generateFunctionFromBody(funcDef.body);
 
