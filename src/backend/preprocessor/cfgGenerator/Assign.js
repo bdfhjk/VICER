@@ -11,15 +11,11 @@ define([
 	    type: 'RESOLVE',
 	    param: variableName
 	});
-	var fetchInstr = new Cfg({
-	    type: 'FETCH'
-	});
 	var assignInstr = new Cfg({
 	    type: 'ASSIGN'
 	});
 
 	var result = resolveInstr;
-	result.mergeLeft(fetchInstr);
 	result.mergeLeft(value);
 	result.mergeLeft(assignInstr);
 
