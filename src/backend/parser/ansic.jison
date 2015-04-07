@@ -195,7 +195,8 @@ type_name
 	;
 
 abstract_declarator
-	: '*' abstract_declarator
+    : '*'
+	| '*' abstract_declarator
 	| direct_abstract_declarator
 	;
 
