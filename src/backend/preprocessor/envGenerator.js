@@ -72,14 +72,14 @@ define(function () {
 	// if is compound_statement, visit declarations
 	if(ast.declarations) {
 	    for(var i = 0; i < ast.declarations.length; i++) {
-		if(ast.declarations[i].type !== 'VARIABLE')
+		if(ast.declarations[i].type !== 'declaration')
 		    continue;
 		var varName = ast.declarations[i].name;
 		var newVarName = prefix + '_' + varName;
 		nameDict[varName] = newVarName;
 
 		var varEntry = {
-		    type: ast.declarations[i].of.type
+		    type: ast.declarations[i].tvalue.type
 		};
 		env[newVarName] = varEntry;
 	    }
