@@ -154,12 +154,11 @@ constant_expression
     : conditional_expression
     ;
 
-/* DEKLARACJE -------------------------------------------------------------------------------- DEKLARACJE */
+/* DECLARATIONS ------------------------------------------------------------------------- */
 
 declaration
     : type_specifier declarator_list ';'
         {
-
             $$ = $2.map(function(obj) {
                 extend($1, obj.proto);
                 return obj.result;
@@ -172,7 +171,7 @@ declarator_list
         { $$ = [$1]; }
     | declarator_list ',' declarator
         { 
-            $1.append($2);
+            $1.push($3);
             $$ = $1;
         }
     ;
@@ -205,10 +204,11 @@ direct_declarator
             empty = {};
             $$ = {
                 proto: empty,
-                result = {
+                result: {
                     type: "declaration",
                     name: $1,
-                    tvalue : empty
+                    tvalue: empty
+                }
             };
         }
     | '(' declarator ')'
@@ -228,7 +228,7 @@ direct_declarator
                 proto: empty
             };
         }
-    ;       
+    ;
 
 parameter_type_list
     : parameter_list
@@ -271,6 +271,8 @@ direct_abstract_declarator
     | direct_abstract_declarator '(' parameter_type_list ')'
     ;
 
+/* STATEMENTS -------------------------------------------------------------------- */
+
 statement
     : compound_statement
         { $$ = $1; }
@@ -287,28 +289,28 @@ statement
 compound_statement
     : '{' '}'
         { $$ = {
-            type = "compound_statement",
-            declarations = [],
-            statements = []
+            type: "compound_statement",
+            declarations: [],
+            statements: []
         };}
     | '{' statement_list '}'
         { $$ = {
-            type = "compound_statement",
-            declarations = [],
-            statements = $2
+            type: "compound_statement",
+            declarations: [],
+            statements: $2
         };}
 
     | '{' declaration_list '}'
         { $$ = {
-            type = "compound_statement",
-            declarations = $2,
-            statements = []
+            type: "compound_statement",
+            declarations: $2,
+            statements: []
         };}
     | '{' declaration_list statement_list '}'
         { $$ = {
-            type = "compound_statement",
-            declarations = $2,
-            statements = $3
+            type: "compound_statement",
+            declarations: $2,
+            statements: $3
         };}
     ;
 
@@ -317,7 +319,7 @@ declaration_list
         { $$ = [$1]; }
     | declaration_list declaration
         { 
-            $1.append($2);
+            $1.push($2);
             $$ = $1;
         }
     ;
@@ -327,7 +329,7 @@ statement_list
         { $$ = [$1]; }
     | statement_list statement
         { 
-            $1.append($2);
+            $1.push($2);
             $$ = $1;
         }
     ;
@@ -335,56 +337,56 @@ statement_list
 expression_statement
     : ';' 
         { $$ = {
-            type = "expression_statement",
-            expression = null
+            type: "expression_statement",
+            expression: null
         };}
     | expression ';'
         { $$ = {
-            type = "expression_statement",
-            expression = $1
+            type: "expression_statement",
+            expression: $1
         };}
     ;
 
 selection_statement /* we use compound_statement to avoid ambiguity */
     : IF '(' expression ')' compound_statement
         { $$ = {
-            type = "if",
-            condition = $3,
-            true_body = $5,
-            false_body = null
+            type: "if",
+            condition: $3,
+            true_body: $5,
+            false_body: null
         };}
     | IF '(' expression ')' compound_statement ELSE compound_statement
         { $$ = {
-            type = "if",
-            condition = $3,
-            true_body = $5,
-            false_body = $7
+            type: "if",
+            condition: $3,
+            true_body: $5,
+            false_body: $7
         };}
     ;
 
 iteration_statement
     : WHILE '(' expression ')' statement
         { $$ = {
-            type = "while",
-            condition = $3,
-            body = $5
+            type: "while",
+            condition: $3,
+            body: $5
         };}
     | FOR '(' expression_statement expression_statement ')' statement
         { $$ = {
-            type = "for",
-            condition = $4.expression,
-            pre_statement = $3.expression,
-            post_statement = null,
-            body = $6
+            type: "for",
+            condition: $4.expression,
+            pre_statement: $3.expression,
+            post_statement: null,
+            body: $6
         };}
 
     | FOR '(' expression_statement expression_statement expression ')' statement
         { $$ = {
-            type = "for",
-            condition = $4.expression,
-            pre_statement = $3.expression,
-            post_statement = $5,
-            body = $7
+            type: "for",
+            condition: $4.expression,
+            pre_statement: $3.expression,
+            post_statement: $5,
+            body: $7
         };}
     ;
 
@@ -393,7 +395,11 @@ jump_statement
         { $$ = { type: "continue" }; }
     | BREAK ';'
         { $$ = { type: "break" }; }
-/*  | RETURN ';' */ /* we have only int type right now */ 
+    | RETURN ';'
+        { $$ = {
+            type: "return",
+            expression: null
+        };}
     | RETURN expression ';'
         { $$ = { 
             type: "return",
