@@ -1,6 +1,10 @@
 %{
-    function extend(from, to) {
+    function extend(to, from) {
         for (var k in from) to[k] = from[k];
+    }
+
+    function print(obj) {
+        console.log(JSON.stringify(obj, null, 4));
     }
 %}
 
@@ -17,7 +21,7 @@
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-%start translation_unit
+%start all
 %%
 
 primary_expression
@@ -160,7 +164,7 @@ declaration
     : type_specifier declarator_list ';'
         {
             $$ = $2.map(function(obj) {
-                extend($1, obj.proto);
+                extend(obj.proto, $1);
                 return obj.result;
             });
         }
@@ -216,11 +220,15 @@ direct_declarator
     | direct_declarator '(' parameter_type_list ')'
         {
             empty = {};
+            /* console.log("tutaj dziwki-----");
+            print($1);
+            print($3);
+            console.log("i tyle-----"); */
             extend($1.proto, {
                 type: "function",
                 param_tvalues: $3.params,
                 return_tvalue: empty,
-                is_variadic = $3.is_variadic
+                is_variadic: $3.is_variadic
             });
             
             $$ = {
@@ -251,24 +259,84 @@ parameter_list
 
 parameter_declaration
     : type_specifier declarator /* named parameter */
+        {
+            extend($2.proto, $1);
+            $$ = $2.result;
+        }
     | type_name /* unnamed parameter */
+        { $$ = $1; }
     ;
 
 type_name
     : type_specifier
+        { $$ = $1; }
     | type_specifier abstract_declarator
+        {
+            extend($2.proto, $1);
+            $$ = $2.result;
+        }
     ;
 
 abstract_declarator
     : '*'
+        {
+            empty = {};
+            $$ = {
+                result: {
+                    type: "pointer",
+                    tvalue: empty
+                },
+                proto: empty
+            };
+        }    
     | '*' abstract_declarator
+        {
+            empty = {};
+            extend($2.proto, {
+                type: "pointer",
+                tvalue: empty
+            });
+            $$ = {
+                result: $2.result,
+                proto: empty
+            };
+        }
     | direct_abstract_declarator
+        { $$ = $1; }
     ;
 
 direct_abstract_declarator
     : '(' abstract_declarator ')'
+        { $$ = $1; }
     | '(' parameter_type_list ')'
+        {
+            empty = {};
+            $$ = {
+                result: {
+                    type: "function",
+                    param_tvalues: $2.params,
+                    return_tvalue: empty,
+                    is_variadic: $2.is_variadic
+                },
+                proto: empty
+            };
+        }
+
     | direct_abstract_declarator '(' parameter_type_list ')'
+        {
+            empty = {};
+            extend($1.proto, {
+                type: "function",
+                param_tvalues: $3.params,
+                return_tvalue: empty,
+                is_variadic: $3.is_variadic
+            });
+            
+            $$ = {
+                result: $1.result,
+                proto: empty
+            };
+        }
     ;
 
 /* STATEMENTS -------------------------------------------------------------------- */
@@ -429,5 +497,20 @@ external_declaration
 
 function_definition
     : type_specifier declarator compound_statement
+        {
+            extend($2.proto, $1);
+            $$ = {
+                type: "function_defition",
+                prototype: $2.result,
+                body: $3
+            };
+        }
+    ;
+
+all
+    : translation_unit
+        {
+            print($1);
+            return $1; }
     ;
 %%
