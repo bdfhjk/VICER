@@ -5,12 +5,12 @@ define([
 
     var _ = require('underscore');
 
-    function AST(_astObj) {
+    function AstToCfg(_astObj) {
 	this.astObj = _astObj;
 	this.preprocessed = {};
     }
     
-    AST.prototype.retrieveGlobals = function retrieveGlobals() {
+    AstToCfg.prototype.retrieveGlobals = function retrieveGlobals() {
 	// retrieve globals
 	this.preprocessed.global = {};
 	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
@@ -24,7 +24,7 @@ define([
 	}
     };
 
-    AST.prototype.generateFunctions = function generateFunctions() {
+    AstToCfg.prototype.generateFunctions = function generateFunctions() {
 	// generate functions
 	this.preprocessed.functions = {};
 	this.preprocessed.values = {};
@@ -72,18 +72,19 @@ define([
 	}
     };
 
-    // AST.prototype.generateFunctionFromBody = function generateFunctionFromBody(body) {
-    // 	if(body.length === 0)
-    // 	    return null;
-
-    // 	var result = cfgGenerator(body[0]);
-    // 	for(var i = 1; i < body.length; i++)
-    // 	    result.mergeLeft(cfgGenerator(body[i]));
-
-    // 	return result;
-    // };
-
-    return {
-	AST: AST
+    AstToCfg.prototype.getConverted = function getConverted() {
+	return this.preprocessed;
     };
+
+    AstToCfg.prototype.convert = function convert() {
+	this.retrieveGlobals();
+	this.generateFunctions();
+	return this.getConverted();
+    };
+
+    function createAstToCfg(astObj) {
+	return new AstToCfg(astObj);
+    }
+
+    return Preprocessor;
 });
