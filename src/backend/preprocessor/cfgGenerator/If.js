@@ -8,13 +8,7 @@ define([
 	    type: 'NOOP'
 	});
 
-	console.log(paramNode);
-	console.log(paramNode.true);
-	console.log(paramNode.false);
-
 	var tt = cfgGenerator(paramNode.true);
-	console.log("TT");
-	console.log(tt);
 	var ff = paramNode.false ? cfgGenerator(paramNode.false) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);

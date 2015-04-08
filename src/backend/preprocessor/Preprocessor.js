@@ -34,10 +34,6 @@ define([
 	    var funcDef = this.astObj.external_declarations[i];
 	    
 	    var args = [];
-	    console.log('FUNCDEF');
-	    console.log(funcDef);
-	    console.log('PARAMETERSS');
-	    console.log(funcDef.parameters);
 	    for(var j = 0; j < funcDef.param_names.length; j++)
 		args.push(funcDef.name + '_PARAMETER_' + funcDef.param_names[j]);
 
@@ -45,7 +41,8 @@ define([
 	    var env = envAndValues.env;
 	    var values = {};
 	    for(var val in envAndValues.constants) {
-		values[envAndValues.constants[val]] = val;
+		// for now we only use ints, so I do the conversion
+		values[envAndValues.constants[val]] = Number(val);
 	    }
 
 	    var cfg = cfgGenerator(funcDef.body);
@@ -62,7 +59,7 @@ define([
 	    }
 
 	    var functionDesc = {
-		returns: funcDef.returns,
+		returns: { type: funcDef.prototype.return_tvalue.name },
 		args: args,
 		env: env,
 		cfg: cfg
@@ -86,5 +83,7 @@ define([
 	return new AstToCfg(astObj);
     }
 
-    return Preprocessor;
+    return {
+	createAstToCfg: createAstToCfg
+    };
 });

@@ -10,13 +10,13 @@ define(function () {
 	'condition',
 	'true',
 	'false',
-	'parameters',
 	'body',
 	'rexpression'
     ];
 
     var blockEdges = [
-	'statements'
+	'statements',
+	'parameters',
     ];
     
     function generateEnvironment(ast) {
@@ -47,16 +47,11 @@ define(function () {
     }
 
     function visitAst(ast, nameDict, prefix) {
-	console.log('VISITAST CALLED FOR TYPE ' + ast.type);
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IMPLICIT_CAST, substitute variable if not global and die
-	if(ast.type === 'IMPLICIT_CAST' && nameDict[ast.name]) {
-	    console.log('IMPLICIT_CAST encountered, variable not global!');
-	    console.log('ast.name = ' + ast.name);
-	    console.log('nameDict[ast.name] = ' + nameDict[ast.name]);
+	if((ast.type === 'IMPLICIT_CAST' || ast.type === 'ASSIGN') && nameDict[ast.name]) {
 	    ast.name = nameDict[ast.name];
-	    return;
 	}
 
 	// substitute constants with implicit casts
@@ -79,7 +74,7 @@ define(function () {
 		nameDict[varName] = newVarName;
 
 		var varEntry = {
-		    type: ast.declarations[i].tvalue.type
+		    type: ast.declarations[i].tvalue.name
 		};
 		env[newVarName] = varEntry;
 	    }
@@ -103,7 +98,6 @@ define(function () {
 	    var blockEdge = blockEdges[b];
 	    if(!ast[blockEdge])
 		continue;
-	    console.log('ENTERING BLOCK_EDGE ' + blockEdge);
 	    for(var k = 0; k < ast[blockEdge].length; k++) {
 		var newPrefix = prefix + '_' + ast.type + blocks++;
 		visitAst(ast[blockEdge][k], nameDict, newPrefix);

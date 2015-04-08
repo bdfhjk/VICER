@@ -1,0 +1,89 @@
+{
+    "type": "translation_unit",
+    "name": "Program",
+    "external_declarations": [
+	{
+	    "type": "function_definition",
+	    "name": "add",
+	    "prototype": {
+		"type": "function",
+		"param_tvalues": [
+		    {
+			"type": "concrete_type",
+			"name": "int"
+		    },
+		    {
+			"type": "concrete_type",
+			"name": "int"
+		    }
+		],
+		"return_tvalue": {
+		    "type": "concrete_type",
+		    "name": "int"
+		},
+		"is_variadic": false
+	    },
+	    "param_names": [
+		"a",
+		"b"
+	    ],
+	    "body": {
+		"type": "compound_statement",
+		"declarations": [],
+		"statements": [
+		    {
+			"type": "RETURN",
+			"rexpression": {
+			    "type": "ADD",
+			    "left": {
+				"type": "IMPLICIT_CAST",
+				"name": "a"
+			    },
+			    "right": {
+				"type": "IMPLICIT_CAST",
+				"name": "b"
+			    }
+			}
+		    }
+		]
+	    }
+	},
+	{
+	    "type": "function_definition",
+	    "name": "main",
+	    "prototype": {
+		"type": "function",
+		"param_tvalues": [],
+		"return_tvalue": {
+		    "type": "concrete_type",
+		    "name": "int"
+		},
+		"is_variadic": false
+	    },
+	    "param_names": [],
+	    "body": {
+		"type": "compound_statement",
+		"declarations": [],
+		"statements": [
+		    {
+			"type": "RETURN",
+			"rexpression": {
+			    "type": "FUNCTION_CALL",
+			    "name": "add",
+			    "parameters": [
+				{
+				    "type": "CONSTANT",
+				    "value": 2
+				},
+				{
+				    "type": "CONSTANT",
+				    "value": 4
+				}
+			    ]
+			}
+		    }
+		]
+	    }
+	}
+    ]
+}
