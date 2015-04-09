@@ -1,10 +1,145 @@
 %{
+
     function extend(to, from) {
         for (var k in from) to[k] = from[k];
     }
 
     function print(obj) {
         console.log(JSON.stringify(obj, null, 4));
+    }
+
+    function pointer(declarator) {
+        empty = {};
+        extend(declarator.proto, {
+            type: "pointer",
+            tvalue: empty
+        });
+        return {
+            result: declarator.result,
+            proto: empty
+        };
+    }
+
+    function concrete_type(name) {
+        return { 
+            type: "concrete_type",
+            name: name
+        };
+    }
+
+    function full_declaration(type_specifier, declarator) {
+        extend(declarator.proto, type_specifier);
+        return declarator.result;
+    }
+
+    function full_declaration_array(type_specifier, declarator_list) {
+        return declarator_list.map(
+            function(declarator) {
+                full_declaration(type_specifier, declarator);
+            }
+        );
+    }
+
+    function push_elem(array, elem) {
+        array.push(elem);
+        return array;
+    }
+
+    function partial_declaration(name) {
+        empty = {};
+        return {
+            proto: empty,
+            result: {
+                type: "declaration",
+                name: name,
+                tvalue: empty
+            }
+        };
+    }
+
+    function partial_function_declaration(name, parameters) {
+        empty = {};
+        return {
+            proto: empty,
+            result: {
+                type: "function_declaration",
+                name: name,
+                param_declarations: parameters,
+                return_tvalue: empty
+            }
+        };
+    }
+
+    function compound_statement(declarations, statements) {
+        return {
+            type: "compound_statement",
+            declarations: declarations,
+            statements: statements
+        };
+    }
+        
+    function expression_statement(expression) {   
+        return {
+            type: "expression_statement",
+            expression: expression
+        };
+    }
+       
+    function if_statement(condition, true_body, false_body) {
+        return {
+            type: "if",
+            condition: condition,
+            true_body: true_body,
+            false_body: null
+        };
+    }
+    
+    function while_statement(condition, body) {
+        return {
+            type: "while",
+            condition: condition,
+            body: body
+        };
+    }
+
+    function for_statement(condition, pre, post, body) {
+        return {
+            type: "for",
+            condition: condition,
+            pre_statement: pre,
+            post_statement: post,
+            body: body
+        };
+    }
+   
+    function continue_statement() {
+        return { type: "continue" };
+    }
+    
+    function break_statement() {
+        return { type: "break" };
+    }
+
+    function return_statement(expression) {
+        return {
+            type: "return",
+            expression: expression
+        };
+    }
+
+    function translation_unit(external_declarations) {
+        return {
+            type: "translation_unit",
+            external_declarations: external_declarations
+        };
+    }
+     
+    function function_definition(declaration, body) {
+        return {
+            type: "function_definition",
+            declaration: declaration,
+            body: body
+        };
     }
 %}
 
@@ -21,8 +156,10 @@
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-%start all
+%start translation_unit
 %%
+
+/* --------- EXPRESSIONS ---------- */
 
 primary_expression
     : IDENTIFIER
@@ -158,188 +295,73 @@ constant_expression
     : conditional_expression
     ;
 
-/* DECLARATIONS ------------------------------------------------------------------------- */
+/* ---------- DECLARATIONS ---------- */
 
 declaration
     : type_specifier declarator_list ';'
-        {
-            $$ = $2.map(function(obj) {
-                extend(obj.proto, $1);
-                return obj.result;
-            });
-        }
+        { $$ = full_declaration_array($1, $2); }
     ;
 
 declarator_list
     : declarator
         { $$ = [$1]; }
     | declarator_list ',' declarator
-        { 
-            $1.push($3);
-            $$ = $1;
-        }
+        { $$ = push_elem($1, $3); }
     ;
 
 type_specifier
     : INT 
-        { $$ = { type: "concrete_type", name: "int" }; }
+        { $$ = concrete_type("int"); }
     ;
 
 declarator
     : direct_declarator
         { $$ = $1; }
     | '*' declarator
-        {
-            empty = {};
-            extend($2.proto, {
-                type: "pointer",
-                tvalue: empty
-            });
-            $$ = {
-                result: $2.result,
-                proto: empty
-            };
-        }
+        { $$ = pointer($2); }
     ;
 
 direct_declarator
     : IDENTIFIER
-        {
-            empty = {};
-            $$ = {
-                proto: empty,
-                result: {
-                    type: "declaration",
-                    name: $1,
-                    tvalue: empty
-                }
-            };
-        }
+        { $$ = partial_declaration($1); }
     | '(' declarator ')'
         { $$ = $2; }
-    | direct_declarator '(' parameter_type_list ')'
-        {
-            empty = {};
-            /* console.log("tutaj dziwki-----");
-            print($1);
-            print($3);
-            console.log("i tyle-----"); */
-            extend($1.proto, {
-                type: "function",
-                param_tvalues: $3.params,
-                return_tvalue: empty,
-                is_variadic: $3.is_variadic
-            });
-            
-            $$ = {
-                result: $1.result,
-                proto: empty
-            };
-        }
     ;
 
-parameter_type_list
-    : parameter_list
-        { $$ = { params: $1, is_variadic: false }; }
-    | parameter_list ',' ELLIPSIS
-        { $$ = { params: $1, is_variadic: true }; }
+function_declarator
+    : direct_function_declarator
+        { $$ = $1; }
+    | '*' function_declarator
+        { $$ = pointer($2); }
+    ;
+
+direct_function_declarator
+    : IDENTIFIER '(' parameter_list ')'
+        { $$ = partial_function_declaration($1, $3); }
+    | '(' declarator ')'
+        { $$ = $2; }
+    ;
+
+parameter_list
+    : parameter_nonempty_list
+        { $$ = $1; }
     | VOID
-        { $$ = { params: [], is_variadic: false }; }
+        { $$ = []; }
     ;
     
-parameter_list
+parameter_nonempty_list
     : parameter_declaration
         { $$ = [$1]; }
     | parameter_list ',' parameter_declaration
-        { 
-            $1.push($3);
-            $$ = $1;
-        }
+        { $$ = push_elem($1, $3); }
     ;
 
 parameter_declaration
-    : type_specifier declarator /* named parameter */
-        {
-            extend($2.proto, $1);
-            $$ = $2.result;
-        }
-    | type_name /* unnamed parameter */
-        { $$ = $1; }
+    : type_specifier declarator /* parameter must be named */
+        { $$ = full_declaration($1, $2); }
     ;
 
-type_name
-    : type_specifier
-        { $$ = $1; }
-    | type_specifier abstract_declarator
-        {
-            extend($2.proto, $1);
-            $$ = $2.result;
-        }
-    ;
-
-abstract_declarator
-    : '*'
-        {
-            empty = {};
-            $$ = {
-                result: {
-                    type: "pointer",
-                    tvalue: empty
-                },
-                proto: empty
-            };
-        }    
-    | '*' abstract_declarator
-        {
-            empty = {};
-            extend($2.proto, {
-                type: "pointer",
-                tvalue: empty
-            });
-            $$ = {
-                result: $2.result,
-                proto: empty
-            };
-        }
-    | direct_abstract_declarator
-        { $$ = $1; }
-    ;
-
-direct_abstract_declarator
-    : '(' abstract_declarator ')'
-        { $$ = $1; }
-    | '(' parameter_type_list ')'
-        {
-            empty = {};
-            $$ = {
-                result: {
-                    type: "function",
-                    param_tvalues: $2.params,
-                    return_tvalue: empty,
-                    is_variadic: $2.is_variadic
-                },
-                proto: empty
-            };
-        }
-
-    | direct_abstract_declarator '(' parameter_type_list ')'
-        {
-            empty = {};
-            extend($1.proto, {
-                type: "function",
-                param_tvalues: $3.params,
-                return_tvalue: empty,
-                is_variadic: $3.is_variadic
-            });
-            
-            $$ = {
-                result: $1.result,
-                proto: empty
-            };
-        }
-    ;
-
-/* STATEMENTS -------------------------------------------------------------------- */
+/* ---------- STATEMENTS ---------- */
 
 statement
     : compound_statement
@@ -356,161 +378,99 @@ statement
 
 compound_statement
     : '{' '}'
-        { $$ = {
-            type: "compound_statement",
-            declarations: [],
-            statements: []
-        };}
+        { $$ = compound_statement([], []); }
     | '{' statement_list '}'
-        { $$ = {
-            type: "compound_statement",
-            declarations: [],
-            statements: $2
-        };}
-
+        { $$ = compound_statement([], $2); }
     | '{' declaration_list '}'
-        { $$ = {
-            type: "compound_statement",
-            declarations: $2,
-            statements: []
-        };}
+        { $$ = compound_statement($2, []); }
     | '{' declaration_list statement_list '}'
-        { $$ = {
-            type: "compound_statement",
-            declarations: $2,
-            statements: $3
-        };}
+        { $$ = compound_statement($2, $3); }
     ;
 
 declaration_list
     : declaration
         { $$ = [$1]; }
     | declaration_list declaration
-        { 
-            $1.push($2);
-            $$ = $1;
-        }
+        { $$ = push_elem($1, $2); }
     ;
 
 statement_list
     : statement
         { $$ = [$1]; }
     | statement_list statement
-        { 
-            $1.push($2);
-            $$ = $1;
-        }
+        { $$ = push_elem($1, $2); }
     ;
 
 expression_statement
     : ';' 
-        { $$ = {
-            type: "expression_statement",
-            expression: null
-        };}
+        { $$ = expression_statement(null); }
     | expression ';'
-        { $$ = {
-            type: "expression_statement",
-            expression: $1
-        };}
+        { $$ = expression_statement($1); }
     ;
 
 selection_statement /* we use compound_statement to avoid ambiguity */
     : IF '(' expression ')' compound_statement
-        { $$ = {
-            type: "if",
-            condition: $3,
-            true_body: $5,
-            false_body: null
-        };}
+        { $$ = if_statement($3, $5, null); }
+
     | IF '(' expression ')' compound_statement ELSE compound_statement
-        { $$ = {
-            type: "if",
-            condition: $3,
-            true_body: $5,
-            false_body: $7
-        };}
+        { $$ = if_statement($3, $5, $7); }
     ;
 
 iteration_statement
     : WHILE '(' expression ')' statement
-        { $$ = {
-            type: "while",
-            condition: $3,
-            body: $5
-        };}
+        { $$ = while_statement($3, $5); }
+
     | FOR '(' expression_statement expression_statement ')' statement
-        { $$ = {
-            type: "for",
-            condition: $4.expression,
-            pre_statement: $3.expression,
-            post_statement: null,
-            body: $6
-        };}
+        { $$ = for_statement($4.expression, $3.expression, null, $6); }
 
     | FOR '(' expression_statement expression_statement expression ')' statement
-        { $$ = {
-            type: "for",
-            condition: $4.expression,
-            pre_statement: $3.expression,
-            post_statement: $5,
-            body: $7
-        };}
+        { $$ = for_statement($4.expression, $3.expression, $5, $7); }
     ;
 
 jump_statement
     : CONTINUE ';'
-        { $$ = { type: "continue" }; }
+        { $$ = continue_statement(); }
     | BREAK ';'
-        { $$ = { type: "break" }; }
+        { $$ = break_statement(); }
     | RETURN ';'
-        { $$ = {
-            type: "return",
-            expression: null
-        };}
+        { $$ = return_statement(null); }
     | RETURN expression ';'
-        { $$ = { 
-            type: "return",
-            expression: $2
-        };}
+        { $$ = return_statement($2); }
     ;
 
 translation_unit
-    : external_declaration 
-        { $$ = { 
-            type: "translation_unit",
-            external_declarations: [$1]
-        };}
-    | translation_unit external_declaration
-        { 
-            $1.external_declarations.push($2);
-            $$ = $1;
-        }
+    : external_declaration_list
+        { print(translation_unit($1)); return translation_unit($1); }
+    ;
+
+external_declaration_list
+    : external_declaration
+        { $$ = [$1]; }
+    | external_declaration_list external_declaration
+        { $$ = push_elem($1, $2); }
     ;
 
 external_declaration
     : function_definition
+        { $$ = $1; }
+    | function_declaration
         { $$ = $1; }
     | declaration
         { $$ = $1; }
     ;
 
 function_definition
-    : type_specifier declarator compound_statement
-        {
-            extend($2.proto, $1);
-            $$ = {
-                type: "function_defition",
-                prototype: $2.result,
-                body: $3
-            };
-        }
+    : function_declaration_no_colon compound_statement
+        { $$ = function_definition($1, $2); }
     ;
 
-all
-    : translation_unit
-        {
-            print($1);
-            return $1; }
+function_declaration
+    : function_declaration_no_colon ';'
+        { $$ = $1; }
+    ;
+
+function_declaration_no_colon
+    : type_specifier function_declarator
+        { $$ = full_declaration($1, $2); }
     ;
 %%
