@@ -64,7 +64,10 @@
             result: {
                 type: "function_declaration",
                 name: name,
-                param_declarations: parameters,
+                param_tvalues: parameters.map(
+                    function(param) { return param.tvalue; }),
+                param_names: parameters.map(
+                    function(param) { return param.name; }),
                 return_tvalue: empty
             }
         };
@@ -123,7 +126,7 @@
     function return_statement(expression) {
         return {
             type: "return",
-            expression: expression
+            rexpression: expression
         };
     }
 
@@ -141,6 +144,46 @@
             body: body
         };
     }
+
+    function nullexp(type, value) {
+        return {
+            type: type,
+            value: value
+        };
+    }
+
+    function uexp(type, subexp) {
+        return {
+            type: type,
+            subexp: subexp
+        };
+    }
+
+    function bexp(type, left, right) {
+        return {
+            type: type,
+            left: left,
+            right: right,
+        };
+    }
+
+    function function_call(function_name, parameters) {
+        return {
+            type: "FUNCTION_CALL",
+            name: function_name,
+            parameters: parameters
+        };
+    }
+
+    function conditional_exp(condition, true_exp, false_exp) {
+        return {
+            type: "CONDITIONAL_EXP",
+            condition: condition,
+            true_exp: true_exp,
+            false_exp: false_exp,
+        };
+    }
+
 %}
 
 
@@ -163,31 +206,46 @@
 
 primary_expression
     : IDENTIFIER
+        { $$ = nullexp("INDENTIFIER", $1); }
     | CONSTANT
+        { $$ = nullexp("CONSTANT", parseInt($1)); }
     | STRING_LITERAL
+        { $$ = nullexp("STRING_LITERAL", $1); }
     | '(' expression ')'
+        { $$ = $2; }
     ;
 
 postfix_expression
-    : primary_expression
-    | postfix_expression '(' ')'
-    | postfix_expression '(' argument_expression_list ')'
+    : primary_expression 
+        { $$ = $1; }
+    | IDENTIFIER '(' ')'
+        { $$ = function_call($1, []); }
+    | IDENTIFIER '(' argument_expression_list ')'
+        { $$ = function_call($1, $3); }
     | postfix_expression INC_OP
+        { $$ = uexp("POST_INC", $1); }
     | postfix_expression DEC_OP
+        { $$ = uexp("POST_DEC", $1); }
     ;
 
 argument_expression_list
     : assignment_expression
+        { $$ = [$1]; }
     | argument_expression_list ',' assignment_expression
+        { $$ = push_elem($1, $3); }
     ;
 
 unary_expression
     : postfix_expression
+        { $$ = $1; }
     | INC_OP unary_expression
+        { $$ = uexp("PRE_INC", $2); }
     | DEC_OP unary_expression
+        { $$ = uexp("PRE_DEC", $2); }
     | unary_operator cast_expression
-    | SIZEOF unary_expression
-    | SIZEOF '(' type_name ')'
+        { $$ = uexp("UNARYOP_" + $1, $2); }
+/*    | SIZEOF unary_expression  */
+/*    | SIZEOF '(' type_name ')' */
     ;
 
 unary_operator
@@ -198,78 +256,112 @@ unary_operator
     | '~'
     | '!'
     ;
+    
 
 cast_expression
     : unary_expression
-    | '(' type_name ')' cast_expression
+        { $$ = $1; }
+/*    | '(' type_name ')' cast_expression */
     ;
 
 multiplicative_expression
     : cast_expression
+        { $$ = $1; }
     | multiplicative_expression '*' cast_expression
+        { $$ = bexp("MUL", $1, $3); }
     | multiplicative_expression '/' cast_expression
+        { $$ = bexp("DIV", $1, $3); }
     | multiplicative_expression '%' cast_expression
+        { $$ = bexp("MOD", $1, $3); }
     ;
 
 additive_expression
     : multiplicative_expression
+        { $$ = $1; }
     | additive_expression '+' multiplicative_expression
+        { $$ = bexp("ADD", $1, $3); }
     | additive_expression '-' multiplicative_expression
+        { $$ = bexp("SUB", $1, $3); }
     ;
 
 shift_expression
     : additive_expression
+        { $$ = $1; }
     | shift_expression LEFT_OP additive_expression
+        { $$ = bexp("LEFT", $1, $3); }
     | shift_expression RIGHT_OP additive_expression
+        { $$ = bexp("RIGHT", $1, $3); }
     ;
 
 relational_expression
     : shift_expression
+        { $$ = $1; }
     | relational_expression '<' shift_expression
+        { $$ = bexp("LESS", $1, $3); }
     | relational_expression '>' shift_expression
+        { $$ = bexp("GREATER", $1, $3); }
     | relational_expression LE_OP shift_expression
+        { $$ = bexp("LESS_EQUAL", $1, $3); }
     | relational_expression GE_OP shift_expression
+        { $$ = bexp("GREATER_EQUAL", $1, $3); }
     ;
 
 equality_expression
     : relational_expression
+        { $$ = $1; }
     | equality_expression EQ_OP relational_expression
+        { $$ = bexp("EQ", $1, $3); }
     | equality_expression NE_OP relational_expression
+        { $$ = bexp("NE", $1, $3); }
     ;
 
 and_expression
     : equality_expression
+        { $$ = $1; }
     | and_expression '&' equality_expression
+        { $$ = bexp("AND", $1, $3); }
     ;
 
 exclusive_or_expression
     : and_expression
+        { $$ = $1; }
     | exclusive_or_expression '^' and_expression
+        { $$ = bexp("XOR", $1, $3); }
     ;
 
 inclusive_or_expression
     : exclusive_or_expression
+        { $$ = $1; }
     | inclusive_or_expression '|' exclusive_or_expression
+        { $$ = bexp("OR", $1, $3); }
     ;
 
 logical_and_expression
     : inclusive_or_expression
+        { $$ = $1; }
     | logical_and_expression AND_OP inclusive_or_expression
+        { $$ = bexp("LOGICAL_AND", $1, $3); }
     ;
 
 logical_or_expression
     : logical_and_expression
+        { $$ = $1; }
     | logical_or_expression OR_OP logical_and_expression
+        { $$ = bexp("LOGICAL_OR", $1, $3); }
     ;
 
 conditional_expression
     : logical_or_expression
+        { $$ = $1; }
     | logical_or_expression '?' expression ':' conditional_expression
+        { $$ = conditional_expression($1, $3, $5); }
     ;
 
 assignment_expression
     : conditional_expression
+        { $$ = $1; }
     | unary_expression assignment_operator assignment_expression
+        { $$ = bexp($2 == "=" ? "ASSIGN" : $2, $1, $3); }
     ;
 
 assignment_operator
@@ -288,11 +380,14 @@ assignment_operator
 
 expression
     : assignment_expression
+        { $$ = $1; }
     | expression ',' assignment_expression
+        { $$ = bexp("COMMA", $1, $3); }
     ;
 
 constant_expression
     : conditional_expression
+        { $$ = $1; }
     ;
 
 /* ---------- DECLARATIONS ---------- */
@@ -338,7 +433,7 @@ function_declarator
 direct_function_declarator
     : IDENTIFIER '(' parameter_list ')'
         { $$ = partial_function_declaration($1, $3); }
-    | '(' declarator ')'
+    | '(' function_declarator ')'
         { $$ = $2; }
     ;
 
