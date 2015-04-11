@@ -1,3 +1,192 @@
+%{
+
+    function extend(to, from) {
+        for (var k in from) to[k] = from[k];
+    }
+
+    function print(obj) {
+        console.log(JSON.stringify(obj, null, 4));
+    }
+
+    function pointer(declarator) {
+        empty = {};
+        extend(declarator.proto, {
+            type: "pointer",
+            tvalue: empty
+        });
+        return {
+            result: declarator.result,
+            proto: empty
+        };
+    }
+
+    function concrete_type(name) {
+        return { 
+            type: "concrete_type",
+            name: name
+        };
+    }
+
+    function full_declaration(type_specifier, declarator) {
+        extend(declarator.proto, type_specifier);
+        return declarator.result;
+    }
+
+    function full_declaration_array(type_specifier, declarator_list) {
+        return declarator_list.map(
+            function(declarator) {
+                full_declaration(type_specifier, declarator);
+            }
+        );
+    }
+
+    function push_elem(array, elem) {
+        array.push(elem);
+        return array;
+    }
+
+    function partial_declaration(name) {
+        empty = {};
+        return {
+            proto: empty,
+            result: {
+                type: "declaration",
+                name: name,
+                tvalue: empty
+            }
+        };
+    }
+
+    function partial_function_declaration(name, parameters) {
+        empty = {};
+        return {
+            proto: empty,
+            result: {
+                type: "function_declaration",
+                name: name,
+                param_tvalues: parameters.map(
+                    function(param) { return param.tvalue; }),
+                param_names: parameters.map(
+                    function(param) { return param.name; }),
+                return_tvalue: empty
+            }
+        };
+    }
+
+    function compound_statement(declarations, statements) {
+        return {
+            type: "compound_statement",
+            declarations: declarations,
+            statements: statements
+        };
+    }
+        
+    function expression_statement(expression) {   
+        return {
+            type: "expression_statement",
+            expression: expression
+        };
+    }
+       
+    function if_statement(condition, true_body, false_body) {
+        return {
+            type: "if",
+            condition: condition,
+            true_body: true_body,
+            false_body: null
+        };
+    }
+    
+    function while_statement(condition, body) {
+        return {
+            type: "while",
+            condition: condition,
+            body: body
+        };
+    }
+
+    function for_statement(condition, pre, post, body) {
+        return {
+            type: "for",
+            condition: condition,
+            pre_statement: pre,
+            post_statement: post,
+            body: body
+        };
+    }
+   
+    function continue_statement() {
+        return { type: "continue" };
+    }
+    
+    function break_statement() {
+        return { type: "break" };
+    }
+
+    function return_statement(expression) {
+        return {
+            type: "return",
+            rexpression: expression
+        };
+    }
+
+    function translation_unit(external_declarations) {
+        return {
+            type: "translation_unit",
+            external_declarations: external_declarations
+        };
+    }
+     
+    function function_definition(declaration, body) {
+        return {
+            type: "function_definition",
+            declaration: declaration,
+            body: body
+        };
+    }
+
+    function nullexp(type, value) {
+        return {
+            type: type,
+            value: value
+        };
+    }
+
+    function uexp(type, subexp) {
+        return {
+            type: type,
+            subexp: subexp
+        };
+    }
+
+    function bexp(type, left, right) {
+        return {
+            type: type,
+            left: left,
+            right: right,
+        };
+    }
+
+    function function_call(function_name, parameters) {
+        return {
+            type: "FUNCTION_CALL",
+            name: function_name,
+            parameters: parameters
+        };
+    }
+
+    function conditional_exp(condition, true_exp, false_exp) {
+        return {
+            type: "CONDITIONAL_EXP",
+            condition: condition,
+            true_exp: true_exp,
+            false_exp: false_exp,
+        };
+    }
+
+%}
+
+
 %token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
@@ -13,405 +202,370 @@
 %start translation_unit
 %%
 
+/* --------- EXPRESSIONS ---------- */
+
 primary_expression
-	: IDENTIFIER
-	| CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
-	;
+    : IDENTIFIER
+        { $$ = nullexp("INDENTIFIER", $1); }
+    | CONSTANT
+        { $$ = nullexp("CONSTANT", parseInt($1)); }
+    | STRING_LITERAL
+        { $$ = nullexp("STRING_LITERAL", $1); }
+    | '(' expression ')'
+        { $$ = $2; }
+    ;
 
 postfix_expression
-	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' argument_expression_list ')'
-	| postfix_expression '.' IDENTIFIER
-	| postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
-	;
+    : primary_expression 
+        { $$ = $1; }
+    | IDENTIFIER '(' ')'
+        { $$ = function_call($1, []); }
+    | IDENTIFIER '(' argument_expression_list ')'
+        { $$ = function_call($1, $3); }
+    | postfix_expression INC_OP
+        { $$ = uexp("POST_INC", $1); }
+    | postfix_expression DEC_OP
+        { $$ = uexp("POST_DEC", $1); }
+    ;
 
 argument_expression_list
-	: assignment_expression
-	| argument_expression_list ',' assignment_expression
-	;
+    : assignment_expression
+        { $$ = [$1]; }
+    | argument_expression_list ',' assignment_expression
+        { $$ = push_elem($1, $3); }
+    ;
 
 unary_expression
-	: postfix_expression
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
-	| unary_operator cast_expression
-	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')'
-	;
+    : postfix_expression
+        { $$ = $1; }
+    | INC_OP unary_expression
+        { $$ = uexp("PRE_INC", $2); }
+    | DEC_OP unary_expression
+        { $$ = uexp("PRE_DEC", $2); }
+    | unary_operator cast_expression
+        { $$ = uexp("UNARYOP_" + $1, $2); }
+/*    | SIZEOF unary_expression  */
+/*    | SIZEOF '(' type_name ')' */
+    ;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
-	;
+    : '&'
+    | '*'
+    | '+'
+    | '-'
+    | '~'
+    | '!'
+    ;
+    
 
 cast_expression
-	: unary_expression
-	| '(' type_name ')' cast_expression
-	;
+    : unary_expression
+        { $$ = $1; }
+/*    | '(' type_name ')' cast_expression */
+    ;
 
 multiplicative_expression
-	: cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
-	;
+    : cast_expression
+        { $$ = $1; }
+    | multiplicative_expression '*' cast_expression
+        { $$ = bexp("MUL", $1, $3); }
+    | multiplicative_expression '/' cast_expression
+        { $$ = bexp("DIV", $1, $3); }
+    | multiplicative_expression '%' cast_expression
+        { $$ = bexp("MOD", $1, $3); }
+    ;
 
 additive_expression
-	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
-	;
+    : multiplicative_expression
+        { $$ = $1; }
+    | additive_expression '+' multiplicative_expression
+        { $$ = bexp("ADD", $1, $3); }
+    | additive_expression '-' multiplicative_expression
+        { $$ = bexp("SUB", $1, $3); }
+    ;
 
 shift_expression
-	: additive_expression
-	| shift_expression LEFT_OP additive_expression
-	| shift_expression RIGHT_OP additive_expression
-	;
+    : additive_expression
+        { $$ = $1; }
+    | shift_expression LEFT_OP additive_expression
+        { $$ = bexp("LEFT", $1, $3); }
+    | shift_expression RIGHT_OP additive_expression
+        { $$ = bexp("RIGHT", $1, $3); }
+    ;
 
 relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression LE_OP shift_expression
-	| relational_expression GE_OP shift_expression
-	;
+    : shift_expression
+        { $$ = $1; }
+    | relational_expression '<' shift_expression
+        { $$ = bexp("LESS", $1, $3); }
+    | relational_expression '>' shift_expression
+        { $$ = bexp("GREATER", $1, $3); }
+    | relational_expression LE_OP shift_expression
+        { $$ = bexp("LESS_EQUAL", $1, $3); }
+    | relational_expression GE_OP shift_expression
+        { $$ = bexp("GREATER_EQUAL", $1, $3); }
+    ;
 
 equality_expression
-	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
-	;
+    : relational_expression
+        { $$ = $1; }
+    | equality_expression EQ_OP relational_expression
+        { $$ = bexp("EQ", $1, $3); }
+    | equality_expression NE_OP relational_expression
+        { $$ = bexp("NE", $1, $3); }
+    ;
 
 and_expression
-	: equality_expression
-	| and_expression '&' equality_expression
-	;
+    : equality_expression
+        { $$ = $1; }
+    | and_expression '&' equality_expression
+        { $$ = bexp("AND", $1, $3); }
+    ;
 
 exclusive_or_expression
-	: and_expression
-	| exclusive_or_expression '^' and_expression
-	;
+    : and_expression
+        { $$ = $1; }
+    | exclusive_or_expression '^' and_expression
+        { $$ = bexp("XOR", $1, $3); }
+    ;
 
 inclusive_or_expression
-	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
-	;
+    : exclusive_or_expression
+        { $$ = $1; }
+    | inclusive_or_expression '|' exclusive_or_expression
+        { $$ = bexp("OR", $1, $3); }
+    ;
 
 logical_and_expression
-	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression
-	;
+    : inclusive_or_expression
+        { $$ = $1; }
+    | logical_and_expression AND_OP inclusive_or_expression
+        { $$ = bexp("LOGICAL_AND", $1, $3); }
+    ;
 
 logical_or_expression
-	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
-	;
+    : logical_and_expression
+        { $$ = $1; }
+    | logical_or_expression OR_OP logical_and_expression
+        { $$ = bexp("LOGICAL_OR", $1, $3); }
+    ;
 
 conditional_expression
-	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
-	;
+    : logical_or_expression
+        { $$ = $1; }
+    | logical_or_expression '?' expression ':' conditional_expression
+        { $$ = conditional_expression($1, $3, $5); }
+    ;
 
 assignment_expression
-	: conditional_expression
-	| unary_expression assignment_operator assignment_expression
-	;
+    : conditional_expression
+        { $$ = $1; }
+    | unary_expression assignment_operator assignment_expression
+        { $$ = bexp($2 == "=" ? "ASSIGN" : $2, $1, $3); }
+    ;
 
 assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
-	;
+    : '='
+    | MUL_ASSIGN
+    | DIV_ASSIGN
+    | MOD_ASSIGN
+    | ADD_ASSIGN
+    | SUB_ASSIGN
+    | LEFT_ASSIGN
+    | RIGHT_ASSIGN
+    | AND_ASSIGN
+    | XOR_ASSIGN
+    | OR_ASSIGN
+    ;
 
 expression
-	: assignment_expression
-	| expression ',' assignment_expression
-	;
+    : assignment_expression
+        { $$ = $1; }
+    | expression ',' assignment_expression
+        { $$ = bexp("COMMA", $1, $3); }
+    ;
 
 constant_expression
-	: conditional_expression
-	;
+    : conditional_expression
+        { $$ = $1; }
+    ;
+
+/* ---------- DECLARATIONS ---------- */
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
-	;
+    : type_specifier declarator_list ';'
+        { $$ = full_declaration_array($1, $2); }
+    ;
 
-declaration_specifiers
-	: storage_class_specifier
-	| storage_class_specifier declaration_specifiers
-	| type_specifier
-	| type_specifier declaration_specifiers
-	| type_qualifier
-	| type_qualifier declaration_specifiers
-	;
-
-init_declarator_list
-	: init_declarator
-	| init_declarator_list ',' init_declarator
-	;
-
-init_declarator
-	: declarator
-	| declarator '=' initializer
-	;
-
-storage_class_specifier
-	: TYPEDEF
-	| EXTERN
-	| STATIC
-	| AUTO
-	| REGISTER
-	;
+declarator_list
+    : declarator
+        { $$ = [$1]; }
+    | declarator_list ',' declarator
+        { $$ = push_elem($1, $3); }
+    ;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
-	| struct_or_union_specifier
-	| enum_specifier
-	| TYPE_NAME
-	;
-
-struct_or_union_specifier
-	: struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-	| struct_or_union '{' struct_declaration_list '}'
-	| struct_or_union IDENTIFIER
-	;
-
-struct_or_union
-	: STRUCT
-	| UNION
-	;
-
-struct_declaration_list
-	: struct_declaration
-	| struct_declaration_list struct_declaration
-	;
-
-struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';'
-	;
-
-specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
-	| type_specifier
-	| type_qualifier specifier_qualifier_list
-	| type_qualifier
-	;
-
-struct_declarator_list
-	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
-	;
-
-struct_declarator
-	: declarator
-	| ':' constant_expression
-	| declarator ':' constant_expression
-	;
-
-enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
-	| ENUM IDENTIFIER
-	;
-
-enumerator_list
-	: enumerator
-	| enumerator_list ',' enumerator
-	;
-
-enumerator
-	: IDENTIFIER
-	| IDENTIFIER '=' constant_expression
-	;
-
-type_qualifier
-	: CONST
-	| VOLATILE
-	;
+    : INT 
+        { $$ = concrete_type("int"); }
+    ;
 
 declarator
-	: pointer direct_declarator
-	| direct_declarator
-	;
+    : direct_declarator
+        { $$ = $1; }
+    | '*' declarator
+        { $$ = pointer($2); }
+    ;
 
 direct_declarator
-	: IDENTIFIER
-	| '(' declarator ')'
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_type_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
-	;
+    : IDENTIFIER
+        { $$ = partial_declaration($1); }
+    | '(' declarator ')'
+        { $$ = $2; }
+    ;
 
-pointer
-	: '*'
-	| '*' type_qualifier_list
-	| '*' pointer
-	| '*' type_qualifier_list pointer
-	;
+function_declarator
+    : direct_function_declarator
+        { $$ = $1; }
+    | '*' function_declarator
+        { $$ = pointer($2); }
+    ;
 
-type_qualifier_list
-	: type_qualifier
-	| type_qualifier_list type_qualifier
-	;
-
-
-parameter_type_list
-	: parameter_list
-	| parameter_list ',' ELLIPSIS
-	;
+direct_function_declarator
+    : IDENTIFIER '(' parameter_list ')'
+        { $$ = partial_function_declaration($1, $3); }
+    | '(' function_declarator ')'
+        { $$ = $2; }
+    ;
 
 parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
-	;
+    : parameter_nonempty_list
+        { $$ = $1; }
+    | VOID
+        { $$ = []; }
+    ;
+    
+parameter_nonempty_list
+    : parameter_declaration
+        { $$ = [$1]; }
+    | parameter_list ',' parameter_declaration
+        { $$ = push_elem($1, $3); }
+    ;
 
 parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
-	;
+    : type_specifier declarator /* parameter must be named */
+        { $$ = full_declaration($1, $2); }
+    ;
 
-identifier_list
-	: IDENTIFIER
-	| identifier_list ',' IDENTIFIER
-	;
-
-type_name
-	: specifier_qualifier_list
-	| specifier_qualifier_list abstract_declarator
-	;
-
-abstract_declarator
-	: pointer
-	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
-	;
-
-direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| '(' ')'
-	| '(' parameter_type_list ')'
-	| direct_abstract_declarator '(' ')'
-	| direct_abstract_declarator '(' parameter_type_list ')'
-	;
-
-initializer
-	: assignment_expression
-	| '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
-	;
-
-initializer_list
-	: initializer
-	| initializer_list ',' initializer
-	;
+/* ---------- STATEMENTS ---------- */
 
 statement
-	: labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
-	| jump_statement
-	;
-
-labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
-	;
+    : compound_statement
+        { $$ = $1; }
+    | expression_statement
+        { $$ = $1; }
+    | selection_statement
+        { $$ = $1; }
+    | iteration_statement
+        { $$ = $1; }
+    | jump_statement
+        { $$ = $1; }
+    ;
 
 compound_statement
-	: '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
-	;
+    : '{' '}'
+        { $$ = compound_statement([], []); }
+    | '{' statement_list '}'
+        { $$ = compound_statement([], $2); }
+    | '{' declaration_list '}'
+        { $$ = compound_statement($2, []); }
+    | '{' declaration_list statement_list '}'
+        { $$ = compound_statement($2, $3); }
+    ;
 
 declaration_list
-	: declaration
-	| declaration_list declaration
-	;
+    : declaration
+        { $$ = [$1]; }
+    | declaration_list declaration
+        { $$ = push_elem($1, $2); }
+    ;
 
 statement_list
-	: statement
-	| statement_list statement
-	;
+    : statement
+        { $$ = [$1]; }
+    | statement_list statement
+        { $$ = push_elem($1, $2); }
+    ;
 
 expression_statement
-	: ';'
-	| expression ';'
-	;
+    : ';' 
+        { $$ = expression_statement(null); }
+    | expression ';'
+        { $$ = expression_statement($1); }
+    ;
 
-selection_statement
-	: IF '(' expression ')' compound_statement
-	| IF '(' expression ')' compound_statement ELSE compound_statement
-	| SWITCH '(' expression ')' statement
-	;
+selection_statement /* we use compound_statement to avoid ambiguity */
+    : IF '(' expression ')' compound_statement
+        { $$ = if_statement($3, $5, null); }
+
+    | IF '(' expression ')' compound_statement ELSE compound_statement
+        { $$ = if_statement($3, $5, $7); }
+    ;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
-	;
+    : WHILE '(' expression ')' statement
+        { $$ = while_statement($3, $5); }
+
+    | FOR '(' expression_statement expression_statement ')' statement
+        { $$ = for_statement($4.expression, $3.expression, null, $6); }
+
+    | FOR '(' expression_statement expression_statement expression ')' statement
+        { $$ = for_statement($4.expression, $3.expression, $5, $7); }
+    ;
 
 jump_statement
-	: GOTO IDENTIFIER ';'
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';'
-	| RETURN expression ';'
-	;
+    : CONTINUE ';'
+        { $$ = continue_statement(); }
+    | BREAK ';'
+        { $$ = break_statement(); }
+    | RETURN ';'
+        { $$ = return_statement(null); }
+    | RETURN expression ';'
+        { $$ = return_statement($2); }
+    ;
 
 translation_unit
-	: external_declaration
-	| translation_unit external_declaration
-	;
+    : external_declaration_list
+        { print(translation_unit($1)); return translation_unit($1); }
+    ;
+
+external_declaration_list
+    : external_declaration
+        { $$ = [$1]; }
+    | external_declaration_list external_declaration
+        { $$ = push_elem($1, $2); }
+    ;
 
 external_declaration
-	: function_definition
-	| declaration
-	;
+    : function_definition
+        { $$ = $1; }
+    | function_declaration
+        { $$ = $1; }
+    | declaration
+        { $$ = $1; }
+    ;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
-	;
+    : function_declaration_no_colon compound_statement
+        { $$ = function_definition($1, $2); }
+    ;
 
+function_declaration
+    : function_declaration_no_colon ';'
+        { $$ = $1; }
+    ;
+
+function_declaration_no_colon
+    : type_specifier function_declarator
+        { $$ = full_declaration($1, $2); }
+    ;
 %%
