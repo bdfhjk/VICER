@@ -3,7 +3,7 @@ var Jison = require('jison');
 var fs = require('fs');
 var path = require('path');
 
-var dest = path.resolve(process.argv[2]); // first command-line argument
+var dest = path.join(path.resolve(process.argv[2]), "src/parser"); // first command-line argument
 
 try { // create directory if it does not exist
     fs.mkdirSync(dest);
@@ -22,5 +22,12 @@ fs.writeFileSync(lexerFilename, lexerSource);
 var parserGrammar = fs.readFileSync('src/backend/parser/ansic.jison', 'utf-8');
 var parser = new Jison.Parser(parserGrammar);
 parser.lexer = new JisonLex(lexerGrammar);
-var parserSource = parser.generate();
+var parserSource = addRequireJsParts(parser.generate());
+
 fs.writeFileSync(parserFilename, parserSource);
+
+function addRequireJsParts(source) {
+    source = source.replace("require('fs')", "dummy");
+    source = source.replace("require('path')", "dummy");
+    return "define(function(require, exports, module) {" + source + "});";
+}
