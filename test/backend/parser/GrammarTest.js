@@ -9,9 +9,9 @@ describe("Parser Grammar", function() {
     var parser;
 
     before(function() {
-        var lexerGrammar = fs.readFileSync('src/backend/parser/ansic.jisonlex', 'utf-8');
+        var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
         var lexerSource = JisonLex.generate(lexerGrammar);
-        var parserGrammar = fs.readFileSync('src/backend/parser/ansic.jison', 'utf-8');
+        var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
         parser = new Jison.Parser(parserGrammar);
         parser.lexer = new JisonLex(lexerGrammar);
     });
@@ -102,7 +102,7 @@ describe("Parser Grammar", function() {
             }
             
             if (testCase.expected === "ok") {
-                expect(result).to.equal(true);
+                expect(result).to.have.property("type");
             } else {
                 expect(result).to.not.equal(true);
             }
