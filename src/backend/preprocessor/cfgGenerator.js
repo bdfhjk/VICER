@@ -1,6 +1,7 @@
 define([
     './cfgGenerator/Return',
     './cfgGenerator/CompoundStatement',
+    './cfgGenerator/ExpressionStatement',
     './cfgGenerator/Add',
     './cfgGenerator/Sub',
     './cfgGenerator/Identifier',
@@ -17,12 +18,13 @@ define([
     './cfgGenerator/Leq',
     './cfgGenerator/More',
     './cfgGenerator/Not'
-], function (Return, CompoundStatement, Add, Sub, Identifier, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
+], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
 
     function generateCfg(node) {
 	var generators = {
 	    'RETURN': Return,
 	    'compound_statement': CompoundStatement,
+	    'expression_statement': ExpressionStatement,
 	    'ADD': Add,
 	    'SUB': Sub,
 	    'IDENTIFIER' : Identifier,
