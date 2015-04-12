@@ -52,8 +52,8 @@ define(function () {
     function visitAst(ast, nameDict, prefix) {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
-	// if an IMPLICIT_CAST, substitute variable if not global and die
-	if((ast.type === 'IMPLICIT_CAST' || ast.type === 'ASSIGN') && nameDict[ast.name]) {
+	// if an IDENTIFIER, substitute variable if not global and die
+	if((ast.type === 'IDENTIFIER' || ast.type === 'ASSIGN') && nameDict[ast.name]) {
 	    ast.name = nameDict[ast.name];
 	}
 
