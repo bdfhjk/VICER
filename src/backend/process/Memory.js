@@ -66,6 +66,12 @@ define(function() {
     };
 
     Memory.prototype.dealloc = function dealloc(loc) {
+        if (!(loc in this.cells)) {
+            throw new Error("Attempted to deallocate a nonexistent location " + loc);
+        }
+        if (this.cells[loc].meta.type === "array") {
+            this.cells[loc].value.forEach(this.dealloc.bind(this));
+        }
         delete this.cells[loc];
     };
 

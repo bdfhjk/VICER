@@ -18,7 +18,7 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
     function callStdFunction(proc, fun, args) {
         var returnVal = fun.std(args, proc);
         if (returnVal !== undefined) {
-            proc.callStack.push(returnVal);
+            proc.getCurrentContext().push(returnVal);
         }
     }
 

@@ -8,6 +8,10 @@ define(["./Memory", "./Environment", "./ValueTypes", "./ExecutionContext"],
         this.world = world;
     }
 
+    Process.prototype.getCurrentContext = function getCurrentContext() {
+        return this.callStack[this.callStack.length - 1];
+    };
+
     return {
         Process: Process,
         valueTypes: valueTypes,

@@ -13,7 +13,6 @@ define(["./TypeCheck", "mod_process"], function(tc, mp) {
         var ptr = tc.verifyPtr(context.pop());
         // verify if location exists
         var newOffset = this.op === "PADD" ? ptr.offset + num : ptr.offset - num;
-        process.memory.at(ptr.base, newOffset);
         context.push(new mp.valueTypes.PointerValue(ptr.base, newOffset));
     };
 
