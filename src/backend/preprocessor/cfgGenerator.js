@@ -14,8 +14,9 @@ define([
     './cfgGenerator/Compare',
     './cfgGenerator/Eq',
     './cfgGenerator/Neq',
+    './cfgGenerator/Leq',
     './cfgGenerator/Not'
-], function (Return, CompoundStatement, Add, Sub, ImplicitCast, Assign, FunctionCall, If, While, For, Break, Continue, Compare, Eq, Neq, Not) {
+], function (Return, CompoundStatement, Add, Sub, ImplicitCast, Assign, FunctionCall, If, While, For, Break, Continue, Compare, Eq, Neq, Leq, Not) {
 
     function generateCfg(node) {
 	var generators = {
@@ -34,6 +35,7 @@ define([
 	    'COMPARE': Compare,
 	    'EQ': Eq,
 	    'NEQ': Neq,
+	    'LEQ': Leq,
 	    'NOT': Not
 	};
 
