@@ -36,12 +36,12 @@
 			"rexpression": {
 			    "type": "ADD",
 			    "left": {
-				"type": "IMPLICIT_CAST",
-				"name": "a"
+				"type": "IDENTIFIER",
+				"value": "a"
 			    },
 			    "right": {
-				"type": "IMPLICIT_CAST",
-				"name": "b"
+				"type": "IDENTIFIER",
+				"value": "b"
 			    }
 			}
 		    }

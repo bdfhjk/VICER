@@ -5,7 +5,7 @@ define([
     var cfgGenerator;
     
     function MinusAssign(paramNode, options) {
-	var lvalue = cfgGenerator(paramNode.left, _.extend(options, { wantLocation: true}));
+	var lvalue = cfgGenerator(paramNode.left, _.extend(_.clone(options), { wantLocation: true}));
 	var value = cfgGenerator(paramNode.right, options);
 
 	var fetchInstr = new Cfg({

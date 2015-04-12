@@ -5,7 +5,7 @@ define([
     var cfgGenerator;
     
     function ArrayVal(paramNode, options) {
-	var index = cfgGenerator(paramNode.index, _.extend(options, { wantLocation: false }));
+	var index = cfgGenerator(paramNode.index, _.extend(_.clone(options), { wantLocation: false }));
 	var name = paramNode.name;
 
 	var resolveInstr = new Cfg({

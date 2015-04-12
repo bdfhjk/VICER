@@ -5,15 +5,15 @@ define([
     var cfgGenerator;
     
     function Assign(paramNode, options) {
-	var lvalue = cfgGenerator(paramNode.left, _.extend(options, { wantLocation: true }));
+	var lvalue = cfgGenerator(paramNode.left, _.extend(_.clone(options), { wantLocation: true }));
 	var rvalue = cfgGenerator(paramNode.right, options);
 
 	var assignInstr = new Cfg({
 	    type: 'ASSIGN'
 	});
 
-	var result = resolveInstr;
-	result.mergeLeft(value);
+	var result = lvalue;
+	result.mergeLeft(rvalue);
 	result.mergeLeft(assignInstr);
 
 	return result;

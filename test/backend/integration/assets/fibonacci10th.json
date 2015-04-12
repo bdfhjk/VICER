@@ -31,8 +31,8 @@
 			"condition": {
 			    "type": "EQ",
 			    "left": {
-				"type": "IMPLICIT_CAST",
-				"name": "n"
+				"type": "IDENTIFIER",
+				"value": "n"
 			    },
 			    "right": {
 				"type": "CONSTANT",
@@ -59,8 +59,8 @@
 			"condition": {
 			    "type": "EQ",
 			    "left": {
-				"type": "IMPLICIT_CAST",
-				"name": "n"
+				"type": "IDENTIFIER",
+				"value": "n"
 			    },
 			    "right": {
 				"type": "CONSTANT",
@@ -93,8 +93,8 @@
 				    {
 					"type": "ADD",
 					"left": {
-					    "type": "IMPLICIT_CAST",
-					    "name": "n"
+					    "type": "IDENTIFIER",
+					    "value": "n"
 					},
 					"right": {
 					    "type": "CONSTANT",
@@ -110,8 +110,8 @@
 				    {
 					"type": "ADD",
 					"left": {
-					    "type": "IMPLICIT_CAST",
-					    "name": "n"
+					    "type": "IDENTIFIER",
+					    "value": "n"
 					},
 					"right": {
 					    "type": "CONSTANT",

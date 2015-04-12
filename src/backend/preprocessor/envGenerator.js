@@ -53,17 +53,16 @@ define(function () {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IDENTIFIER, substitute variable if not global and die
-	if((ast.type === 'IDENTIFIER' || ast.type === 'ASSIGN') && nameDict[ast.name]) {
-	    ast.name = nameDict[ast.name];
+	if((ast.type === 'IDENTIFIER' || ast.type === 'ASSIGN') && nameDict[ast.value]) {
+	    ast.value = nameDict[ast.value];
 	}
 
 	// substitute constants with implicit casts
 	if(ast.type === 'CONSTANT') {
-	    ast.type = 'IMPLICIT_CAST';
+	    ast.type = 'IDENTIFIER';
 	    if(!constants[ast.value])
 		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
-	    ast.name = constants[ast.value];
-	    ast.value = null;
+	    ast.value = constants[ast.value];
 	    return;
 	}
 

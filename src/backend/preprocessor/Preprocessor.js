@@ -34,7 +34,7 @@ define([
 	    var funcDef = this.astObj.external_declarations[i];
 	    this.preprocessed.prototypes[funcDef.name] = funcDef.prototype;
 	}
-    }
+    };
 
     AstToCfg.prototype.generateFunctions = function generateFunctions() {
 	// generate functions

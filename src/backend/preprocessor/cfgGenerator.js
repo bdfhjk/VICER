@@ -33,7 +33,7 @@ define([
 	    'expression_statement': ExpressionStatement,
 	    'ADD': Add,
 	    'SUB': Sub,
-	    'IDENTIFIER' : Identifier,
+	    'IDENTIFIER': Identifier,
 	    'DEREF' : Deref,
 	    'REF' : Ref,
 	    'ARRAY_VAL' : ArrayVal,

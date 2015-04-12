@@ -38,16 +38,22 @@
 		"statements": [
 		    {
 			"type": "ASSIGN",
-			"name": "a",
-			"value": {
+			"left": {
+			    "type": "IDENTIFIER",
+			    "value": "a"
+			},
+			"right": {
 			    "type": "CONSTANT",
 			    "value": 2
 			}
 		    },
 		    {
 			"type": "ASSIGN",
-			"name": "b",
-			"value": {
+			"left": {
+			    "type": "IDENTIFIER",
+			    "value": "b"
+			},
+			"right": {
 			    "type": "CONSTANT",
 			    "value": 3
 			}
@@ -57,12 +63,12 @@
 			"rexpression": {
 			    "type": "ADD",
 			    "left": {
-				    "type": "IMPLICIT_CAST",
-				    "name": "a"
+				    "type": "IDENTIFIER",
+				    "value": "a"
 			    },
 			    "right": {
-				    "type": "IMPLICIT_CAST",
-				    "name": "b"
+				    "type": "IDENTIFIER",
+				    "value": "b"
 			    }
 			}
 		    }
