@@ -5,7 +5,9 @@ define([
     './cfgGenerator/Add',
     './cfgGenerator/Sub',
     './cfgGenerator/Identifier',
-    './cfgGenerator/Pointer',
+    './cfgGenerator/Deref',
+    './cfgGenerator/Ref',
+    './cfgGenerator/ArrayVal',
     './cfgGenerator/Assign',
     './cfgGenerator/FunctionCall',
     './cfgGenerator/If',
@@ -19,7 +21,7 @@ define([
     './cfgGenerator/Leq',
     './cfgGenerator/More',
     './cfgGenerator/Not'
-], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Pointer, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
+], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
 
     function generateCfg(node) {
 	var generators = {
@@ -29,7 +31,9 @@ define([
 	    'ADD': Add,
 	    'SUB': Sub,
 	    'IDENTIFIER' : Identifier,
-	    'POINTER' : Pointer,
+	    'DEREF' : Deref,
+	    'REF' : Ref,
+	    'ARRAY_VAL' : ArrayVal,
 	    'ASSIGN': Assign,
 	    'FUNCTION_CALL': FunctionCall,
 	    'IF': If,

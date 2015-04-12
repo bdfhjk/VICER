@@ -3,20 +3,20 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Pointer(paramNode) {
+    function Ref(paramNode) {
 	var location = cfgGenerator(paramNode.expression);
 
-	var derefInstr = new Cfg({
-	    type: 'DEREF'
+	var refInstr = new Cfg({
+	    type: 'REF'
 	});
 
-	location.mergeLeft(derefInstr);
+	location.mergeLeft(refInstr);
 
 	return location;
     }
 
     return (function (_cfgGenerator) {
 	cfgGenerator = _cfgGenerator;
-	return Pointer;
+	return Ref;
     });
 });
