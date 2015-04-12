@@ -3,7 +3,7 @@ define([
     './cfgGenerator/CompoundStatement',
     './cfgGenerator/Add',
     './cfgGenerator/Sub',
-    './cfgGenerator/ImplicitCast',
+    './cfgGenerator/Identifier',
     './cfgGenerator/Assign',
     './cfgGenerator/FunctionCall',
     './cfgGenerator/If',
@@ -17,7 +17,7 @@ define([
     './cfgGenerator/Leq',
     './cfgGenerator/More',
     './cfgGenerator/Not'
-], function (Return, CompoundStatement, Add, Sub, ImplicitCast, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
+], function (Return, CompoundStatement, Add, Sub, Identifier, Assign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
 
     function generateCfg(node) {
 	var generators = {
@@ -25,7 +25,7 @@ define([
 	    'compound_statement': CompoundStatement,
 	    'ADD': Add,
 	    'SUB': Sub,
-	    'IMPLICIT_CAST' : ImplicitCast,
+	    'IDENTIFIER' : Identifier,
 	    'ASSIGN': Assign,
 	    'FUNCTION_CALL': FunctionCall,
 	    'IF': If,

@@ -1,8 +1,8 @@
 define([
     '../Cfg'
 ], function (Cfg) {
-    function ImplicitCast(paramNode) {
-	var variableName = paramNode.name;
+    function Identifier(paramNode) {
+	var variableName = paramNode.value;
 
 	var resolveInstr = new Cfg({
 	    type: 'RESOLVE',
@@ -18,6 +18,6 @@ define([
     }
 
     return (function () {
-	return ImplicitCast;
+	return Identifier;
     });
 });
