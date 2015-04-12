@@ -17,10 +17,21 @@ define([
 	    if(this.astObj.external_declarations[i].type !== "declaration")
 		continue;
 	    var varDef = this.astObj.external_declarations[i];
-	    var globalVariable = {
-		type: varDef.tvalue.name
-	    };
-	    this.preprocessed.global[varDef.name] = globalVariable;
+	    // duplicate code, extract it
+	    var tvalue = varDef.tvalue;
+	    var varEntry;
+	    if(tvalue.type === 'concrete_type') {
+		varEntry = {
+		    type: tvalue.name
+		};
+	    } else if(tvalue.type === 'pointer') {
+		varEntry = {
+		    type: 'pointer',
+		    of: tvalue.tvalue.name // make it recursive
+		};
+	    }
+	    // end of duplicate code
+	    this.preprocessed.global[varDef.name] = varEntry;
 	}
     };
 
@@ -53,8 +64,7 @@ define([
 	    var env = envAndValues.env;
 	    var values = {};
 	    for(var val in envAndValues.constants) {
-		// for now we only use ints, so I do the conversion
-		values[envAndValues.constants[val]] = Number(val);
+		values[envAndValues.constants[val]] = isNaN(val) ? val : Number.parseInt(val); // replace it with smarter check maybe?
 	    }
 
 	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes });

@@ -11,6 +11,7 @@ define(function () {
 	'pre_statement',
 	'post_statement',
 	'subexp',
+	'index',
 	'true',
 	'false',
 	'body',
@@ -53,8 +54,10 @@ define(function () {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IDENTIFIER, substitute variable if not global and die
-	if((ast.type === 'IDENTIFIER' || ast.type === 'ASSIGN') && nameDict[ast.value]) {
+	if(ast.type === 'IDENTIFIER' && nameDict[ast.value]) {
 	    ast.value = nameDict[ast.value];
+	    if(env[ast.value].isPointer)
+		ast.isPointer = true;
 	}
 
 	// substitute constants with implicit casts
@@ -75,9 +78,18 @@ define(function () {
 		var newVarName = prefix + '_' + varName;
 		nameDict[varName] = newVarName;
 
-		var varEntry = {
-		    type: ast.declarations[i].tvalue.name
-		};
+		var tvalue = ast.declarations[i].tvalue;
+		var varEntry;
+		if(tvalue.type === 'concrete_type') {
+		    varEntry = {
+			type: tvalue.name
+		    };
+		} else if(tvalue.type === 'pointer') {
+		    varEntry = {
+			type: 'pointer',
+			of: tvalue.tvalue.name // make it recursive
+		    };
+		}
 		env[newVarName] = varEntry;
 	    }
 	}

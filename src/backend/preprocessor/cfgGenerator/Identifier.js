@@ -10,10 +10,17 @@ define([
 	});
 
 	if(!options || !options.wantLocation) {
-	    var refInstr = new Cfg({
-		type: 'FETCH'
-	    });
-	    resolveInstr.mergeLeft(refInstr);
+	    if(paramNode.isPointer) {
+		var refInstr = new Cfg({
+		    type: 'REF'
+		});
+		resolveInstr.mergeLeft(refInstr);
+	    } else {
+		var fetchInstr = new Cfg({
+		    type: 'FETCH'
+		});
+		resolveInstr.mergeLeft(fetchInstr);
+	    }
 	}
 
 	return resolveInstr;
