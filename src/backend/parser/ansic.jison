@@ -35,7 +35,7 @@
     function full_declaration_array(type_specifier, declarator_list) {
         return declarator_list.map(
             function(declarator) {
-                full_declaration(type_specifier, declarator);
+                return full_declaration(type_specifier, declarator);
             }
         );
     }
