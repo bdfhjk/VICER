@@ -7,9 +7,9 @@ define([
 	var body = cfgGenerator(paramNode.body[0]);
 	for(var i = 1; i < paramNode.body.length; i++)
 	    body.mergeLeft(cfgGenerator(paramNode.body[i]));
-	var initiation = cfgGenerator(paramNode.condition[0]);
+	var initiation = cfgGenerator(paramNode.condition.preStatement);
 	var condition = cfgGenerator(paramNode.condition[1]);
-	var action = cfgGenerator(paramNode.condition[2]);
+	var action = cfgGenerator(paramNode.condition.postStatement);
 
 	var noopInstr = new Cfg({
 	    type: 'NOOP'
