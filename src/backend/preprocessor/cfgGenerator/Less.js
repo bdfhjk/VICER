@@ -3,22 +3,22 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function Compare(paramNode) {
+    function Less(paramNode) {
 	var left = cfgGenerator(paramNode.left);
 	var right = cfgGenerator(paramNode.right);
 
-	var compareInstr = new Cfg({
-	    type: 'COMPARE',
+	var lessInstr = new Cfg({
+	    type: 'LESS'
 	});
 
 	left.mergeLeft(right);
-	left.mergeLeft(compareInstr);
+	left.mergeLeft(lessInstr);
 
 	return left;
     }
 
     return (function(_cfgGenerator) {
 	cfgGenerator = _cfgGenerator;
-	return Compare;
+	return Less;
     });
 });
