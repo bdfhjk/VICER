@@ -3,7 +3,7 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function ArrayVal(paramNode) {
+    function ArrayVal(paramNode, options) {
 	var index = cfgGenerator(paramNode.index);
 	var name = paramNode.name;
 
@@ -20,16 +20,20 @@ define([
 	var derefInstr = new Cfg({
 	    type: 'DEREF'
 	});
-	var fetchInstrBis = new Cfg({
-	    type: 'FETCH'
-	});
 
 	var result = resolveInstr;
 	result.mergeLeft(fetchInstr);
 	result.mergeLeft(index);
 	result.mergeLeft(paddInstr);
 	result.mergeLeft(derefInstr);
-	result.mergeLeft(fetchInstrBis);
+
+	if(!options || !options.wantLocation) {
+	    var fetchInstrBis = new Cfg({
+		type: 'FETCH'
+	    });
+
+	    result.mergeLeft(fetchInstrBis);
+	}
 
 	return result;
     }

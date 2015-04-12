@@ -4,7 +4,7 @@ define([
     var cfgGenerator;
     
     function Deref(paramNode) {
-	var location = cfgGenerator(paramNode.expression);
+	var location = cfgGenerator(paramNode.expression, { wantLocation: true });
 
 	var derefInstr = new Cfg({
 	    type: 'DEREF'

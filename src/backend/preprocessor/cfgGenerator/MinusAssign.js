@@ -4,17 +4,9 @@ define([
     var cfgGenerator;
     
     function MinusAssign(paramNode) {
-	var variableName = paramNode.name;
-	var value = cfgGenerator(paramNode.value);
+	var lvalue = cfgGenerator(paramNode.left, { wantLocation: true});
+	var value = cfgGenerator(paramNode.right);
 
-	var resolveInstr = new Cfg({
-	    type: 'RESOLVE',
-	    param: variableName
-	});
-	var resolveInstrBis = new Cfg({
-	    type: 'RESOLVE',
-	    param: variableName
-	});
 	var fetchInstr = new Cfg({
 	    type: 'FETCH'
 	});
@@ -25,9 +17,10 @@ define([
 	    type: 'ASSIGN'
 	});
 
-	var result = resolveInstr;
-	result.mergeLeft(resolveInstrBis);
-	result.mergeLeft(value);
+	var result = lvalue;
+	result.mergeLeft(lvalue);
+	result.mergeLeft(fetchInstr);
+	result.mergeLeft(rvalue);
 	result.mergeLeft(subInstr);
 	result.mergeLeft(assignInstr);
 

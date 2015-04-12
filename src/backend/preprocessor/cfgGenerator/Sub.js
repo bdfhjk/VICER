@@ -16,6 +16,14 @@ define([
 	left.mergeLeft(right);
 	left.mergeLeft(subInstr);
 
+	if(options && options.wantLocation) {
+	    var derefInstr = new Cfg({
+		type: 'DEREF'
+	    });
+	    
+	    left.mergeLeft(derefInstr);
+	}
+
 	return left;
     }
 

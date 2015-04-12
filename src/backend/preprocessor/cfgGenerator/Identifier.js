@@ -8,11 +8,13 @@ define([
 	    type: 'RESOLVE',
 	    param: variableName
 	});
-	var fetchInstr = new Cfg({
-	    type: 'FETCH'
-	});
 
-	resolveInstr.mergeLeft(fetchInstr);
+	if(!options || !options.wantLocation) {
+	    var refInstr = new Cfg({
+		type: 'FETCH'
+	    });
+	    resolveInstr.mergeLeft(refInstr);
+	}
 
 	return resolveInstr;
     }

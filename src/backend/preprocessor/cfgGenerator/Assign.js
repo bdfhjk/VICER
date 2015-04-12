@@ -4,13 +4,9 @@ define([
     var cfgGenerator;
     
     function Assign(paramNode) {
-	var variableName = paramNode.name;
-	var value = cfgGenerator(paramNode.value);
+	var lvalue = cfgGenerator(paramNode.left, { wantLocation: true });
+	var rvalue = cfgGenerator(paramNode.right);
 
-	var resolveInstr = new Cfg({
-	    type: 'RESOLVE',
-	    param: variableName
-	});
 	var assignInstr = new Cfg({
 	    type: 'ASSIGN'
 	});

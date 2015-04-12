@@ -3,7 +3,7 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Add(paramNode) {
+    function Add(paramNode, options) {
 	var left = cfgGenerator(paramNode.left);
 	var right = cfgGenerator(paramNode.right);
 	if(!(left || right))
@@ -15,6 +15,14 @@ define([
 
 	left.mergeLeft(right);
 	left.mergeLeft(addInstr);
+
+	if(options && options.wantLocation) {
+	    var derefInstr = new Cfg({
+		type: 'DEREF'
+	    });
+
+	    left.mergeLeft(derefInstr);
+	}
 
 	return left;
     }
