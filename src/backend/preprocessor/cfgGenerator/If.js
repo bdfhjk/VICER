@@ -3,13 +3,13 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function If(paramNode) {
+    function If(paramNode, options) {
 	var noopInstr = new Cfg({
 	    type: 'NOOP'
 	});
 
-	var tt = cfgGenerator(paramNode.true);
-	var ff = paramNode.false ? cfgGenerator(paramNode.false) : noopInstr;
+	var tt = cfgGenerator(paramNode.true, options);
+	var ff = paramNode.false ? cfgGenerator(paramNode.false, options) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);
 
@@ -30,7 +30,7 @@ define([
 	    }
 	}
 
-	return condition;
+	return result;
     }
 
     return (function(_cfgGenerator) {

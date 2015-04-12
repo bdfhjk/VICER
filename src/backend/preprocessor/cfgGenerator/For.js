@@ -3,13 +3,13 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function For(paramNode) {
-	var body = cfgGenerator(paramNode.body[0]);
+    function For(paramNode, options) {
+	var body = cfgGenerator(paramNode.body[0], options);
 	for(var i = 1; i < paramNode.body.length; i++)
-	    body.mergeLeft(cfgGenerator(paramNode.body[i]));
-	var initiation = cfgGenerator(paramNode.condition.preStatement);
-	var condition = cfgGenerator(paramNode.condition[1]);
-	var action = cfgGenerator(paramNode.condition.postStatement);
+	    body.mergeLeft(cfgGenerator(paramNode.body[i], options));
+	var initiation = cfgGenerator(paramNode.preStatement, options);
+	var condition = cfgGenerator(paramNode.condition, options);
+	var action = cfgGenerator(paramNode.postStatement, options);
 
 	var noopInstr = new Cfg({
 	    type: 'NOOP'

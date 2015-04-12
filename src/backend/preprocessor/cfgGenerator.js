@@ -21,9 +21,10 @@ define([
     './cfgGenerator/Eq',
     './cfgGenerator/Neq',
     './cfgGenerator/Leq',
+    './cfgGenerator/Geq',
     './cfgGenerator/More',
     './cfgGenerator/Not'
-], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, More, Not) {
+], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not) {
 
     function generateCfg(node, options) {
 	var generators = {
@@ -49,6 +50,7 @@ define([
 	    'EQ': Eq,
 	    'NEQ': Neq,
 	    'LEQ': Leq,
+	    'GEQ': Geq,
 	    'MORE': More,
 	    'NOT': Not
 	};

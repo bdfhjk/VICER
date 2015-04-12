@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function Less(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    function Less(paramNode, options) {
+	var left = cfgGenerator(paramNode.left, options);
+	var right = cfgGenerator(paramNode.right, options);
 
 	var lessInstr = new Cfg({
 	    type: 'LESS'

@@ -4,8 +4,8 @@ define([
     var cfgGenerator;
     
     function Add(paramNode, options) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+	var left = cfgGenerator(paramNode.left, options);
+	var right = cfgGenerator(paramNode.right, options);
 	if(!(left || right))
 	    throw new Error('Something occured during processing node ' + paramNode);
 
@@ -15,14 +15,6 @@ define([
 
 	left.mergeLeft(right);
 	left.mergeLeft(addInstr);
-
-	if(options && options.wantLocation) {
-	    var derefInstr = new Cfg({
-		type: 'DEREF'
-	    });
-
-	    left.mergeLeft(derefInstr);
-	}
 
 	return left;
     }

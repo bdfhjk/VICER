@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function While(paramNode) {
-	var body = cfgGenerator(paramNode.body);
-	var condition = cfgGenerator(paramNode.condition);
+    function While(paramNode, options) {
+	var body = cfgGenerator(paramNode.body, options);
+	var condition = cfgGenerator(paramNode.condition, options);
 
 	var noopInstr = new Cfg({
 	    type: 'NOOP'

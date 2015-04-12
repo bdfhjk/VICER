@@ -1,10 +1,11 @@
 define([
     '../Cfg'
 ], function (Cfg) {
+    var _ = require('underscore');
     var cfgGenerator;
     
     function ArrayVal(paramNode, options) {
-	var index = cfgGenerator(paramNode.index);
+	var index = cfgGenerator(paramNode.index, _.extend(options, { wantLocation: false }));
 	var name = paramNode.name;
 
 	var resolveInstr = new Cfg({

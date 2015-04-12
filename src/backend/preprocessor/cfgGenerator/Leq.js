@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function Leq(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    function Leq(paramNode, options) {
+	var left = cfgGenerator(paramNode.left, options);
+	var right = cfgGenerator(paramNode.right, options);
 
 	var leqInstr = new Cfg({
 	    type: 'LEQ'

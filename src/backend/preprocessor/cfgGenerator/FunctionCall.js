@@ -3,8 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function FunctionCall (paramNode) {
+    function FunctionCall (paramNode, options) {
 	var functionName = paramNode.name;
+	var isVariadic = options && options.prototypes[functionName].isVariadic;
 	var parameters = paramNode.parameters;
 
 	var resolveInstr = new Cfg({
@@ -14,9 +15,9 @@ define([
 	var result;
 
 	if(parameters) {
-	    result = cfgGenerator(parameters[0]); 
+	    result = cfgGenerator(parameters[0], options); 
 	    for(var i = 1; i < parameters.length; i++) {
-		result.mergeLeft(cfgGenerator(parameters[i]));
+		result.mergeLeft(cfgGenerator(parameters[i], options));
 	    }
 	    result.mergeLeft(resolveInstr);
 	} else
@@ -27,6 +28,14 @@ define([
 	});
 
 	result.mergeLeft(callInstr);
+
+	if(isVariadic) {
+	    var vaendInstr = new Cfg({
+		type: 'VAEND'
+	    });
+
+	    result.mergeRight(vaendInstr);
+	}
 
 	return result;
     }

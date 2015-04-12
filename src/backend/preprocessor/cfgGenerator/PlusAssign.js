@@ -1,11 +1,12 @@
 define([
     '../Cfg'
 ], function (Cfg) {
+    var _ = require('underscore');
     var cfgGenerator;
     
-    function PlusAssign(paramNode) {
-	var lvalue = cfgGenerator(paramNode.left, { wantLocation: true });
-	var rvalue = cfgGenerator(paramNode.right);
+    function PlusAssign(paramNode, options) {
+	var lvalue = cfgGenerator(paramNode.left, _.extend(options, { wantLocation: true }));
+	var rvalue = cfgGenerator(paramNode.right, options);
 
 	var fetchInstr = new Cfg({
 	    type: 'FETCH'

@@ -1,7 +1,7 @@
 define([
     '../Cfg'
 ], function (Cfg) {
-    function Identifier(paramNode) {
+    function Identifier(paramNode, options) {
 	var variableName = paramNode.value;
 
 	var resolveInstr = new Cfg({

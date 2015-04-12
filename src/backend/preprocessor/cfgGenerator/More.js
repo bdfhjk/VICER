@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function More(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    function More(paramNode, options) {
+	var left = cfgGenerator(paramNode.left, options);
+	var right = cfgGenerator(paramNode.right, options);
 
 	var notInstr = new Cfg({
 	    type: 'NOT'

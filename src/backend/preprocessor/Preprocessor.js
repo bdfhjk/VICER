@@ -24,6 +24,18 @@ define([
 	}
     };
 
+    AstToCfg.prototype.collectPrototypes = function collectPrototypes() {
+	this.preprocessed.prototypes = {};
+
+	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if(this.astObj.external_declarations[i].type !== 'function_definition')
+		continue;
+
+	    var funcDef = this.astObj.external_declarations[i];
+	    this.preprocessed.prototypes[funcDef.name] = funcDef.prototype;
+	}
+    }
+
     AstToCfg.prototype.generateFunctions = function generateFunctions() {
 	// generate functions
 	this.preprocessed.functions = {};
@@ -45,7 +57,7 @@ define([
 		values[envAndValues.constants[val]] = Number(val);
 	    }
 
-	    var cfg = cfgGenerator(funcDef.body);
+	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes });
 
 	    // mark the first node
 	    var firstId = cfg.first;
@@ -75,6 +87,7 @@ define([
 
     AstToCfg.prototype.convert = function convert() {
 	this.retrieveGlobals();
+	this.collectPrototypes();
 	this.generateFunctions();
 	return this.getConverted();
     };

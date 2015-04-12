@@ -3,8 +3,8 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Ref(paramNode) {
-	var location = cfgGenerator(paramNode.expression);
+    function Ref(paramNode, options) {
+	var location = cfgGenerator(paramNode.expression, options);
 
 	var refInstr = new Cfg({
 	    type: 'REF'
