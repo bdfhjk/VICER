@@ -5,7 +5,7 @@
     }
 
     function print(obj) {
-        console.log(JSON.stringify(obj, null, 4));
+        // console.log(JSON.stringify(obj, null, 4));
     }
 
     function pointer(declarator) {

@@ -1,4 +1,4 @@
-define(function() {
+define(["mod_process"], function(mp) {
     function verify(type, validator) {
         return function(val) {
             if (typeof val !== type || (validator && !validator(val))) {
@@ -9,8 +9,12 @@ define(function() {
     }
 
     return {
-        verifyInt: verify('number', function(num) { return num === Math.round(num); }),
-        verifyPtr: function() { throw new Error("not implemented"); },
-        verifyLoc: verify('number')
+        verifyInt: verify('number', function(num) { 
+            return num === Math.round(num);
+        }),
+        verifyPtr: verify('object', function(ptr) {
+            return ptr instanceof mp.valueTypes.PointerValue;
+        }),
+        verifyLoc: verify('string')
     };
 });

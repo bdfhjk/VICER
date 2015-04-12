@@ -1,27 +1,40 @@
 define([
     "./ResolveInstr",
     "./FetchInstr",
-    "./PutInstr",
     "./ReturnInstr",
     "./AddInstr",
     "./AssignInstr",
     "./CallInstr",
     "./BranchInstr",
     "./EqInstr",
-    "./NotInstr"
-    ], function(ResolveInstr, FetchInstr, PutInstr, ReturnInstr, AddInstr, AssignInstr, CallInstr, BranchInstr, EqInstr, NotInstr) {
+    "./LeqInstr",
+    "./LessInstr",
+    "./NotInstr",
+    "./RefInstr",
+    "./DerefInstr",
+    "./PaddInstr",
+    "./VaEndInstr"
+    ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, AssignInstr,
+                CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
+                RefInstr, DerefInstr, createPointerOp, VaEndInstr) {
 
         return {
             "RESOLVE": ResolveInstr,
             "FETCH": FetchInstr,
-            "PUT": PutInstr,
             "RETURN": ReturnInstr,
             "ADD": AddInstr,
             "ASSIGN": AssignInstr,
             "CALL": CallInstr,
             "BRANCH": BranchInstr,
             "EQ": EqInstr,
-            "NOT": NotInstr
+            "LEQ": LeqInstr,
+            "LESS": LessInstr,
+            "NOT": NotInstr,
+            "REF": RefInstr,
+            "DEREF": DerefInstr,
+            "PADD": createPointerOp("PADD"),
+            "PSUB": createPointerOp("PSUB"),
+            "VAEND": VaEndInstr
         };
         
 });

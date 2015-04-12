@@ -3,48 +3,50 @@
 
     },
     "values": {
-        "_0": 0,
-        "_21": 21,
-        "_42": 42
+        "_format": "%s %s",
+        "_hello": "Hello",
+        "_world": "world!"
     },
     "functions": {
         "main": { 
-            "returns": { "type": "int" },
+            "returns": { "type": "void" },
             "args": [],
             "env": {
 
             },
             "cfg": {
                 "0": {
-                    "type": "RESOLVE",
-                    "param": "_0"
+                    "type": "VAEND"
                 },
                 "1": {
-                    "type": "FETCH"
+                    "type": "RESOLVE",
+                    "param": "_format"
                 },
                 "2": {
-                    "type": "BRANCH",
-                    "true": 3,
-                    "false": 6
+                    "type": "REF"
                 },
                 "3": {
                     "type": "RESOLVE",
-                    "param": "_42"
+                    "param": "_hello"
                 },
                 "4": {
-                    "type": "FETCH"
+                    "type": "REF"
                 },
                 "5": {
-                    "type": "RETURN"
+                    "type": "RESOLVE",
+                    "param": "_world"
                 },
                 "6": {
-                    "type": "RESOLVE",
-                    "param": "_21"
+                    "type": "REF"
                 },
                 "7": {
-                    "type": "FETCH"
+                    "type": "RESOLVE",
+                    "param": "printf"
                 },
                 "8": {
+                    "type": "CALL"
+                },
+                "9": {
                     "type": "RETURN"
                 }
             }
