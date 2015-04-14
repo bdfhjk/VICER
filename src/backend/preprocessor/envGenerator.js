@@ -12,10 +12,11 @@ define(function () {
 	'post_statement',
 	'subexp',
 	'index',
-	'true',
-	'false',
+	'true_body',
+	'false_body',
 	'body',
-	'rexpression'
+	'rexpression',
+	'expression'
     ];
 
     var blockEdges = [
@@ -29,18 +30,18 @@ define(function () {
 	constants = {};
 	constantsNum = 0;
 	var nameDict = {};
-	var astParameters = ast.param_names;
+	var astParameters = ast.declaration.param_names;
 
 	// add parameters to substitution, and add them to env
 	for(var i = 0; i < astParameters.length; i++) {
-	    nameDict[astParameters[i]] = ast.name + '_PARAMETER_' + astParameters[i];
-	    env[nameDict[astParameters[i]]] = ast.prototype.param_tvalues[i].name;
+	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER_' + astParameters[i];
+	    env[nameDict[astParameters[i]]] = ast.declaration.param_tvalues[i].name;
 	}
 
 	// visit nodes
-	ast.parameters = null;
-	visitAst(ast, nameDict, ast.name);
-	ast.parameters = astParameters;
+	ast.declaration.parameters = null;
+	visitAst(ast, nameDict, ast.declaration.name);
+	ast.declaration.parameters = astParameters;
 
 	var result = {
 	    env: env,
@@ -54,7 +55,7 @@ define(function () {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IDENTIFIER, substitute variable if not global and die
-	if(ast.type === 'IDENTIFIER' && nameDict[ast.value]) {
+	if(ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
 	    ast.value = nameDict[ast.value];
 	    if(env[ast.value].isPointer)
 		ast.isPointer = true;
@@ -62,11 +63,23 @@ define(function () {
 
 	// substitute constants with implicit casts
 	if(ast.type === 'CONSTANT') {
-	    ast.type = 'IDENTIFIER';
+	    ast.type = 'INDENTIFIER';
 	    if(!constants[ast.value])
 		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
 	    ast.value = constants[ast.value];
 	    return;
+	}
+
+	if(ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
+	    ast.type = 'ADD';
+	    ast.left = ast.subexp;
+	    if(!constants[1])
+		constants[1] = prefix + '_CONSTANT_' + constantsNum++;
+	    ast.right = {
+		type: 'INDENTIFIER',
+		value: constants[1]
+	    };
+	    ast.subexp = null;
 	}
 
 	// if is compound_statement, visit declarations

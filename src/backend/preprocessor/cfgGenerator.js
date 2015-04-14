@@ -28,12 +28,12 @@ define([
 
     function generateCfg(node, options) {
 	var generators = {
-	    'RETURN': Return,
+	    'return': Return,
 	    'compound_statement': CompoundStatement,
 	    'expression_statement': ExpressionStatement,
 	    'ADD': Add,
 	    'SUB': Sub,
-	    'IDENTIFIER': Identifier,
+	    'INDENTIFIER': Identifier,
 	    'DEREF' : Deref,
 	    'REF' : Ref,
 	    'ARRAY_VAL' : ArrayVal,
@@ -41,8 +41,8 @@ define([
 	    '+=': PlusAssign,
 	    '-=': MinusAssign,
 	    'FUNCTION_CALL': FunctionCall,
-	    'IF': If,
-	    'WHILE': While,
+	    'if': If,
+	    'while': While,
 	    'FOR': For,
 	    'BREAK': Break,
 	    'CONTINUE': Continue,
@@ -52,7 +52,7 @@ define([
 	    'LEQ': Leq,
 	    'GEQ': Geq,
 	    'MORE': More,
-	    'NOT': Not
+	    'UNARYOP_!': Not
 	};
 
 	var generator = generators[node.type];

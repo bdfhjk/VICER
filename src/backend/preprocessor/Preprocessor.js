@@ -43,7 +43,7 @@ define([
 		continue;
 
 	    var funcDef = this.astObj.external_declarations[i];
-	    this.preprocessed.prototypes[funcDef.name] = funcDef.prototype;
+	    this.preprocessed.prototypes[funcDef.name] = funcDef.declaration;
 	}
     };
 
@@ -55,10 +55,11 @@ define([
 	    if(this.astObj.external_declarations[i].type !== "function_definition")
 		continue;
 	    var funcDef = this.astObj.external_declarations[i];
+	    var funcDecl = funcDef.declaration;
 	    
 	    var args = [];
-	    for(var j = 0; j < funcDef.param_names.length; j++)
-		args.push(funcDef.name + '_PARAMETER_' + funcDef.param_names[j]);
+	    for(var j = 0; j < funcDecl.param_names.length; j++)
+		args.push(funcDecl.name + '_PARAMETER_' + funcDecl.param_names[j]);
 
 	    var envAndValues = envGenerator(funcDef);
 	    var env = envAndValues.env;
@@ -81,12 +82,12 @@ define([
 	    }
 
 	    var functionDesc = {
-		returns: { type: funcDef.prototype.return_tvalue.name },
+		returns: { type: funcDecl.return_tvalue.name },
 		args: args,
 		env: env,
 		cfg: cfg
 	    };
-	    this.preprocessed.functions[funcDef.name] = functionDesc;
+	    this.preprocessed.functions[funcDecl.name] = functionDesc;
 	    this.preprocessed.values = _.extend(this.preprocessed.values, values);
 	}
     };
