@@ -249,6 +249,8 @@ postfix_expression
         { $$ = function_call($1, []); }
     | IDENTIFIER '(' argument_expression_list ')'
         { $$ = function_call($1, $3); }
+    | postfix_expression '[' expression ']'
+        { $$ = bexp("SUBSCRIPT", $1, $3); }
     | postfix_expression INC_OP
         { $$ = uexp("POST_INC", $1); }
     | postfix_expression DEC_OP
