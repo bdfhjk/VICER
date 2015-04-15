@@ -43,7 +43,7 @@ define([
 		continue;
 
 	    var funcDef = this.astObj.external_declarations[i];
-	    this.preprocessed.prototypes[funcDef.name] = funcDef.declaration;
+	    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
 	}
     };
 

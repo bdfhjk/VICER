@@ -1,7 +1,7 @@
 require("../../prepare-tests.js");
 
-var JisonLex = require('jison-lex');
-var Jison = require('jison');
+// var JisonLex = require('jison-lex');
+// var Jison = require('jison');
 var fs = require('fs');
 
 describe("Complete Integration Test", function() {
@@ -31,6 +31,17 @@ describe("Complete Integration Test", function() {
 
     [
         {
+            description: "just exit with code 42",
+            file: "return-42.c",
+            expected: 42
+
+            /*
+                int main() {
+                    return 42;
+                }
+            */
+        },
+        {
             description: "assign and add to global and local scope",
             file: "global-local-scope.c",
             expected: 5
@@ -47,13 +58,28 @@ describe("Complete Integration Test", function() {
             */
         },
         {
+            description: "return function called without parameters",
+            file: "paramless-function-call.c",
+            expected: 42
+
+            /*
+                int fun() {
+                    return 42;
+                }
+
+                int main() {
+                    return fun();
+                }
+            */
+        },
+        {
             description: "call a function with 2 numbers",
             file: "adder.c",
             expected: 6
 
             /*
                 int add(int a, int b) {
-                    return a+b;
+                    return a + b;
                 }
 
                 int main() {
@@ -61,10 +87,56 @@ describe("Complete Integration Test", function() {
                 }
             */
         },
-	{
-	    description: "calculate 10th fibonacci number using recursion",
-	    file: "fibonacci10th.c",
-	    expected: 55
+        {
+            description: "simple branch true",
+            file: "simple-branch-true.c",
+            expected: 42
+
+            /*
+                int main() {
+                    if (1) 
+                        return 42;
+                    else
+                        return 21;
+                }
+            */
+        },
+        {
+            description: "simple branch false",
+            file: "simple-branch-false.c",
+            expected: 21
+
+            /*
+                int main() {
+                    if (0) 
+                        return 42;
+                    else
+                        return 21;
+                }
+            */
+        },
+        {
+            description: "sum [1..5]",
+            file: "sum1to5.c",
+            expected: 15
+
+            /*
+                int result;
+                int main() {
+                    int i;
+                    i = 0;
+                    result = 0;
+                    while (!(i == 6)) {
+                        result = result + i;
+                        i++;
+                    }
+                }
+            */
+        },
+        {
+            description: "10th Fibonacci",
+            file: "fibonacci10th.c",
+            expected: 55
 
             /*
                 int fib(int n) {
@@ -77,20 +149,6 @@ describe("Complete Integration Test", function() {
 
                 int main() {
                     return fib(10);
-                }
-            */
-	},
-        {
-            description: "String literal",
-            file: "string-literal.c",
-            expected: 33 // char code of '!'
-
-            /*
-                char* hello;
-
-                int main() {
-                    hello = "Hello, world!";
-                    return hello[12];
                 }
             */
         }

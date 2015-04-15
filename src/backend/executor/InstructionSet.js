@@ -3,6 +3,7 @@ define([
     "./FetchInstr",
     "./ReturnInstr",
     "./AddInstr",
+    "./SubInstr",
     "./AssignInstr",
     "./CallInstr",
     "./BranchInstr",
@@ -15,7 +16,7 @@ define([
     "./PaddInstr",
     "./VaEndInstr",
     "./NoopInstr"
-    ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, AssignInstr,
+], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, SubInstr, AssignInstr,
                 CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
                 RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr) {
 
@@ -24,6 +25,7 @@ define([
             "FETCH": FetchInstr,
             "RETURN": ReturnInstr,
             "ADD": AddInstr,
+            "SUB": SubInstr,
             "ASSIGN": AssignInstr,
             "CALL": CallInstr,
             "BRANCH": BranchInstr,

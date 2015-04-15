@@ -14,7 +14,7 @@ define([
 	});
 	var result;
 
-	if(parameters) {
+	if(parameters && parameters.length > 0) {
 	    result = cfgGenerator(parameters[0], options); 
 	    for(var i = 1; i < parameters.length; i++) {
 		result.mergeLeft(cfgGenerator(parameters[i], options));

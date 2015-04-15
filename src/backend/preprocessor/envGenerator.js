@@ -71,13 +71,20 @@ define(function () {
 	}
 
 	if(ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
-	    ast.type = 'ADD';
-	    ast.left = ast.subexp;
 	    if(!constants[1])
 		constants[1] = prefix + '_CONSTANT_' + constantsNum++;
-	    ast.right = {
+	    ast.type = 'ASSIGN';
+	    ast.left = {
 		type: 'INDENTIFIER',
-		value: constants[1]
+		value: ast.subexp.value // must be an identifier
+	    };
+	    ast.right = {
+		type: 'ADD',
+		left: ast.subexp,
+		right: {
+		    type: 'INDENTIFIER',
+		    value: constants[1]
+		}
 	    };
 	    ast.subexp = null;
 	}
