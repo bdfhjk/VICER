@@ -45,7 +45,20 @@
         return array;
     }
 
-    function partial_declaration(name) {
+    function partial_array_declaration(name, size) {
+        empty = {};
+        return {
+            proto: empty,
+            result: {
+                type: "array_declaration",
+                name: name,
+                size: size,
+                tvalue: empty
+            }
+        };
+    }
+    
+    function partial_simple_declaration(name) {
         empty = {};
         return {
             proto: empty,
@@ -93,7 +106,7 @@
             type: "if",
             condition: condition,
             true_body: true_body,
-            false_body: null
+            false_body: false_body
         };
     }
     
@@ -410,15 +423,27 @@ type_specifier
     ;
 
 declarator
-    : direct_declarator
+    : simple_declarator
         { $$ = $1; }
-    | '*' direct_declarator
+    | array_declarator
+        { $$ = $1; }
+    ;
+
+array_declarator
+    : IDENTIFIER '[' CONSTANT ']'
+        { $$ = partial_array_declaration($1, parseInt($3)); }
+    ;
+
+simple_declarator
+    : direct_simple_declarator
+        { $$ = $1; }
+    | '*' direct_simple_declarator
         { $$ = pointer($2); }
     ;
 
-direct_declarator
+direct_simple_declarator
     : IDENTIFIER
-        { $$ = partial_declaration($1); }
+        { $$ = partial_simple_declaration($1); }
     ;
 
 function_declarator
@@ -448,7 +473,7 @@ parameter_nonempty_list
     ;
 
 parameter_declaration
-    : type_specifier declarator /* parameter must be named */
+    : type_specifier simple_declarator /* parameter must be named */
         { $$ = full_declaration($1, $2); }
     ;
 
@@ -536,16 +561,16 @@ translation_unit
 
 external_declaration_list
     : external_declaration
-        { $$ = [$1]; }
+        { $$ = $1; }
     | external_declaration_list external_declaration
-        { $$ = push_elem($1, $2); }
+        { $$ = $1.concat($2); }
     ;
 
 external_declaration
     : function_definition
-        { $$ = $1; }
+        { $$ = [$1]; }
     | function_declaration
-        { $$ = $1; }
+        { $$ = [$1]; }
     | declaration
         { $$ = $1; }
     ;
