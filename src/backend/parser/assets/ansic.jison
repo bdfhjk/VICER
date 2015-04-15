@@ -484,9 +484,9 @@ compound_statement
 
 declaration_list
     : declaration
-        { $$ = [$1]; }
+        { $$ = $1; }
     | declaration_list declaration
-        { $$ = push_elem($1, $2); }
+        { $$ = $1.concat($2); }
     ;
 
 statement_list
