@@ -5,7 +5,7 @@
     }
 
     function print(obj) {
-        // console.log(JSON.stringify(obj, null, 4));
+//        console.log(JSON.stringify(obj, null, 4));
     }
 
     function pointer(declarator) {
@@ -412,29 +412,25 @@ type_specifier
 declarator
     : direct_declarator
         { $$ = $1; }
-    | '*' declarator
+    | '*' direct_declarator
         { $$ = pointer($2); }
     ;
 
 direct_declarator
     : IDENTIFIER
         { $$ = partial_declaration($1); }
-    | '(' declarator ')'
-        { $$ = $2; }
     ;
 
 function_declarator
     : direct_function_declarator
         { $$ = $1; }
-    | '*' function_declarator
+    | '*' direct_function_declarator
         { $$ = pointer($2); }
     ;
 
 direct_function_declarator
     : IDENTIFIER '(' parameter_list ')'
         { $$ = partial_function_declaration($1, $3); }
-    | '(' function_declarator ')'
-        { $$ = $2; }
     ;
 
 parameter_list
