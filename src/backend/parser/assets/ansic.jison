@@ -5,7 +5,21 @@
     }
 
     function print(obj) {
-//        console.log(JSON.stringify(obj, null, 4));
+        //console.log(JSON.stringify(obj, null, 4));
+    }
+
+    function parse_int(string) {
+        radix = 10;
+        if (string.length >= 2 && string.charAt(0) == "0") {
+            if (string.charAt(1) == "x" || string.charAt(1) == "X") {
+                string = string.substring(2);
+                radix = 16;
+            } else {
+                string = string.substring(1);
+                radix = 8;
+            }
+        }
+        return parseInt(string, radix);
     }
 
     function pointer(declarator) {
@@ -221,7 +235,7 @@ primary_expression
     : IDENTIFIER
         { $$ = nullexp("INDENTIFIER", $1); }
     | CONSTANT
-        { $$ = nullexp("CONSTANT", parseInt($1)); }
+        { $$ = nullexp("CONSTANT", parse_int($1)); }
     | STRING_LITERAL
         { $$ = nullexp("STRING_LITERAL", $1); }
     | '(' expression ')'
@@ -367,7 +381,7 @@ conditional_expression
     : logical_or_expression
         { $$ = $1; }
     | logical_or_expression '?' expression ':' conditional_expression
-        { $$ = conditional_expression($1, $3, $5); }
+        { $$ = conditional_exp($1, $3, $5); }
     ;
 
 assignment_expression
@@ -431,7 +445,7 @@ declarator
 
 array_declarator
     : IDENTIFIER '[' CONSTANT ']'
-        { $$ = partial_array_declaration($1, parseInt($3)); }
+        { $$ = partial_array_declaration($1, parse_int($3)); }
     ;
 
 simple_declarator
