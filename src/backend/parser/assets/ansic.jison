@@ -9,7 +9,7 @@
     }
 
     function parse_int(string) {
-        radix = 10;
+        var radix = 10;
         if (string.length >= 2 && string.charAt(0) == "0") {
             if (string.charAt(1) == "x" || string.charAt(1) == "X") {
                 string = string.substring(2);
