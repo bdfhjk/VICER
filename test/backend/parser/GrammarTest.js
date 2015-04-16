@@ -1,3 +1,5 @@
+"use strict";
+
 require("../../prepare-tests.js");
 
 var JisonLex = require('jison-lex');
@@ -137,15 +139,13 @@ describe("Parser Grammar", function() {
             }
             
             if (testCase.expected === "ok") {
-                ast_json = fs.readFileSync(__dirname + "/assets/ast/" + testCase.file + ".ast", 'utf-8');
-                ast = JSON.parse(ast_json);
+                var astJson = fs.readFileSync(__dirname + "/assets/ast/" + testCase.file + ".ast", 'utf-8');
+                var ast = JSON.parse(astJson);
 
-                result_json = JSON.stringify(result, null, 4);
-                ast_json = JSON.stringify(ast, null, 4);
+                var actualJsonString = JSON.stringify(result, null, 4);
+                var expectedJsonString = JSON.stringify(ast, null, 4);
 
-//                console.log(result_json);
-//                console.log(ast_json);
-                expect(result_json).to.equal(ast_json);
+                expect(expectedJsonString).to.equal(actualJsonString);
             } else {
                 expect(result).to.not.equal(true);
             }
