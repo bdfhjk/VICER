@@ -23,7 +23,7 @@
     }
 
     function pointer(declarator) {
-        empty = {};
+        var empty = {};
         extend(declarator.proto, {
             type: "pointer",
             tvalue: empty
@@ -60,7 +60,7 @@
     }
 
     function partial_array_declaration(name, size) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
@@ -73,7 +73,7 @@
     }
     
     function partial_simple_declaration(name) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
@@ -85,7 +85,7 @@
     }
 
     function partial_function_declaration(name, parameters) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
