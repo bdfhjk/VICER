@@ -1,5 +1,3 @@
-"use strict";
-
 require("../../prepare-tests.js");
 
 var JisonLex = require('jison-lex');
