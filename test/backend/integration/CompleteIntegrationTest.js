@@ -1,5 +1,7 @@
 require("../../prepare-tests.js");
 
+var JisonLex = require('jison-lex');
+var Jison = require('jison');
 var fs = require('fs');
 
 describe("Complete Integration Test", function() {

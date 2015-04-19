@@ -8,12 +8,16 @@ describe("Parser Grammar", function() {
 
     var parser;
 
-    before(function() {
+    before(function(done) {
+	this.timeout(5000);
+
         var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
         var lexerSource = JisonLex.generate(lexerGrammar);
         var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
         parser = new Jison.Parser(parserGrammar);
         parser.lexer = new JisonLex(lexerGrammar);
+
+	done();
     });
 
     [
