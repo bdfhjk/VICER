@@ -20,27 +20,32 @@ describe("Parser Grammar", function() {
         // good
         {
             description: "Hello World",
-            file: "hello_world.c",
+            file: "hello_world",
             expected: "ok"
         },
 /*        {
             description: "Advanced global structs",
             file: "advanced_global_structs.c",
             expected: "ok"
-        },
+        },*/
         {
             description: "Expressions",
-            file: "expressions.c",
+            file: "expressions",
             expected: "ok"
-        }, */
+        }, 
         {
             description: "Simple for",
-            file: "simple_for.c",
+            file: "simple_for",
             expected: "ok"
         },
         {
             description: "Simple if",
-            file: "simple_if.c",
+            file: "simple_if",
+            expected: "ok"
+        },
+        {
+            description: "Simple arrays",
+            file: "simple_arrays",
             expected: "ok"
         },
 /*        {
@@ -55,7 +60,7 @@ describe("Parser Grammar", function() {
         },*/
         {
             description: "Simple while loop",
-            file: "simple_while.c",
+            file: "simple_while",
             expected: "ok"
         },
 /*        {
@@ -70,39 +75,75 @@ describe("Parser Grammar", function() {
         }, */
         {
             description: "Two functions",
-            file: "two_functions.c",
+            file: "two_functions",
             expected: "ok"
         },
 
         // bad
         {
             description: "Bad - Hello World",
-            file: "bad_hello_world.c",
+            file: "bad_hello_world",
             expected: "error"
         },
         {
             description: "Bad - Forgot struct keyword",
-            file: "bad_forgot_struct_keyword.c",
+            file: "bad_forgot_struct_keyword",
             expected: "error"
         },
         {
             description: "Bad - Nested functions",
-            file: "bad_nested_functions.c",
+            file: "bad_nested_functions",
             expected: "error"
-        }
+        },
+        {
+            description: "No nested pointers",
+            file: "no_nested_pointers",
+            expected: "error"
+        },
+        {
+            description: "No function pointers",
+            file: "no_function_pointers",
+            expected: "error"
+        },
+        {
+            description: "No function parameters",
+            file: "no_function_parameters",
+            expected: "error"
+        },
+        {
+            description: "No array parameters",
+            file: "no_array_parameters",
+            expected: "error"
+        },
+        {
+            description: "No pointer arrays",
+            file: "no_pointer_arrays",
+            expected: "error"
+        },
+        {
+            description: "No 2D arrays",
+            file: "no_2Darrays",
+            expected: "error"
+        },
     ]
     .map(function(testCase) {
         it (testCase.description, function() {
-            var asset = fs.readFileSync(__dirname + "/assets/" + testCase.file, 'utf-8');
+            var program = fs.readFileSync(__dirname + "/assets/programs/" + testCase.file + ".c", 'utf-8');
             var result;
             try {
-                result = parser.parse(asset);
+                result = parser.parse(program);
             } catch (e) {
                 result = e;
             }
             
             if (testCase.expected === "ok") {
-                expect(result).to.have.property("type");
+                var astJson = fs.readFileSync(__dirname + "/assets/ast/" + testCase.file + ".ast", 'utf-8');
+                var ast = JSON.parse(astJson);
+
+                var actualJsonString = JSON.stringify(result, null, 4);
+                var expectedJsonString = JSON.stringify(ast, null, 4);
+
+                expect(expectedJsonString).to.equal(actualJsonString);
             } else {
                 expect(result).to.not.equal(true);
             }

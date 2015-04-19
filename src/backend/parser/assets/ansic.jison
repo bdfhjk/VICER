@@ -5,11 +5,25 @@
     }
 
     function print(obj) {
-//        console.log(JSON.stringify(obj, null, 4));
+        //console.log(JSON.stringify(obj, null, 4));
+    }
+
+    function parse_int(string) {
+        var radix = 10;
+        if (string.length >= 2 && string.charAt(0) == "0") {
+            if (string.charAt(1) == "x" || string.charAt(1) == "X") {
+                string = string.substring(2);
+                radix = 16;
+            } else {
+                string = string.substring(1);
+                radix = 8;
+            }
+        }
+        return parseInt(string, radix);
     }
 
     function pointer(declarator) {
-        empty = {};
+        var empty = {};
         extend(declarator.proto, {
             type: "pointer",
             tvalue: empty
@@ -46,7 +60,7 @@
     }
 
     function partial_array_declaration(name, size) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
@@ -59,7 +73,7 @@
     }
     
     function partial_simple_declaration(name) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
@@ -71,7 +85,7 @@
     }
 
     function partial_function_declaration(name, parameters) {
-        empty = {};
+        var empty = {};
         return {
             proto: empty,
             result: {
@@ -221,7 +235,7 @@ primary_expression
     : IDENTIFIER
         { $$ = nullexp("INDENTIFIER", $1); }
     | CONSTANT
-        { $$ = nullexp("CONSTANT", parseInt($1)); }
+        { $$ = nullexp("CONSTANT", parse_int($1)); }
     | STRING_LITERAL
         { $$ = nullexp("STRING_LITERAL", $1); }
     | '(' expression ')'
@@ -235,6 +249,8 @@ postfix_expression
         { $$ = function_call($1, []); }
     | IDENTIFIER '(' argument_expression_list ')'
         { $$ = function_call($1, $3); }
+    | postfix_expression '[' expression ']'
+        { $$ = bexp("SUBSCRIPT", $1, $3); }
     | postfix_expression INC_OP
         { $$ = uexp("POST_INC", $1); }
     | postfix_expression DEC_OP
@@ -367,7 +383,7 @@ conditional_expression
     : logical_or_expression
         { $$ = $1; }
     | logical_or_expression '?' expression ':' conditional_expression
-        { $$ = conditional_expression($1, $3, $5); }
+        { $$ = conditional_exp($1, $3, $5); }
     ;
 
 assignment_expression
@@ -431,7 +447,7 @@ declarator
 
 array_declarator
     : IDENTIFIER '[' CONSTANT ']'
-        { $$ = partial_array_declaration($1, parseInt($3)); }
+        { $$ = partial_array_declaration($1, parse_int($3)); }
     ;
 
 simple_declarator

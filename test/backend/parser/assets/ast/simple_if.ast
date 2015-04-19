@@ -1,0 +1,92 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "weird_pow",
+                "param_tvalues": [
+                    {
+                        "type": "concrete_type",
+                        "name": "int"
+                    }
+                ],
+                "param_names": [
+                    "n"
+                ],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": [
+                    {
+                        "type": "if",
+                        "condition": {
+                            "type": "AND",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "n"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 1
+                            }
+                        },
+                        "true_body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "return",
+                                    "rexpression": {
+                                        "type": "MUL",
+                                        "left": {
+                                            "type": "INDENTIFIER",
+                                            "value": "n"
+                                        },
+                                        "right": {
+                                            "type": "INDENTIFIER",
+                                            "value": "n"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "false_body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "return",
+                                    "rexpression": {
+                                        "type": "MUL",
+                                        "left": {
+                                            "type": "MUL",
+                                            "left": {
+                                                "type": "INDENTIFIER",
+                                                "value": "n"
+                                            },
+                                            "right": {
+                                                "type": "INDENTIFIER",
+                                                "value": "n"
+                                            }
+                                        },
+                                        "right": {
+                                            "type": "INDENTIFIER",
+                                            "value": "n"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

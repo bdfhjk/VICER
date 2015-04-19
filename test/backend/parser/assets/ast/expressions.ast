@@ -1,0 +1,712 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "expressions_by_priority",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": [
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "INDENTIFIER",
+                            "value": "identifier"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CONSTANT",
+                            "value": 4324235
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CONSTANT",
+                            "value": 7756
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CONSTANT",
+                            "value": 316
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "STRING_LITERAL",
+                            "value": "\"a word\""
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "INDENTIFIER",
+                            "value": "expression"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "FUNCTION_CALL",
+                            "name": "function",
+                            "parameters": [
+                                {
+                                    "type": "INDENTIFIER",
+                                    "value": "arg1"
+                                },
+                                {
+                                    "type": "INDENTIFIER",
+                                    "value": "arg2"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "SUBSCRIPT",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "tab"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "index"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "POST_INC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "lvalue"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "POST_DEC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "lvalue"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "PRE_INC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "lvalue"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "PRE_DEC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "lvalue"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_&",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "lvalue"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_*",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_+",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_-",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_~",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "UNARYOP_!",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "integer_or_pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "MUL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "DIV",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "MOD",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ADD",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "SUB",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "SUB",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LEFT",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "RIGHT",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LESS",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "GREATER",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LESS_EQUAL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "GREATER_EQUAL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LESS",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "GREATER",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LESS_EQUAL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "GREATER_EQUAL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "pointer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "EQ",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "NE",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "AND",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "XOR",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "OR",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LOGICAL_AND",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LOGICAL_OR",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CONDITIONAL_EXP",
+                            "condition": {
+                                "type": "INDENTIFIER",
+                                "value": "num_or_ptr"
+                            },
+                            "true_exp": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            },
+                            "false_exp": {
+                                "type": "INDENTIFIER",
+                                "value": "one_of_above_expr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "*=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "/=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "%=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "+=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "-=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "LEFT",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": ">>=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "&=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "^=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "|=",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "b"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "COMMA",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "expr"
+                            }
+                        }
+                    },
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "CONSTANT",
+                            "value": 0
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
