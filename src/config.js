@@ -20,6 +20,7 @@ requirejs.config({
         { name: 'mod_stdlib', location: 'backend/stdlib', main: 'index'},
         { name: 'mod_data_structures', location: 'backend/data_structures', main: 'index'},
         { name: 'mod_parser', location: 'backend/parser', main: 'index'},
+	{ name: 'mod_preprocessor', location: 'backend/preprocessor', main: 'index'},
 
         { name: 'backend', location: 'backend', main: 'index'},
         { name: 'code_input', location: 'frontend/code_input', main: 'index'},
