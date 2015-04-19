@@ -7,7 +7,7 @@ define([
 	var left = cfgGenerator(paramNode.left, options);
 	var right = cfgGenerator(paramNode.right, options);
 
-	var lessInstr = new Cfg({
+	var lessInstr = new Cfg ({
 	    type: 'LESS'
 	});
 

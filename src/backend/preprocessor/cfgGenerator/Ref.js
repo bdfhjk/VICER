@@ -6,7 +6,7 @@ define([
     function Ref(paramNode, options) {
 	var location = cfgGenerator(paramNode.expression, options);
 
-	var refInstr = new Cfg({
+	var refInstr = new Cfg ({
 	    type: 'REF'
 	});
 

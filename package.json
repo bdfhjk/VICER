@@ -24,10 +24,10 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express-server": "^0.4.19",
     "grunt-mocha-test": "^0.12.7",
+    "lodash": "^3.6.0",
     "mocha": "^2.1.0",
     "requirejs": "^2.1.16",
-    "sinon": "^1.12.2",
-    "underscore": "^1.8.3"
+    "sinon": "^1.12.2"
   },
   "devDependencies": {
     "grunt-contrib-copy": "^0.7.0",

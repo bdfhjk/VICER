@@ -4,7 +4,7 @@ define([
     var cfgGenerator;
     
     function Continue(paramNode) {
-	var continuePlaceholder = new Cfg({
+	var continuePlaceholder = new Cfg ({
 	    type: 'CONTINUE'
 	});
 

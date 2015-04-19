@@ -1,6 +1,4 @@
-define(function () {
-    var _ = require('underscore');
-    
+define(['lodash'], function (_) {
     var blocks, env, constants, constantsNum;
 
     var nonBlockEdges = [
@@ -33,7 +31,7 @@ define(function () {
 	var astParameters = ast.declaration.param_names;
 
 	// add parameters to substitution, and add them to env
-	for(var i = 0; i < astParameters.length; i++) {
+	for (var i = 0; i < astParameters.length; i++) {
 	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER_' + astParameters[i];
 	    env[nameDict[astParameters[i]]] = ast.declaration.param_tvalues[i].name;
 	}
@@ -55,24 +53,27 @@ define(function () {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IDENTIFIER, substitute variable if not global and die
-	if(ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
+	if (ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
 	    ast.value = nameDict[ast.value];
-	    if(env[ast.value].isPointer)
+	    if (env[ast.value].isPointer) {
 		ast.isPointer = true;
+	    }
 	}
 
 	// substitute constants with implicit casts
-	if(ast.type === 'CONSTANT') {
+	if (ast.type === 'CONSTANT') {
 	    ast.type = 'INDENTIFIER';
-	    if(!constants[ast.value])
+	    if (!constants[ast.value]) {
 		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
+	    }
 	    ast.value = constants[ast.value];
 	    return;
 	}
 
-	if(ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
-	    if(!constants[1])
+	if (ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
+	    if (!constants[1]) {
 		constants[1] = prefix + '_CONSTANT_' + constantsNum++;
+	    }
 	    ast.type = 'ASSIGN';
 	    ast.left = {
 		type: 'INDENTIFIER',
@@ -90,21 +91,22 @@ define(function () {
 	}
 
 	// if is compound_statement, visit declarations
-	if(ast.declarations) {
-	    for(var i = 0; i < ast.declarations.length; i++) {
-		if(ast.declarations[i].type !== 'declaration')
+	if (ast.declarations) {
+	    for (var i = 0; i < ast.declarations.length; i++) {
+		if (ast.declarations[i].type !== 'declaration') {
 		    continue;
+		}
 		var varName = ast.declarations[i].name;
 		var newVarName = prefix + '_' + varName;
 		nameDict[varName] = newVarName;
 
 		var tvalue = ast.declarations[i].tvalue;
 		var varEntry;
-		if(tvalue.type === 'concrete_type') {
+		if (tvalue.type === 'concrete_type') {
 		    varEntry = {
 			type: tvalue.name
 		    };
-		} else if(tvalue.type === 'pointer') {
+		} else if (tvalue.type === 'pointer') {
 		    varEntry = {
 			type: 'pointer',
 			of: tvalue.tvalue.name // make it recursive
@@ -115,12 +117,13 @@ define(function () {
 	}
 
 	// visit non-block nodes - except blocks
-	for(var nonB = 0; nonB < nonBlockEdges.length; nonB++) {
+	for (var nonB = 0; nonB < nonBlockEdges.length; nonB++) {
 	    var nonBlockEdge = nonBlockEdges[nonB];
-	    if(!ast[nonBlockEdge])
+	    if (!ast[nonBlockEdge]) {
 		continue;
-	    if(Array.isArray(ast[nonBlockEdge])) {
-		for(var l = 0; l < ast[nonBlockEdge].length; l++)
+	    }
+	    if (Array.isArray(ast[nonBlockEdge])) {
+		for (var l = 0; l < ast[nonBlockEdge].length; l++)
 		    visitAst(ast[nonBlockEdge][l], nameDict, prefix);
 	    } else
 		visitAst(ast[nonBlockEdge], nameDict, prefix);
@@ -128,11 +131,12 @@ define(function () {
 
 	// visit block nodes
 	blocks = 0;
-	for(var b = 0; b < blockEdges.length; b++) {
+	for (var b = 0; b < blockEdges.length; b++) {
 	    var blockEdge = blockEdges[b];
-	    if(!ast[blockEdge])
+	    if (!ast[blockEdge]) {
 		continue;
-	    for(var k = 0; k < ast[blockEdge].length; k++) {
+	    }
+	    for (var k = 0; k < ast[blockEdge].length; k++) {
 		var newPrefix = prefix + '_' + ast.type + blocks++;
 		visitAst(ast[blockEdge][k], nameDict, newPrefix);
 	    }

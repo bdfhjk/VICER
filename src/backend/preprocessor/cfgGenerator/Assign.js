@@ -1,14 +1,14 @@
 define([
+    'lodash',
     '../Cfg'
-], function (Cfg) {
-    var _ = require('underscore');
+], function (_, Cfg) {
     var cfgGenerator;
     
     function Assign(paramNode, options) {
 	var lvalue = cfgGenerator(paramNode.left, _.extend(_.clone(options), { wantLocation: true }));
 	var rvalue = cfgGenerator(paramNode.right, options);
 
-	var assignInstr = new Cfg({
+	var assignInstr = new Cfg ({
 	    type: 'ASSIGN'
 	});
 

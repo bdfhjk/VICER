@@ -4,7 +4,7 @@ define([
     var cfgGenerator;
     
     function Break(paramNode) {
-	var breakPlaceholder = new Cfg({
+	var breakPlaceholder = new Cfg ({
 	    type: 'BREAK'
 	});
 

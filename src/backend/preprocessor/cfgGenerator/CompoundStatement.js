@@ -4,9 +4,11 @@ define([
     var cfgGenerator;
     
     function CompoundStatement(paramNode, options) {
-	var result = cfgGenerator(paramNode.statements[0], options);
-	for(var i = 1; i < paramNode.statements.length; i++)
+	var firstStatement = paramNode.statements[0];
+	var result = cfgGenerator(firstStatement, options);
+	for (var i = 1; i < paramNode.statements.length; i++) {
 	    result.mergeLeft(cfgGenerator(paramNode.statements[i], options));
+	}
 
 	return result;
     }

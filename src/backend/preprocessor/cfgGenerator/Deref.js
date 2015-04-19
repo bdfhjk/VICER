@@ -6,7 +6,7 @@ define([
     function Deref(paramNode, options) {
 	var location = cfgGenerator(paramNode.expression, options);
 
-	var derefInstr = new Cfg({
+	var derefInstr = new Cfg ({
 	    type: 'DEREF'
 	});
 

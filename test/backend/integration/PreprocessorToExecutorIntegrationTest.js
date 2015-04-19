@@ -82,9 +82,6 @@ describe("PreprocessorToExecutorIntegrationTest", function() {
             var asset = require("./assets/" + testCase.file);
 	    var astToCfg = Preprocessor.createAstToCfg(asset);
 	    var cfgAndVars = astToCfg.convert();
-	    console.log('+-=-==-=-=-+');
-	    console.log(JSON.stringify(cfgAndVars, null, 2));
-	    console.log('+-=-==-=-=-+');
             var proc = Executor.createProcess(cfgAndVars.global, cfgAndVars.functions, cfgAndVars.values);
             expect(Executor.finish(proc)).to.equal(testCase.expected);
         });

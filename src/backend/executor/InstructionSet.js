@@ -38,7 +38,7 @@ define([
             "PADD": createPointerOp("PADD"),
             "PSUB": createPointerOp("PSUB"),
             "VAEND": VaEndInstr,
-	    "NOOP": NoopInstr
+            "NOOP": NoopInstr
         };
         
 });

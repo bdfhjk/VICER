@@ -8,29 +8,30 @@ define([
 	var isVariadic = options && options.prototypes[functionName].isVariadic;
 	var parameters = paramNode.parameters;
 
-	var resolveInstr = new Cfg({
+	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
 	    param: functionName
 	});
 	var result;
 
-	if(parameters && parameters.length > 0) {
-	    result = cfgGenerator(parameters[0], options); 
-	    for(var i = 1; i < parameters.length; i++) {
+	if (parameters && parameters.length > 0) {
+	    var firstParameter = parameters[0];
+	    result = cfgGenerator(firstParameter, options); 
+	    for (var i = 1; i < parameters.length; i++) {
 		result.mergeLeft(cfgGenerator(parameters[i], options));
 	    }
 	    result.mergeLeft(resolveInstr);
 	} else
 	    result = resolveInstr;
 
-	var callInstr = new Cfg({
+	var callInstr = new Cfg ({
 	    type: 'CALL'
 	});
 
 	result.mergeLeft(callInstr);
 
-	if(isVariadic) {
-	    var vaendInstr = new Cfg({
+	if (isVariadic) {
+	    var vaendInstr = new Cfg ({
 		type: 'VAEND'
 	    });
 

@@ -7,10 +7,10 @@ define([
 	var left = cfgGenerator(paramNode.left, options);
 	var right = cfgGenerator(paramNode.right, options);
 
-	var notInstr = new Cfg({
+	var notInstr = new Cfg ({
 	    type: 'NOT'
 	});
-	var leqInstr = new Cfg({
+	var leqInstr = new Cfg ({
 	    type: 'LEQ'
 	});
 

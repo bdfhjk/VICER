@@ -5,10 +5,11 @@ define([
     
     function Return(paramNode) {
 	var cfgFromParam = cfgGenerator(paramNode.rexpression);
-	if(!cfgFromParam)
+	if (!cfgFromParam) {
 	    throw new Error('Something occured during processing node ' + paramNode);
+	}
 
-	var returnInstr = new Cfg({
+	var returnInstr = new Cfg ({
 	    type: 'RETURN'
 	});
 

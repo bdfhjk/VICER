@@ -1,24 +1,24 @@
 define([
+    'lodash',
     '../Cfg'
-], function (Cfg) {
-    var _ = require('underscore');
+], function (_, Cfg) {
     var cfgGenerator;
     
     function ArrayVal(paramNode, options) {
 	var index = cfgGenerator(paramNode.index, _.extend(_.clone(options), { wantLocation: false }));
 	var name = paramNode.name;
 
-	var resolveInstr = new Cfg({
+	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
 	    param: name
 	});
-	var fetchInstr = new Cfg({
+	var fetchInstr = new Cfg ({
 	    type: 'FETCH'
 	});
-	var paddInstr = new Cfg({
+	var paddInstr = new Cfg ({
 	    type: 'PADD'
 	});
-	var derefInstr = new Cfg({
+	var derefInstr = new Cfg ({
 	    type: 'DEREF'
 	});
 
@@ -28,8 +28,8 @@ define([
 	result.mergeLeft(paddInstr);
 	result.mergeLeft(derefInstr);
 
-	if(!options || !options.wantLocation) {
-	    var fetchInstrBis = new Cfg({
+	if (!options || !options.wantLocation) {
+	    var fetchInstrBis = new Cfg ({
 		type: 'FETCH'
 	    });
 

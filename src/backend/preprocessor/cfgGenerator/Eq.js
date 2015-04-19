@@ -7,7 +7,7 @@ define([
 	var left = cfgGenerator(paramNode.left, options);
 	var right = cfgGenerator(paramNode.right, options);
 
-	var eqInstr = new Cfg({
+	var eqInstr = new Cfg ({
 	    type: 'EQ',
 	});
 

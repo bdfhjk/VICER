@@ -1,12 +1,19 @@
 define(function () {
     var ID_LENGTH = 16;
+    var ids = {};
 
     function randomString(length) {
 	return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
     }
 
     function generateUniqueId() {
-	return randomString(ID_LENGTH);
+	var generatedId;
+	do {
+	    generatedId = randomString(ID_LENGTH);
+	} while(ids[generatedId]);
+
+	ids[generatedId] = true;
+	return generatedId;
     }
 
     function Cfg(singleton) {
@@ -21,7 +28,7 @@ define(function () {
     Cfg.prototype.mergeRight = function mergeRight(cfg) {
 	// check if IDs are really unique?
 
-	for(var nodeId in cfg.graph) {
+	for (var nodeId in cfg.graph) {
 	    this.graph[nodeId] = cfg.graph[nodeId];
 	}
 
@@ -32,7 +39,7 @@ define(function () {
     Cfg.prototype.mergeLeft = function mergeLeft(cfg) {
 	// check if IDs are really unique?
 
-	for(var nodeId in cfg.graph) {
+	for (var nodeId in cfg.graph) {
 	    this.graph[nodeId] = cfg.graph[nodeId];
 	}
 
@@ -41,10 +48,10 @@ define(function () {
     };
 
     Cfg.prototype.mergeTwoLeft = function mergeTwoLeft(cfgLeft, cfgRight) {
-	for(var nodeIdL in cfgLeft.graph) {
+	for (var nodeIdL in cfgLeft.graph) {
 	    this.graph[nodeIdL] = cfgLeft.graph[nodeIdL];
 	}
-	for(var nodeIdR in cfgRight.graph) {
+	for (var nodeIdR in cfgRight.graph) {
 	    this.graph[nodeIdR] = cfgRight.graph[nodeIdR];
 	}
 

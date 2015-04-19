@@ -5,7 +5,7 @@ define([
     
     function Not(paramNode, options) {
 	var value = cfgGenerator(paramNode.subexp, options);
-	var notInstr = new Cfg({
+	var notInstr = new Cfg ({
 	    type: 'NOT'
 	});
 

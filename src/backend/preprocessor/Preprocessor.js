@@ -1,9 +1,8 @@
 define([
+    'lodash',
     './cfgGenerator',
     './envGenerator'
-], function(cfgGenerator, envGenerator) {
-
-    var _ = require('underscore');
+], function(_, cfgGenerator, envGenerator) {
 
     function AstToCfg(_astObj) {
 	this.astObj = _astObj;
@@ -13,18 +12,19 @@ define([
     AstToCfg.prototype.retrieveGlobals = function retrieveGlobals() {
 	// retrieve globals
 	this.preprocessed.global = {};
-	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if(this.astObj.external_declarations[i].type !== "declaration")
+	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if (this.astObj.external_declarations[i].type !== "declaration") {
 		continue;
+	    }
 	    var varDef = this.astObj.external_declarations[i];
 	    // duplicate code, extract it
 	    var tvalue = varDef.tvalue;
 	    var varEntry;
-	    if(tvalue.type === 'concrete_type') {
+	    if (tvalue.type === 'concrete_type') {
 		varEntry = {
 		    type: tvalue.name
 		};
-	    } else if(tvalue.type === 'pointer') {
+	    } else if (tvalue.type === 'pointer') {
 		varEntry = {
 		    type: 'pointer',
 		    of: tvalue.tvalue.name // make it recursive
@@ -38,9 +38,10 @@ define([
     AstToCfg.prototype.collectPrototypes = function collectPrototypes() {
 	this.preprocessed.prototypes = {};
 
-	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if(this.astObj.external_declarations[i].type !== 'function_definition')
+	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if (this.astObj.external_declarations[i].type !== 'function_definition') {
 		continue;
+	    }
 
 	    var funcDef = this.astObj.external_declarations[i];
 	    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
@@ -51,21 +52,23 @@ define([
 	// generate functions
 	this.preprocessed.functions = {};
 	this.preprocessed.values = {};
-	for(var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if(this.astObj.external_declarations[i].type !== "function_definition")
+	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if (this.astObj.external_declarations[i].type !== "function_definition") {
 		continue;
+	    }
 	    var funcDef = this.astObj.external_declarations[i];
 	    var funcDecl = funcDef.declaration;
 	    
 	    var args = [];
-	    for(var j = 0; j < funcDecl.param_names.length; j++)
+	    for (var j = 0; j < funcDecl.param_names.length; j++) {
 		args.push(funcDecl.name + '_PARAMETER_' + funcDecl.param_names[j]);
+	    }
 
 	    var envAndValues = envGenerator(funcDef);
 	    var env = envAndValues.env;
 	    var values = {};
-	    for(var val in envAndValues.constants) {
-		values[envAndValues.constants[val]] = isNaN(val) ? val : Number.parseInt(val); // replace it with smarter check maybe?
+	    for (var val in envAndValues.constants) {
+		values[envAndValues.constants[val]] = isNaN(val) ? val : Number(val); // replace it with smarter check maybe?
 	    }
 
 	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes });
@@ -76,9 +79,10 @@ define([
 	    cfg[0] = cfg[firstId];
 	    cfg[firstId] = undefined; // will delete erase both?
 	    
-	    for(var l in cfg.graph) {
-		if(cfg[l].next == firstId)
+	    for (var l in cfg.graph) {
+		if (cfg[l].next == firstId) {
 		    cfg[l].next = 0;
+		}
 	    }
 
 	    var functionDesc = {

@@ -7,7 +7,7 @@ define([
 	var left = cfgGenerator(paramNode.left, options);
 	var right = cfgGenerator(paramNode.right, options);
 
-	var geqInstr = new Cfg({
+	var geqInstr = new Cfg ({
 	    type: 'GEQ'
 	});
 
