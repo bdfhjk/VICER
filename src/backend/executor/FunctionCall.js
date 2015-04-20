@@ -32,8 +32,21 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
         proc.callStack.push(execContext);
     }
 
+    function returnFromCall(proc, value) {
+        proc.callStack.pop();
+        if (proc.callStack.length > 0) {
+            if (typeof value !== "undefined") {
+                proc.getCurrentContext().push(value);
+            }
+        } else {
+            proc.finished = true;
+            proc.exitCode = value || 0;
+        }
+    }
+ 
     return {
         callFunctionByName: callFunctionByName,
         callFunction: callFunction,
+        returnFromCall: returnFromCall
     };
 });

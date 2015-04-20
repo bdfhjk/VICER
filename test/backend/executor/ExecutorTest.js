@@ -25,6 +25,17 @@ describe("Executor", function() {
             */
         },
         {
+            description: "no return statement",
+            file: "noreturn.json",
+            expected: 0
+
+            /*
+                int main() {
+
+                }
+            */
+        },
+        {
             description: "assign and add to global and local scope",
             file: "global-local-scope.json",
             expected: 5
@@ -219,7 +230,7 @@ describe("Executor", function() {
             
             var asset = require("./assets/" + testCase.file);
             var proc = Executor.createProcess(asset.global, asset.functions, asset.values, world);
-            if (testCase.expected) {
+            if (typeof testCase.expected === "number") {
                 expect(Executor.finish(proc)).to.equal(testCase.expected);
                 done();
             } else if (testCase.expected_printf) {

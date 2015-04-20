@@ -8,15 +8,20 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
     var callFunctionByName = functionCall.callFunctionByName;
 
     function executeNext(process) {
-        var top = process.callStack[process.callStack.length - 1];
+        var top = process.getCurrentContext();
         if (!top) {
             return false;
         }
-        var currentInstr = top.next || top.cfg;
+        var currentInstr = top.next;
         if (DEBUG.VM_INSTRUCTIONS)
             console.log(currentInstr.toString());
-        top.next = currentInstr.invoke(top, process) || currentInstr.next;
-        return true;
+        if (currentInstr)
+            top.next = currentInstr.invoke(top, process) || currentInstr.next;
+        if (top.result || !top.next) {
+            var result = top.result ? top.result.returnValue : undefined;
+            functionCall.returnFromCall(process, result);
+        }
+        return !process.finished;
     }
 
     function finish(process) {
