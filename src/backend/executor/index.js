@@ -1,4 +1,4 @@
-define(["when"], function(when) {
+define(["./Executor", "when"], function(executor, when) {
 
     function processNext(process) {
         // CHANGED_VARIABLE = variableName, value
@@ -17,7 +17,9 @@ define(["when"], function(when) {
     }
 
     return {
-        processNext: processNext
+        executeNext: executor.executeNext,
+        createProcess: executor.createProcess,
+        finish: executor.finish
     };
 
 });

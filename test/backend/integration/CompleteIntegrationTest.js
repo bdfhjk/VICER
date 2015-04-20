@@ -25,6 +25,29 @@ describe("Complete Integration Test", function() {
 
     [
         {
+            description: "an empty program",
+            file: "empty.c",
+            expected: 0
+
+            /*
+                int main(void) {
+                    
+                }
+            */
+        },
+        {
+            description: "a program with an empty block",
+            file: "empty-block.c",
+            expected: 0
+
+            /*
+                int main(void) {
+                    { }
+                    return 0;
+                }
+            */
+        },
+        {
             description: "just exit with code 42",
             file: "return-42.c",
             expected: 42
@@ -32,6 +55,17 @@ describe("Complete Integration Test", function() {
             /*
                 int main() {
                     return 42;
+                }
+            */
+        },
+        {
+            description: "just exit with code -42",
+            file: "negative-integer.c",
+            expected: -42
+
+            /*
+                int main(void) {
+                    return -42;
                 }
             */
         },
@@ -121,6 +155,24 @@ describe("Complete Integration Test", function() {
                     i = 0;
                     result = 0;
                     while (!(i == 6)) {
+                        result = result + i;
+                        i++;
+                    }
+                }
+            */
+        },
+        {
+            description: "sum [1..5] in a for loop",
+            file: "sum1to5-forloop.c",
+            expected: 15
+
+            /*
+                int result;
+                int main() {
+                    int i;
+                    i = 0;
+                    result = 0;
+                    while (i = 1; i < 6; i++) {
                         result = result + i;
                         i++;
                     }

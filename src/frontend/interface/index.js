@@ -35,15 +35,17 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
 
     function startExecution(){
         stopExecution();
-        backend.runProgram(cm.doc.getValue())
-            .then(function(result) {
-                my_console.addToConsole('compile', result);
-                initiateExecution();
-            })
-            .catch(function(err) {
-                my_console.addToConsole('exception', err.stack);
-            })
-            .done();
+        try {
+            var exitCode = backend.runProgram(cm.doc.getValue());
+            my_console.addToConsole('compile', 'Compilation successful.');
+            my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
+            // initiateExecution();    
+        } catch (err) {
+            my_console.addToConsole('exception', err.message);
+            if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
+                my_console.addToConsole('exception', err.stack.split('\n').join('<br />'));
+            }
+        }
     }
 
     function endExecution(){
