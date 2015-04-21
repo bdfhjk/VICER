@@ -8,7 +8,7 @@ define([
 	var isVariadic, parameters;
 	if (options && options.stdlib[functionName]) {
 		isVariadic = options.stdlib[functionName].args === "VARARGS";
-		params = options.stdlib[functionName].args;
+		parameters = options.stdlib[functionName].args;
 	} else {
 		isVariadic = options && options.prototypes[functionName].isVariadic;
 		parameters = paramNode.parameters;
