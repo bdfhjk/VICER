@@ -65,7 +65,8 @@ define([
 		args.push(funcDecl.name + '_PARAMETER_' + funcDecl.param_names[j]);
 	    }
 
-	    var envAndValues = envGenerator(funcDef);
+	    var globals = this.preprocessed.global;
+	    var envAndValues = envGenerator(funcDef, globals);
 	    var env = envAndValues.env;
 	    var values = {};
 	    for (var val in envAndValues.constants) {
@@ -98,7 +99,7 @@ define([
     };
 
     AstToCfg.prototype.getConverted = function getConverted() {
-	   return this.preprocessed;
+	return this.preprocessed;
     };
 
     AstToCfg.prototype.collectStdLibFunctions = function collectStdLibFunctions() {

@@ -43,7 +43,7 @@ define([
 	    'FUNCTION_CALL': FunctionCall,
 	    'if': If,
 	    'while': While,
-	    'FOR': For,
+	    'for': For,
 	    'BREAK': Break,
 	    'CONTINUE': Continue,
 	    'LESS': Less,

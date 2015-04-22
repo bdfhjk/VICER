@@ -4,14 +4,10 @@ define([
     var cfgGenerator;
     
     function For (paramNode, options) {
-	var firstParam = paramNode.body[0];
-	var body = cfgGenerator(firstParam, options);
-	for (var i = 1; i < paramNode.body.length; i++) {
-	    body.mergeLeft(cfgGenerator(paramNode.body[i], options));
-	}
-	var initiation = cfgGenerator(paramNode.preStatement, options);
+	var body = cfgGenerator(paramNode.body, options);
+	var initiation = cfgGenerator(paramNode.pre_statement, options);
 	var condition = cfgGenerator(paramNode.condition, options);
-	var action = cfgGenerator(paramNode.postStatement, options);
+	var action = cfgGenerator(paramNode.post_statement, options);
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'

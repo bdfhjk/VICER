@@ -22,7 +22,7 @@ define(['lodash'], function (_) {
 	'parameters',
     ];
     
-    function generateEnvironment(ast) {
+    function generateEnvironment(ast, globals) {
 	blocks = 0;
 	env = {};
 	constants = {};
@@ -33,13 +33,24 @@ define(['lodash'], function (_) {
 	// add parameters to substitution, and add them to env
 	for (var i = 0; i < astParameters.length; i++) {
 	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER_' + astParameters[i];
-	    env[nameDict[astParameters[i]]] = ast.declaration.param_tvalues[i].name;
+	    env[nameDict[astParameters[i]]] = createEnvEntry(ast.declaration.param_tvalues[i]);
+	}
+
+	// add globals to env
+	for (var varName in globals) {
+	    nameDict[varName] = varName;
+	    env[varName] = globals[varName];
 	}
 
 	// visit nodes
 	ast.declaration.parameters = null;
 	visitAst(ast, nameDict, ast.declaration.name);
 	ast.declaration.parameters = astParameters;
+
+	// delete globals from env
+	for (var globName in globals) {
+	    delete env[globName];
+	}
 
 	var result = {
 	    env: env,
@@ -52,16 +63,16 @@ define(['lodash'], function (_) {
     function visitAst(ast, nameDict, prefix) {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
-	// if an IDENTIFIER, substitute variable if not global and die
+	// if an IDENTIFIER, substitute variable if not a constant
 	if (ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
 	    ast.value = nameDict[ast.value];
-	    if (env[ast.value].isPointer) {
-		ast.isPointer = true;
-	    }
+	    ast.tvalue = env[ast.value];
+	    return;
 	}
 
 	// substitute constants with implicit casts
-	if (ast.type === 'CONSTANT') {
+	if (ast.type === 'CONSTANT' || ast.type === 'STRING_LITERAL') {
+	    ast.tvalue = createEnvEntry(ENV_TEMPLATES[ast.type]);
 	    ast.type = 'INDENTIFIER';
 	    if (!constants[ast.value]) {
 		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
@@ -70,6 +81,7 @@ define(['lodash'], function (_) {
 	    return;
 	}
 
+	// process POST_INC and PRE_INC
 	if (ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
 	    if (!constants[1]) {
 		constants[1] = prefix + '_CONSTANT_' + constantsNum++;
@@ -90,6 +102,20 @@ define(['lodash'], function (_) {
 	    ast.subexp = null;
 	}
 
+	// process UNARY_OP_-
+	if (ast.type === 'UNARYOP_-') {
+	    if (!constants[0]) {
+		constants[0] = prefix + '_CONSTANT_' + constantsNum++;
+	    }
+	    ast.type = 'SUB';
+	    ast.left = {
+		type: 'INDENTIFIER',
+		value: constants[0]
+	    };
+	    ast.right = ast.subexp;
+	    ast.subexp = null;
+	}
+
 	// if is compound_statement, visit declarations
 	if (ast.declarations) {
 	    for (var i = 0; i < ast.declarations.length; i++) {
@@ -101,18 +127,7 @@ define(['lodash'], function (_) {
 		nameDict[varName] = newVarName;
 
 		var tvalue = ast.declarations[i].tvalue;
-		var varEntry;
-		if (tvalue.type === 'concrete_type') {
-		    varEntry = {
-			type: tvalue.name
-		    };
-		} else if (tvalue.type === 'pointer') {
-		    varEntry = {
-			type: 'pointer',
-			of: tvalue.tvalue.name // make it recursive
-		    };
-		}
-		env[newVarName] = varEntry;
+		env[newVarName] = createEnvEntry(tvalue);
 	    }
 	}
 
@@ -142,6 +157,38 @@ define(['lodash'], function (_) {
 	    }
 	}
     }
+
+    function createEnvEntry(tvalue) {
+	if (tvalue.type === 'concrete_type') {
+	    return {
+		type: tvalue.name
+	    };
+	} else if (tvalue.type === 'pointer') {
+	    return {
+		type: 'pointer',
+		of: {
+		    type: tvalue.tvalue.name
+		}
+	    };
+	} else {
+	    throw new Error('Wrong declaration type: ' + tvalue.type);
+	}
+    }
+	
+
+    var ENV_TEMPLATES = {
+	CONSTANT: {
+	    type: 'concrete_type',
+	    name: 'INT'
+	},
+	STRING_LITERAL: {
+	    type: 'pointer',
+	    tvalue: {
+		type: 'concrete_type',
+		value: 'CHAR'
+	    }
+	}
+    };
 
     return generateEnvironment;
 });

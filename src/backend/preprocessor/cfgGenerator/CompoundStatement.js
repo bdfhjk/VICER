@@ -4,6 +4,14 @@ define([
     var cfgGenerator;
     
     function CompoundStatement(paramNode, options) {
+	if (paramNode.statements.length === 0) {
+	    var noopInstr = new Cfg({
+		type: 'NOOP'
+	    });
+
+	    return noopInstr;
+	}
+	    
 	var firstStatement = paramNode.statements[0];
 	var result = cfgGenerator(firstStatement, options);
 	for (var i = 1; i < paramNode.statements.length; i++) {
