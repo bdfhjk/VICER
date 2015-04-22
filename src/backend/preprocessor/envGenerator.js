@@ -142,15 +142,26 @@ define(['lodash'], function (_) {
 	// if is compound_statement, visit declarations
 	if (ast.declarations) {
 	    for (var i = 0; i < ast.declarations.length; i++) {
-		if (ast.declarations[i].type !== 'declaration') {
-		    continue;
-		}
-		var varName = ast.declarations[i].name;
-		var newVarName = prefix + '_' + varName;
-		nameDict[varName] = newVarName;
+		var varName, newVarName, tvalue;
+		if (ast.declarations[i].type === 'declaration') {
+		    varName = ast.declarations[i].name;
+		    newVarName = prefix + '_' + varName;
+		    nameDict[varName] = newVarName;
 
-		var tvalue = ast.declarations[i].tvalue;
-		env[newVarName] = createEnvEntry(tvalue);
+		    tvalue = ast.declarations[i].tvalue;
+		    env[newVarName] = createEnvEntry(tvalue);
+		} else if (ast.declarations[i].type === 'array_declaration') {
+		    varName = ast.declarations[i].name;
+		    newVarName = prefix + '_' + varName;
+		    nameDict[varName] = newVarName;
+
+		    tvalue = ast.declarations[i].tvalue;
+		    env[newVarName] = {
+			type: 'array',
+			of: createEnvEntry(tvalue),
+			size: ast.declarations[i].size
+		    };
+		}
 	    }
 	}
 
@@ -197,7 +208,6 @@ define(['lodash'], function (_) {
 	    throw new Error('Wrong declaration type: ' + tvalue.type);
 	}
     }
-	
 
     var ENV_TEMPLATES = {
 	CONSTANT: {

@@ -93,6 +93,11 @@ describe("Complete Integration Test", function() {
             description: "Adder upon pointers",
             file: "adder-upon-pointers.c",
             expected: 6
+        },
+        {
+            description: "Fibonacci 10th - dynamic",
+            file: "fibonacci10th-dynamic.c",
+            expected: 55
         }
     ]
     .map(function(testCase) {

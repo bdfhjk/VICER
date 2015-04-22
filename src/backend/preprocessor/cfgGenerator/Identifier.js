@@ -11,7 +11,18 @@ define([
 	});
 
 	var result = resolveInstr;
-	result.type = (CfgHelper.getNodeVal(paramNode) === 'value') ? 'locVal' : 'locPtr';
+	result.type = CfgHelper.getNodeVal(paramNode);
+	if (result.type === 'pointer') {
+	    result.type = 'locPtr';
+	} else if (result.type === 'value') {
+	    result.type = 'locVal';
+	} else {
+	    var refInstr = new Cfg ({
+		type: 'REF'
+	    });
+	    result.mergeLeft(refInstr);
+	    result.type = 'pointer';
+	}
 	result.tvalue = paramNode.tvalue;
 
 	return result;

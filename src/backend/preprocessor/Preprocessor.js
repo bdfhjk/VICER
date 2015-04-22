@@ -14,7 +14,8 @@ define([
 	// retrieve globals
 	this.preprocessed.global = {};
 	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if (this.astObj.external_declarations[i].type !== "declaration") {
+	    if (this.astObj.external_declarations[i].type !== 'declaration' &&
+	       this.astObj.external_declarations[i].type !== 'array_declaration') {
 		continue;
 	    }
 	    var varDef = this.astObj.external_declarations[i];
@@ -32,7 +33,15 @@ define([
 		};
 	    }
 	    // end of duplicate code
-	    this.preprocessed.global[varDef.name] = varEntry;
+	    if (varDef.type === 'array_declaration') {
+		this.preprocessed.global[varDef.name] = {
+		    type: 'array',
+		    size: varDef.size,
+		    of: varEntry
+		};
+	    } else {
+		this.preprocessed.global[varDef.name] = varEntry;
+	    }
 	}
     };
 
