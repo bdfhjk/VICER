@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Add(paramNode, options) {
-	var left = cfgGenerator(paramNode.left, options);
-	var right = cfgGenerator(paramNode.right, options);
+    function Add(paramNode) {
+	var left = cfgGenerator(paramNode.left);
+	var right = cfgGenerator(paramNode.right);
 	if (!(left || right)) {
 	    throw new Error('Something occured during processing node ' + paramNode);
 	}

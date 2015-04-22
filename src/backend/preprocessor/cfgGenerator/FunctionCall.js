@@ -3,17 +3,10 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function FunctionCall (paramNode, options) {
+    function FunctionCall (paramNode) {
 	var functionName = paramNode.name;
-	var isVariadic, parameters;
-	if (options && options.stdlib[functionName]) {
-		isVariadic = options.stdlib[functionName].args === "VARARGS";
-		parameters = options.stdlib[functionName].args;
-	} else {
-		isVariadic = options && options.prototypes[functionName].isVariadic;
-		parameters = paramNode.parameters;
-	}
-
+	var isVariadic = false;
+	var parameters = paramNode.parameters;
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
 	    param: functionName
@@ -22,9 +15,9 @@ define([
 
 	if (parameters && parameters.length > 0) {
 	    var firstParameter = parameters[0];
-	    result = cfgGenerator(firstParameter, options); 
+	    result = cfgGenerator(firstParameter); 
 	    for (var i = 1; i < parameters.length; i++) {
-		result.mergeLeft(cfgGenerator(parameters[i], options));
+		result.mergeLeft(cfgGenerator(parameters[i]));
 	    }
 	    result.mergeLeft(resolveInstr);
 	} else

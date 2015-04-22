@@ -26,7 +26,7 @@ define([
     './cfgGenerator/Not'
 ], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not) {
 
-    function generateCfg(node, options) {
+    function generateCfg(node) {
 	var generators = {
 	    'return': Return,
 	    'compound_statement': CompoundStatement,
@@ -56,7 +56,7 @@ define([
 	};
 
 	var generator = generators[node.type];
-	return generator(generateCfg)(node, options);
+	return generator(generateCfg)(node);
     }
 
     return generateCfg;

@@ -3,9 +3,9 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
 
-    function Eq(paramNode, options) {
-	var left = cfgGenerator(paramNode.left, options);
-	var right = cfgGenerator(paramNode.right, options);
+    function Eq(paramNode) {
+	var left = cfgGenerator(paramNode.left);
+	var right = cfgGenerator(paramNode.right);
 
 	var eqInstr = new Cfg ({
 	    type: 'EQ',

@@ -4,9 +4,9 @@ define([
 ], function (_, Cfg) {
     var cfgGenerator;
     
-    function PlusAssign(paramNode, options) {
-	var lvalue = cfgGenerator(paramNode.left, _.extend(_.clone(options), { wantLocation: true }));
-	var rvalue = cfgGenerator(paramNode.right, options);
+    function PlusAssign(paramNode) {
+	var lvalue = cfgGenerator(paramNode.left);
+	var rvalue = cfgGenerator(paramNode.right);
 
 	var fetchInstr = new Cfg ({
 	    type: 'FETCH'

@@ -3,8 +3,8 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Deref(paramNode, options) {
-	var location = cfgGenerator(paramNode.expression, options);
+    function Deref(paramNode) {
+	var location = cfgGenerator(paramNode.expression);
 
 	var derefInstr = new Cfg ({
 	    type: 'DEREF'

@@ -3,11 +3,11 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function For (paramNode, options) {
-	var body = cfgGenerator(paramNode.body, options);
-	var initiation = cfgGenerator(paramNode.pre_statement, options);
-	var condition = cfgGenerator(paramNode.condition, options);
-	var action = cfgGenerator(paramNode.post_statement, options);
+    function For (paramNode) {
+	var body = cfgGenerator(paramNode.body);
+	var initiation = cfgGenerator(paramNode.pre_statement);
+	var condition = cfgGenerator(paramNode.condition);
+	var action = cfgGenerator(paramNode.post_statement);
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'

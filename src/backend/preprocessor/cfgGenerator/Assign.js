@@ -4,9 +4,9 @@ define([
 ], function (_, Cfg) {
     var cfgGenerator;
     
-    function Assign(paramNode, options) {
-	var lvalue = cfgGenerator(paramNode.left, _.extend(_.clone(options), { wantLocation: true }));
-	var rvalue = cfgGenerator(paramNode.right, options);
+    function Assign(paramNode) {
+	var lvalue = cfgGenerator(paramNode.left);
+	var rvalue = cfgGenerator(paramNode.right);
 
 	var assignInstr = new Cfg ({
 	    type: 'ASSIGN'

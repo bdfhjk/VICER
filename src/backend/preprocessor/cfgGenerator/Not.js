@@ -3,8 +3,8 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Not(paramNode, options) {
-	var value = cfgGenerator(paramNode.subexp, options);
+    function Not(paramNode) {
+	var value = cfgGenerator(paramNode.subexp);
 	var notInstr = new Cfg ({
 	    type: 'NOT'
 	});

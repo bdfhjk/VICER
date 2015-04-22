@@ -3,8 +3,8 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function ExpressionStatement(paramNode, options) {
-	var expression = cfgGenerator(paramNode.expression, options);
+    function ExpressionStatement(paramNode) {
+	var expression = cfgGenerator(paramNode.expression);
 
 	return expression;
     }
