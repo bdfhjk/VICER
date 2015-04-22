@@ -72,13 +72,28 @@ define(['lodash'], function (_) {
 	}
 
 	// substitute constants with implicit casts
-	if (ast.type === 'CONSTANT' || ast.type === 'STRING_LITERAL') {
+	if (ast.type === 'CONSTANT') {
 	    ast.tvalue = createEnvEntry(ENV_TEMPLATES[ast.type]);
 	    ast.type = 'INDENTIFIER';
 	    if (!constants[ast.value]) {
 		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
 	    }
 	    ast.value = constants[ast.value];
+	    return;
+	}
+
+	// substitute string_literal and wrap it in ref
+	if (ast.type === 'STRING_LITERAL') {
+	    if (!constants[ast.value]) {
+		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
+	    }
+	    ast.type = 'UNARYOP_&';
+	    ast.subexp = {
+		type: 'INDENTIFIER',
+		tvalue: createEnvEntry(ENV_TEMPLATES.STRING_LITERAL),
+		value: constants[ast.value]
+	    };
+	    ast.value = null;
 	    return;
 	}
 
@@ -97,7 +112,8 @@ define(['lodash'], function (_) {
 		left: ast.subexp,
 		right: {
 		    type: 'INDENTIFIER',
-		    value: constants[1]
+		    value: constants[1],
+		    tvalue: createEnvEntry(ENV_TEMPLATES.CONSTANT)
 		}
 	    };
 	    ast.subexp = null;
@@ -111,7 +127,8 @@ define(['lodash'], function (_) {
 	    ast.type = 'SUB';
 	    ast.left = {
 		type: 'INDENTIFIER',
-		value: constants[0]
+		value: constants[0],
+		tvalue: createEnvEntry(ENV_TEMPLATES.CONSTANT)
 	    };
 	    ast.right = ast.subexp;
 	    ast.subexp = null;

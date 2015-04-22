@@ -2,7 +2,7 @@ define([
     './Cfg'
 ], function (Cfg) {
     function toValOrPtr (graph) {
-	if (graph.type !== 'location') {
+	if (graph.type !== 'locVal' && graph.type !== 'locPtr') {
 	    return;
 	}
 
@@ -11,6 +11,12 @@ define([
 	});
 
 	graph.mergeLeft(fetchInstr);
+
+	if (graph.type === 'locVal') {
+	    graph.type = 'value';
+	} else {
+	    graph.type = 'pointer';
+	}
     }
 
     function getNodeVal (node) {

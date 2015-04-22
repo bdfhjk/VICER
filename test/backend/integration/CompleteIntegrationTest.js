@@ -83,6 +83,16 @@ describe("Complete Integration Test", function() {
             description: "10th Fibonacci",
             file: "fibonacci10th.c",
             expected: 55
+        },
+        {
+            description: "String literal",
+            file: "string-literal.c",
+            expected: 33 // char code of '!'
+        },
+        {
+            description: "Adder upon pointers",
+            file: "adder-upon-pointers.c",
+            expected: 6
         }
     ]
     .map(function(testCase) {

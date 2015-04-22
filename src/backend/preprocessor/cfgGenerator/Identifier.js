@@ -1,6 +1,7 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     function Identifier(paramNode) {
 	var variableName = paramNode.value;
 
@@ -9,9 +10,11 @@ define([
 	    param: variableName
 	});
 
-	resolveInstr.type = 'location';
+	var result = resolveInstr;
+	result.type = (CfgHelper.getNodeVal(paramNode) === 'value') ? 'locVal' : 'locPtr';
+	result.tvalue = paramNode.tvalue;
 
-	return resolveInstr;
+	return result;
     }
 
     return (function () {

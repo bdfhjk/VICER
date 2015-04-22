@@ -1,10 +1,12 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function Deref(paramNode) {
-	var location = cfgGenerator(paramNode.expression);
+	var location = cfgGenerator(paramNode.subexp);
+	CfgHelper.toValOrPtr(location);
 
 	var derefInstr = new Cfg ({
 	    type: 'DEREF'
@@ -13,7 +15,7 @@ define([
 	var result = location;
 	result.mergeLeft(derefInstr);
 
-	result.type = 'location';
+	result.type = 'locVal';
 
 	return result;
     }

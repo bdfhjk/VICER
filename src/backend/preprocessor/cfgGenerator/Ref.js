@@ -4,7 +4,7 @@ define([
     var cfgGenerator;
     
     function Ref(paramNode) {
-	var location = cfgGenerator(paramNode.expression);
+	var location = cfgGenerator(paramNode.subexp);
 
 	var refInstr = new Cfg ({
 	    type: 'REF'

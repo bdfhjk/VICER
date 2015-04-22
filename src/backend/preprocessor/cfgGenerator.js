@@ -23,8 +23,9 @@ define([
     './cfgGenerator/Leq',
     './cfgGenerator/Geq',
     './cfgGenerator/More',
-    './cfgGenerator/Not'
-], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not) {
+    './cfgGenerator/Not',
+    './cfgGenerator/Subscript'
+], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
     function generateCfg(node) {
 	var generators = {
@@ -34,8 +35,8 @@ define([
 	    'ADD': Add,
 	    'SUB': Sub,
 	    'INDENTIFIER': Identifier,
-	    'DEREF' : Deref,
-	    'REF' : Ref,
+	    'UNARYOP_*' : Deref,
+	    'UNARYOP_&' : Ref,
 	    'ARRAY_VAL' : ArrayVal,
 	    'ASSIGN': Assign,
 	    '+=': PlusAssign,
@@ -52,7 +53,8 @@ define([
 	    'LEQ': Leq,
 	    'GEQ': Geq,
 	    'MORE': More,
-	    'UNARYOP_!': Not
+	    'UNARYOP_!': Not,
+	    'SUBSCRIPT': Subscript
 	};
 
 	var generator = generators[node.type];
