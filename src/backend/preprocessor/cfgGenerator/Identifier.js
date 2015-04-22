@@ -9,6 +9,8 @@ define([
 	    param: variableName
 	});
 
+	resolveInstr.type = 'location';
+
 	return resolveInstr;
     }
 

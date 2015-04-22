@@ -10,9 +10,12 @@ define([
 	    type: 'DEREF'
 	});
 
-	location.mergeLeft(derefInstr);
+	var result = location;
+	result.mergeLeft(derefInstr);
 
-	return location;
+	result.type = 'location';
+
+	return result;
     }
 
     return (function (_cfgGenerator) {

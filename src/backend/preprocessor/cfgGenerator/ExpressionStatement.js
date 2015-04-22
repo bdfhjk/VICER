@@ -6,6 +6,8 @@ define([
     function ExpressionStatement(paramNode) {
 	var expression = cfgGenerator(paramNode.expression);
 
+	expression.type = null;
+
 	return expression;
     }
 

@@ -1,21 +1,24 @@
 define([
     '../Cfg',
-], function (Cfg) {
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function Return(paramNode) {
-	var cfgFromParam = cfgGenerator(paramNode.rexpression);
-	if (!cfgFromParam) {
+	var expr = cfgGenerator(paramNode.rexpression);
+	if (!expr) {
 	    throw new Error('Something occured during processing node ' + paramNode);
 	}
+	CfgHelper.toValOrPtr(expr);
 
 	var returnInstr = new Cfg ({
 	    type: 'RETURN'
 	});
 
-	cfgFromParam.mergeLeft(returnInstr);
+	var result = expr;
+	result.mergeLeft(returnInstr);
 
-	return cfgFromParam;
+	return result;
     }
 
     return (function (_cfgGenerator) {

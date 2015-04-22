@@ -1,6 +1,7 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function If (paramNode) {
@@ -12,6 +13,7 @@ define([
 	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);
+	CfgHelper.toValOrPtr(condition);
 
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',
@@ -29,6 +31,8 @@ define([
 		result.graph[node].next = result.last;
 	    }
 	}
+
+	result.type = null;
 
 	return result;
     }

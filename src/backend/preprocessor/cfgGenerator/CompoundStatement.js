@@ -18,6 +18,8 @@ define([
 	    result.mergeLeft(cfgGenerator(paramNode.statements[i]));
 	}
 
+	result.type = null;
+
 	return result;
     }
 

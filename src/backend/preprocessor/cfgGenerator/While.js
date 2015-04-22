@@ -1,11 +1,13 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function While(paramNode) {
 	var body = cfgGenerator(paramNode.body);
 	var condition = cfgGenerator(paramNode.condition);
+	CfgHelper.toValOrPtr(condition);
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
@@ -31,6 +33,8 @@ define([
 		result.graph[node].next = result.first;
 	    }
 	}
+
+	result.type = null;
 
 	return result;
     }

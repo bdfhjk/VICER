@@ -10,9 +10,12 @@ define([
 	    type: 'REF'
 	});
 
-	location.mergeLeft(refInstr);
+	var result = location;
+	result.mergeLeft(refInstr);
 
-	return location;
+	result.type = 'pointer';
+
+	return result;
     }
 
     return (function (_cfgGenerator) {

@@ -1,6 +1,7 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function For (paramNode) {
@@ -8,6 +9,8 @@ define([
 	var initiation = cfgGenerator(paramNode.pre_statement);
 	var condition = cfgGenerator(paramNode.condition);
 	var action = cfgGenerator(paramNode.post_statement);
+
+	CfgHelper.toValOrPtr(condition);
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
@@ -35,6 +38,8 @@ define([
 		result.graph[node].next = action.first;
 	    }
 	}
+
+	result.type = null;
 
 	return result;
     }

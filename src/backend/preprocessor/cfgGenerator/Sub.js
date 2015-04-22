@@ -1,6 +1,7 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
     function Sub(paramNode) {
@@ -10,9 +11,21 @@ define([
 	    throw new Error('Something occured during processing node ' + paramNode);
 	}
 
-	var subInstr = new Cfg ({
-	    type: 'SUB'
-	});
+	CfgHelper.toValOrPtr(left);
+	CfgHelper.toValOrPtr(right);
+
+	var subInstr;
+	if(left.type === 'pointer' || right.type === 'pointer') {
+	    subInstr = new Cfg({
+		type: 'PSUB'
+	    });
+	    left.type = 'pointer';
+	} else {
+	    subInstr = new Cfg({
+		type: 'SUB'
+	    });
+	    left.type = 'value';
+	}
 
 	left.mergeLeft(right);
 	left.mergeLeft(subInstr);

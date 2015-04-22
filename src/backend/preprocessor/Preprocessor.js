@@ -39,14 +39,14 @@ define([
     AstToCfg.prototype.collectPrototypes = function collectPrototypes() {
         this.preprocessed.prototypes = this.preprocessed.prototypes || {};
 
-		for (var i = 0; i < this.astObj.external_declarations.length; i++) {
-		    if (this.astObj.external_declarations[i].type !== 'function_definition') {
-				continue;
-		    }
+	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if (this.astObj.external_declarations[i].type !== 'function_definition') {
+		continue;
+	    }
 
-		    var funcDef = this.astObj.external_declarations[i];
-		    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
-		}
+	    var funcDef = this.astObj.external_declarations[i];
+	    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
+	}
     };
 
     AstToCfg.prototype.generateFunctions = function generateFunctions() {
@@ -66,7 +66,8 @@ define([
 	    }
 
 	    var globals = this.preprocessed.global;
-	    var envAndValues = envGenerator(funcDef, globals);
+	    var decls = this.preprocessed.prototypes;
+	    var envAndValues = envGenerator(funcDef, globals, decls);
 	    var env = envAndValues.env;
 	    var values = {};
 	    for (var val in envAndValues.constants) {

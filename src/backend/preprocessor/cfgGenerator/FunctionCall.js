@@ -1,6 +1,7 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
 
     function FunctionCall (paramNode) {
@@ -16,8 +17,12 @@ define([
 	if (parameters && parameters.length > 0) {
 	    var firstParameter = parameters[0];
 	    result = cfgGenerator(firstParameter); 
+	    CfgHelper.toValOrPtr(result);
+	    var generated;
 	    for (var i = 1; i < parameters.length; i++) {
-		result.mergeLeft(cfgGenerator(parameters[i]));
+		generated = cfgGenerator(parameters[i]);
+		CfgHelper.toValOrPtr(generated);
+		result.mergeLeft(generated);
 	    }
 	    result.mergeLeft(resolveInstr);
 	} else
@@ -36,6 +41,8 @@ define([
 
 	    result.mergeRight(vaendInstr);
 	}
+
+	result.type = CfgHelper.getNodeVal(paramNode.declaration);
 
 	return result;
     }
