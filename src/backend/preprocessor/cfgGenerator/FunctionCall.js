@@ -6,7 +6,7 @@ define([
 
     function FunctionCall (paramNode) {
 	var functionName = paramNode.name;
-	var isVariadic = false;
+	var isVariadic = paramNode.declaration.args === 'varargs';
 	var parameters = paramNode.parameters;
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',

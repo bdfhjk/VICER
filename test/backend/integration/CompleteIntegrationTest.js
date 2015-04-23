@@ -98,6 +98,11 @@ describe("Complete Integration Test", function() {
             description: "Fibonacci 10th - dynamic",
             file: "fibonacci10th-dynamic.c",
             expected: 55
+        },
+        {
+            description: "call printf with varargs",
+            file: "printf-varargs.c",
+            expected_printf: "Hello world!"
         }
     ]
     .map(function(testCase) {

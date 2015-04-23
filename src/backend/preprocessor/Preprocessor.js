@@ -75,7 +75,7 @@ define([
 	    }
 
 	    var globals = this.preprocessed.global;
-	    var decls = this.preprocessed.prototypes;
+	    var decls = _.extend(this.preprocessed.prototypes, this.stdlib);
 	    var envAndValues = envGenerator(funcDef, globals, decls);
 	    var env = envAndValues.env;
 	    var values = {};
@@ -83,7 +83,7 @@ define([
 		values[envAndValues.constants[val]] = isNaN(val) ? val : Number(val); // replace it with smarter check maybe?
 	    }
 
-	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes, stdlib: this.stdlib });
+	    var cfg = cfgGenerator(funcDef.body);
 
 	    // mark the first node
 	    var firstId = cfg.first;
