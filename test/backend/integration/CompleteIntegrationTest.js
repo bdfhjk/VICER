@@ -5,12 +5,13 @@ var Jison = require('jison');
 var fs = require('fs');
 
 describe("Complete Integration Test", function() {
-    var Parser, Preprocessor, Executor; 
+    var Parser, Preprocessor, Executor, EventEmitter; 
 
     before(function(done) {
 	var handle = this;
-        requirejs(["mod_preprocessor/Preprocessor", "mod_executor/Executor"], function(preprocessor, executor) {
+        requirejs(["mod_preprocessor/Preprocessor", "mod_executor/Executor", "eventEmitter"], function(preprocessor, executor, ee) {
 	    handle.timeout(5000);
+        EventEmitter = ee;
 	    var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
 	    var lexerSource = JisonLex.generate(lexerGrammar);
 	    var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
@@ -106,8 +107,9 @@ describe("Complete Integration Test", function() {
         }
     ]
     .map(function(testCase) {
-        it (testCase.description, function() {
+        it (testCase.description, function(done) {
 	    var asset = fs.readFileSync(__dirname + "/assets/" + testCase.file, 'utf-8');
+        var world = new EventEmitter();
 
 	    var ast;
 	    try {
@@ -119,8 +121,17 @@ describe("Complete Integration Test", function() {
 	    var astToCfg = Preprocessor.createAstToCfg(ast);
 	    var cfgAndVars = astToCfg.convert();
 
-            var proc = Executor.createProcess(cfgAndVars.global, cfgAndVars.functions, cfgAndVars.values);
-            expect(Executor.finish(proc)).to.equal(testCase.expected);
+            var proc = Executor.createProcess(cfgAndVars.global, cfgAndVars.functions, cfgAndVars.values, world);
+            if (typeof testCase.expected === "number") {
+                expect(Executor.finish(proc)).to.equal(testCase.expected);
+                done();
+            } else if (testCase.expected_printf) {
+                world.addListener("stdout", function(str) {
+                    expect(str).to.equal(testCase.expected_printf);
+                    done();
+                });
+                Executor.finish(proc);
+            }
         });
     }.bind(this));
 });
