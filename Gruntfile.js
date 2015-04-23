@@ -62,15 +62,19 @@ module.exports = function(grunt) {
     },
 
     execute: {
-	compileParser: {
-	    options: {
-		args: ['dist/'],
-	    },
-	    src: ['src/backend/parser/Make.js']
-	}
+    	compileParser: {
+    	    options: {
+    		    args: ['dist/'],
+    	    },
+    	    src: ['src/backend/parser/Make.js']
+    	}
     },
 
-    clean: ["dist"]
+    "install-dependencies": {
+      options: {
+        cwd: 'dist'  
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -80,6 +84,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-install-dependencies');
   grunt.loadNpmTasks('grunt-execute');
 
   // Enable after fixing #17
@@ -87,6 +92,7 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint']); 
   grunt.registerTask('test', ['lint', 'mochaTest']);
   grunt.registerTask('parser', ['execute:compileParser']);
-  grunt.registerTask('default', ['lint', 'copy', 'express']);
+  grunt.registerTask('make', ['lint', 'copy', 'parser']);
+  grunt.registerTask('default', ['make', 'install-dependencies', 'express']);
 
 };

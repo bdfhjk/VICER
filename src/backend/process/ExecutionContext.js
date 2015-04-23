@@ -5,7 +5,7 @@ define(function() {
         this.returnType = returnType;
         this.environment = env;
         this.cfg = cfg;
-        this.next = null;
+        this.next = cfg;
         this.stack = [];
     }
 

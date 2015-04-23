@@ -1,4 +1,4 @@
-define(function() {
+define(["./FunctionCall"], function(fc) {
 
     function ReturnInstr() {
         
@@ -6,16 +6,10 @@ define(function() {
 
     ReturnInstr.prototype.invoke = function invoke(context, process) {
         var isVoid = context.returnType.type === "void";
-        var returnValue = 0;
+        var returnValue;
         if (!isVoid)
             returnValue = context.pop();
-        process.callStack.pop();
-        if (process.callStack.length > 0) {
-            if (!isVoid)
-                process.callStack[process.callStack.length - 1].push(returnValue);
-        } else {
-            process.exitCode = returnValue;
-        }
+        context.result = { returnValue: returnValue, returned: true };
     };
 
     ReturnInstr.prototype.toString = function toString() {

@@ -1,4 +1,4 @@
-define(["ansic"], function(parser) {
+define(["viperc_parser"], function(parser) {
     function parse(source) {
         return parser.parse(source);
     }

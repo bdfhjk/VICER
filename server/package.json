@@ -10,6 +10,7 @@
   "author": "Team VIPER",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.12.2"
+    "express": "^4.12.2",
+    "mime-db": "^1.8.0"
   }
 }

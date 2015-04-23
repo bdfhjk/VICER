@@ -13,6 +13,7 @@ requirejs.config({
         { name: 'jquery', location: '../bower_components/jquery/dist', main: 'jquery.min'},
         { name: 'sprintf', location: '../bower_components/sprintf/dist', main: 'sprintf.min'},
         { name: 'eventEmitter', location: '../bower_components/eventEmitter', main: 'EventEmitter.min'},
+        { name: 'lodash', location: '../bower_components/lodash', main: 'lodash.min'},
 
         { name: 'mod_engine', location: 'backend/engine', main: 'index'},
         { name: 'mod_executor', location: 'backend/executor', main: 'index'},
@@ -20,7 +21,9 @@ requirejs.config({
         { name: 'mod_stdlib', location: 'backend/stdlib', main: 'index'},
         { name: 'mod_data_structures', location: 'backend/data_structures', main: 'index'},
         { name: 'mod_parser', location: 'backend/parser', main: 'index'},
-	{ name: 'mod_preprocessor', location: 'backend/preprocessor', main: 'index'},
+	    { name: 'mod_preprocessor', location: 'backend/preprocessor', main: 'index'},
+
+        { name: 'viperc_parser', location: 'parser', main: 'ansic'},
 
         { name: 'backend', location: 'backend', main: 'index'},
         { name: 'code_input', location: 'frontend/code_input', main: 'index'},
@@ -44,5 +47,6 @@ if (!isInNode) {
 
 DEBUG = {
     VM_INSTRUCTIONS: false,
-    EXEC_STACK_OP: false
+    EXEC_STACK_OP: false,
+    COMPILE_ERROR_STACK: false
 };

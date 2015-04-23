@@ -1,8 +1,9 @@
 define([
     'lodash',
     './cfgGenerator',
-    './envGenerator'
-], function(_, cfgGenerator, envGenerator) {
+    './envGenerator',
+    'mod_stdlib'
+], function(_, cfgGenerator, envGenerator, stdlib) {
 
     function AstToCfg(_astObj) {
 	this.astObj = _astObj;
@@ -36,16 +37,16 @@ define([
     };
 
     AstToCfg.prototype.collectPrototypes = function collectPrototypes() {
-	this.preprocessed.prototypes = {};
+        this.preprocessed.prototypes = this.preprocessed.prototypes || {};
 
-	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if (this.astObj.external_declarations[i].type !== 'function_definition') {
-		continue;
-	    }
+		for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+		    if (this.astObj.external_declarations[i].type !== 'function_definition') {
+				continue;
+		    }
 
-	    var funcDef = this.astObj.external_declarations[i];
-	    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
-	}
+		    var funcDef = this.astObj.external_declarations[i];
+		    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
+		}
     };
 
     AstToCfg.prototype.generateFunctions = function generateFunctions() {
@@ -71,7 +72,7 @@ define([
 		values[envAndValues.constants[val]] = isNaN(val) ? val : Number(val); // replace it with smarter check maybe?
 	    }
 
-	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes });
+	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes, stdlib: this.stdlib });
 
 	    // mark the first node
 	    var firstId = cfg.first;
@@ -97,11 +98,16 @@ define([
     };
 
     AstToCfg.prototype.getConverted = function getConverted() {
-	return this.preprocessed;
+	   return this.preprocessed;
+    };
+
+    AstToCfg.prototype.collectStdLibFunctions = function collectStdLibFunctions() {
+        this.stdlib = stdlib.getStdLibFunctions();
     };
 
     AstToCfg.prototype.convert = function convert() {
 	this.retrieveGlobals();
+	this.collectStdLibFunctions();
 	this.collectPrototypes();
 	this.generateFunctions();
 	return this.getConverted();

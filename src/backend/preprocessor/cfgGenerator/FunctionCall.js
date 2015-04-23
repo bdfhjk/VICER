@@ -5,8 +5,14 @@ define([
 
     function FunctionCall (paramNode, options) {
 	var functionName = paramNode.name;
-	var isVariadic = options && options.prototypes[functionName].isVariadic;
-	var parameters = paramNode.parameters;
+	var isVariadic, parameters;
+	if (options && options.stdlib[functionName]) {
+		isVariadic = options.stdlib[functionName].args === "VARARGS";
+		parameters = options.stdlib[functionName].args;
+	} else {
+		isVariadic = options && options.prototypes[functionName].isVariadic;
+		parameters = paramNode.parameters;
+	}
 
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',

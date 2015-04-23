@@ -25,126 +25,64 @@ describe("Complete Integration Test", function() {
 
     [
         {
+            description: "an empty program",
+            file: "empty.c",
+            expected: 0
+        },
+        {
+            description: "a program with an empty block",
+            file: "empty-block.c",
+            expected: 0
+        },
+        {
             description: "just exit with code 42",
             file: "return-42.c",
             expected: 42
-
-            /*
-                int main() {
-                    return 42;
-                }
-            */
+        },
+        {
+            description: "just exit with code -42",
+            file: "negative-integer.c",
+            expected: -42
         },
         {
             description: "assign and add to global and local scope",
             file: "global-local-scope.c",
             expected: 5
-
-            /*
-                int a;
-
-                int main() {
-                    int b;
-                    a=2;
-                    b=3;
-                    return a+b;
-                }
-            */
         },
         {
             description: "return function called without parameters",
             file: "paramless-function-call.c",
             expected: 42
-
-            /*
-                int fun() {
-                    return 42;
-                }
-
-                int main() {
-                    return fun();
-                }
-            */
         },
         {
             description: "call a function with 2 numbers",
             file: "adder.c",
             expected: 6
-
-            /*
-                int add(int a, int b) {
-                    return a + b;
-                }
-
-                int main() {
-                    return add(4, 2);
-                }
-            */
         },
         {
             description: "simple branch true",
             file: "simple-branch-true.c",
             expected: 42
-
-            /*
-                int main() {
-                    if (1) 
-                        return 42;
-                    else
-                        return 21;
-                }
-            */
         },
         {
             description: "simple branch false",
             file: "simple-branch-false.c",
             expected: 21
-
-            /*
-                int main() {
-                    if (0) 
-                        return 42;
-                    else
-                        return 21;
-                }
-            */
         },
         {
             description: "sum [1..5]",
             file: "sum1to5.c",
             expected: 15
-
-            /*
-                int result;
-                int main() {
-                    int i;
-                    i = 0;
-                    result = 0;
-                    while (!(i == 6)) {
-                        result = result + i;
-                        i++;
-                    }
-                }
-            */
+        },
+        {
+            description: "sum [1..5] in a for loop",
+            file: "sum1to5-forloop.c",
+            expected: 15
         },
         {
             description: "10th Fibonacci",
             file: "fibonacci10th.c",
             expected: 55
-
-            /*
-                int fib(int n) {
-                    if (n == 0)
-                        return 0;
-                    if (n == 1)
-                        return 1;
-                    return fib(n-1) + fib(n-2);
-                }
-
-                int main() {
-                    return fib(10);
-                }
-            */
         }
     ]
     .map(function(testCase) {

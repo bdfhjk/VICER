@@ -32,6 +32,7 @@
   "devDependencies": {
     "grunt-contrib-copy": "^0.7.0",
     "grunt-execute": "^0.2.2",
+    "grunt-install-dependencies": "^0.2.0",
     "jison": "^0.4.15",
     "jison-lex": "^0.3.4"
   }
