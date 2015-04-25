@@ -82,6 +82,11 @@ describe("Parser Grammar", function() {
             file: "two_functions",
             expected: "ok"
         },
+        {
+            description: "Void functions",
+            file: "void_functions",
+            expected: "ok",
+        },
 
         // bad
         {
@@ -128,6 +133,11 @@ describe("Parser Grammar", function() {
             description: "No 2D arrays",
             file: "no_2Darrays",
             expected: "error"
+        },
+        {
+            description: "No void parameters",
+            file: "no_void_parameters",
+            expected: "error",
         },
     ]
     .map(function(testCase) {

@@ -604,5 +604,7 @@ function_declaration
 function_declaration_no_colon
     : type_specifier function_declarator
         { $$ = full_declaration($1, $2); }
+    | VOID function_declarator
+        { $$ = full_declaration(concrete_type("void"), $2); }
     ;
 %%
