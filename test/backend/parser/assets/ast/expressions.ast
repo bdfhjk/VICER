@@ -49,7 +49,7 @@
                         "type": "expression_statement",
                         "expression": {
                             "type": "STRING_LITERAL",
-                            "value": "\"a word\""
+                            "value": "a word"
                         }
                     },
                     {

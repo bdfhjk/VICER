@@ -8,20 +8,6 @@
         //console.log(JSON.stringify(obj, null, 4));
     }
 
-    function parse_int(string) {
-        var radix = 10;
-        if (string.length >= 2 && string.charAt(0) == "0") {
-            if (string.charAt(1) == "x" || string.charAt(1) == "X") {
-                string = string.substring(2);
-                radix = 16;
-            } else {
-                string = string.substring(1);
-                radix = 8;
-            }
-        }
-        return parseInt(string, radix);
-    }
-
     function pointer(declarator) {
         var empty = {};
         extend(declarator.proto, {
@@ -211,10 +197,41 @@
         };
     }
 
+    function interpret_cstring(cstring) {
+        
+        /* http://en.wikipedia.org/wiki/ASCII */
+        escapes = {
+            a: "\u0007",
+            b: "\u0008",
+            t: "\u0009",
+            n: "\u000A",
+            v: "\u000B",
+            f: "\u000C",
+            r: "\u000D",
+            "\\": "\u005C",
+            "?" : "\u003F",
+            "'" : "\u0027",
+            '"' : "\u0022",
+        }
+        var result = [];
+        var escaped = false;
+        for (var i = 0; i < cstring.length; ++i) {
+            var char = cstring.charAt(i);
+            if (escaped) {
+                result.push(escapes[char]);
+                escaped = false;
+            } else if (char == "\\") {
+                escaped = true;
+            } else {
+                result.push(char);
+            }
+        }
+        return result.join("");
+    }
 %}
 
-
-%token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
+%token IDENTIFIER STRING_LITERAL SIZEOF
+%token HEX_CONSTANT OCTAL_CONSTANT DECIMAL_CONSTANT CHAR_CONSTANT FLOAT_CONSTANT
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -231,13 +248,28 @@
 
 /* --------- EXPRESSIONS ---------- */
 
+constant
+    : HEX_CONSTANT
+        { $$ = parseInt($1, 16); }
+    | OCTAL_CONSTANT
+        { $$ = parseInt($1, 8); }
+    | DECIMAL_CONSTANT
+        { $$ = parseInt($1, 10); }
+    ;
+
 primary_expression
     : IDENTIFIER
         { $$ = nullexp("INDENTIFIER", $1); }
-    | CONSTANT
-        { $$ = nullexp("CONSTANT", parse_int($1)); }
+    | constant
+        { $$ = nullexp("CONSTANT", $1); }
+    
+    /* Note that we assume Javascript escape sequences
+     * which slightly differ from C's - only in handling code points. */
+    
+    | CHAR_CONSTANT
+        { $$ = nullexp("CHAR_CONSTANT",  interpret_cstring($1.slice(1, -1))); }
     | STRING_LITERAL
-        { $$ = nullexp("STRING_LITERAL", $1); }
+        { $$ = nullexp("STRING_LITERAL", interpret_cstring($1.slice(1, -1))); }
     | '(' expression ')'
         { $$ = $2; }
     ;
@@ -448,8 +480,8 @@ declarator
     ;
 
 array_declarator
-    : IDENTIFIER '[' CONSTANT ']'
-        { $$ = partial_array_declaration($1, parse_int($3)); }
+    : IDENTIFIER '[' constant ']'
+        { $$ = partial_array_declaration($1, $3); }
     ;
 
 simple_declarator

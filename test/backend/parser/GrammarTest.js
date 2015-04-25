@@ -87,7 +87,16 @@ describe("Parser Grammar", function() {
             file: "void_functions",
             expected: "ok",
         },
-
+        {
+            description: "Char type",
+            file: "char_type",
+            expected: "ok",
+        },
+        {
+            description: "Character escape sequences",
+            file: "char_escapes",
+            expected: "ok",
+        },
         // bad
         {
             description: "Bad - Hello World",

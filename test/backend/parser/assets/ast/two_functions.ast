@@ -50,7 +50,7 @@
                         "type": "return",
                         "rexpression": {
                             "type": "STRING_LITERAL",
-                            "value": "\"krewetka\""
+                            "value": "krewetka"
                         }
                     }
                 ]
