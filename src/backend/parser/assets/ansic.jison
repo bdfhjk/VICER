@@ -436,6 +436,8 @@ declarator_list
 type_specifier
     : INT 
         { $$ = concrete_type("int"); }
+    | CHAR
+        { $$ = concrete_type("char"); }
     ;
 
 declarator
