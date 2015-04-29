@@ -97,6 +97,11 @@ describe("Parser Grammar", function() {
             file: "char_escapes",
             expected: "ok",
         },
+        {
+            description: "Malloc",
+            file: "malloc",
+            expected: "ok",
+        },
         // bad
         {
             description: "Bad - Hello World",
@@ -146,6 +151,11 @@ describe("Parser Grammar", function() {
         {
             description: "No void parameters",
             file: "no_void_parameters",
+            expected: "error",
+        },
+        {
+            description: "No malloc without explicit cast",
+            file: "nocast_malloc",
             expected: "error",
         },
     ]

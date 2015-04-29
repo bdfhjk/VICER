@@ -228,6 +228,14 @@
         }
         return result.join("");
     }
+
+    function malloc(tvalue, size) {
+        return {
+            type: "MALLOC",
+            tvalue: tvalue,
+            size: size,
+        };
+    }
 %}
 
 %token IDENTIFIER STRING_LITERAL SIZEOF
@@ -242,6 +250,8 @@
 %token STRUCT UNION ENUM ELLIPSIS
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+
+%token MALLOC
 
 %start translation_unit
 %%
@@ -322,6 +332,8 @@ unary_operator
 cast_expression
     : unary_expression
         { $$ = $1; }
+    | '(' type_specifier '*' ')' MALLOC '(' constant ')'
+        { $$ = malloc($2, $7); }
 /*    | '(' type_name ')' cast_expression */
     ;
 

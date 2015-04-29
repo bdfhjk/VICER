@@ -44,6 +44,9 @@ E           [ntvbrfa\\?'"]
 "volatile"      return 'VOLATILE';
 "while"         return 'WHILE';
 
+/* there is no void* so we handle malloc specifically */
+"malloc"        return "MALLOC";
+
 {L}({L}|{D})*       return 'IDENTIFIER';
 0[xX]{H}+           return 'HEX_CONSTANT';
 0{D}+               return 'OCTAL_CONSTANT';
