@@ -1,11 +1,7 @@
-define(["when", "mod_process"], function(when, Process) {
-
-    function compile(source) {
-        return when(new Process());
-    }
+define(["./Parser"], function(parse) {
 
     return {
-        compile: compile
+        parse: parse
     };
     
 });

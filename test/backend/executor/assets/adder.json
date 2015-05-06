@@ -1,0 +1,74 @@
+{
+    "global": {
+
+    },
+    "values": {
+        "_2": 2,
+        "_4": 4
+    },
+    "functions": {
+        "main": { 
+            "returns": { "type": "int" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "_4"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "RESOLVE",
+                    "param": "_2"
+                },
+                "3": {
+                    "type": "FETCH"
+                },
+                "4": {
+                    "type": "RESOLVE",
+                    "param": "add"
+                },
+                "5": {
+                    "type": "CALL"
+                },
+                "6": {
+                    "type": "RETURN"
+                }
+            }
+        },
+        "add": {
+            "returns": { "type": "int" },
+            "args": ["a", "b"],
+            "env": {
+                "a": { "type": "int" },
+                "b": { "type": "int" }
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "a"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "RESOLVE",
+                    "param": "b"
+                },
+                "3": {
+                    "type": "FETCH"
+                },
+                "4": {
+                    "type": "ADD"
+                },
+                "5": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}

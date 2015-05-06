@@ -1,0 +1,20 @@
+{
+    "global": {
+
+    },
+    "values": {
+
+    },
+    "functions": {
+        "main": { 
+            "returns": { "type": "int" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                
+            }
+        }
+    }
+}

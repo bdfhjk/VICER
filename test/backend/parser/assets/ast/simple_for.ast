@@ -1,0 +1,241 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "some_sum",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [
+                    {
+                        "type": "declaration",
+                        "name": "i",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    },
+                    {
+                        "type": "declaration",
+                        "name": "j",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    },
+                    {
+                        "type": "declaration",
+                        "name": "result",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    },
+                    {
+                        "type": "declaration",
+                        "name": "result2",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    }
+                ],
+                "statements": [
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "result"
+                            },
+                            "right": {
+                                "type": "ASSIGN",
+                                "left": {
+                                    "type": "INDENTIFIER",
+                                    "value": "result2"
+                                },
+                                "right": {
+                                    "type": "CONSTANT",
+                                    "value": 0
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "for",
+                        "condition": {
+                            "type": "LESS",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 100
+                            }
+                        },
+                        "pre_statement": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 1
+                            }
+                        },
+                        "post_statement": {
+                            "type": "PRE_INC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            }
+                        },
+                        "body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "expression_statement",
+                                    "expression": {
+                                        "type": "+=",
+                                        "left": {
+                                            "type": "INDENTIFIER",
+                                            "value": "result"
+                                        },
+                                        "right": {
+                                            "type": "INDENTIFIER",
+                                            "value": "i"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "for",
+                        "condition": {
+                            "type": "LESS",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 100
+                            }
+                        },
+                        "pre_statement": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 1
+                            }
+                        },
+                        "post_statement": {
+                            "type": "PRE_INC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "i"
+                            }
+                        },
+                        "body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "for",
+                                    "condition": {
+                                        "type": "LESS",
+                                        "left": {
+                                            "type": "INDENTIFIER",
+                                            "value": "j"
+                                        },
+                                        "right": {
+                                            "type": "CONSTANT",
+                                            "value": 100
+                                        }
+                                    },
+                                    "pre_statement": {
+                                        "type": "ASSIGN",
+                                        "left": {
+                                            "type": "INDENTIFIER",
+                                            "value": "j"
+                                        },
+                                        "right": {
+                                            "type": "INDENTIFIER",
+                                            "value": "i"
+                                        }
+                                    },
+                                    "post_statement": {
+                                        "type": "PRE_INC",
+                                        "subexp": {
+                                            "type": "INDENTIFIER",
+                                            "value": "j"
+                                        }
+                                    },
+                                    "body": {
+                                        "type": "compound_statement",
+                                        "declarations": [],
+                                        "statements": [
+                                            {
+                                                "type": "expression_statement",
+                                                "expression": {
+                                                    "type": "+=",
+                                                    "left": {
+                                                        "type": "INDENTIFIER",
+                                                        "value": "result2"
+                                                    },
+                                                    "right": {
+                                                        "type": "ADD",
+                                                        "left": {
+                                                            "type": "INDENTIFIER",
+                                                            "value": "i"
+                                                        },
+                                                        "right": {
+                                                            "type": "INDENTIFIER",
+                                                            "value": "j"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "ADD",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "result"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "result2"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

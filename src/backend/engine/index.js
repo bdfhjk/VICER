@@ -1,9 +1,12 @@
-define(["mod_parser", "mod_executor", "mod_data_structures"], function(parser, executor, dataStructures) {
+define(["mod_parser", "mod_preprocessor", "mod_executor", "mod_data_structures"], function(parser, preprocessor, executor, dataStructures) {
     
     var process;
 
     function runProgram(source) {
-        return parser.compile(source);
+        var tree = parser.parse(source);
+        var program = preprocessor.compile(tree);
+        process = executor.createProcess(program.global, program.functions, program.values, null); // TODO introduce world
+        return executor.finish(process);
     }
 
     function nextStep() {

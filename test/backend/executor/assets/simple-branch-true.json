@@ -1,0 +1,53 @@
+{
+    "global": {
+
+    },
+    "values": {
+        "_1": 1,
+        "_21": 21,
+        "_42": 42
+    },
+    "functions": {
+        "main": { 
+            "returns": { "type": "int" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "_1"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "BRANCH",
+                    "true": 3,
+                    "false": 6
+                },
+                "3": {
+                    "type": "RESOLVE",
+                    "param": "_42"
+                },
+                "4": {
+                    "type": "FETCH"
+                },
+                "5": {
+                    "type": "RETURN"
+                },
+                "6": {
+                    "type": "RESOLVE",
+                    "param": "_21"
+                },
+                "7": {
+                    "type": "FETCH"
+                },
+                "8": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}

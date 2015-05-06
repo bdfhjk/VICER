@@ -1,0 +1,29 @@
+{
+    "global": {
+
+    },
+    "values": {
+        "_42": 42
+    },
+    "functions": {
+        "main": { 
+            "returns": { "type": "int" },
+            "args": [],
+            "env": {
+
+            },
+            "cfg": {
+                "0": {
+                    "type": "RESOLVE",
+                    "param": "_42"
+                },
+                "1": {
+                    "type": "FETCH"
+                },
+                "2": {
+                    "type": "RETURN"
+                }
+            }
+        }
+    }
+}
