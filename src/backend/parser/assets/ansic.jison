@@ -1,11 +1,15 @@
 %{
-
     function extend(to, from) {
         for (var k in from) to[k] = from[k];
     }
 
     function print(obj) {
         //console.log(JSON.stringify(obj, null, 4));
+    }
+
+    function addloc(target, loc_info) {
+        target.loc = loc_info;
+        return target;
     }
 
     function pointer(declarator) {
@@ -542,6 +546,11 @@ parameter_declaration
 /* ---------- STATEMENTS ---------- */
 
 statement
+    : statement_noloc
+        { $$ = addloc($1, @1); }
+    ;
+
+statement_noloc
     : compound_statement
         { $$ = $1; }
     | expression_statement
@@ -555,6 +564,11 @@ statement
     ;
 
 compound_statement
+    : compound_statement_noloc
+        { $$ = addloc($1, @1); }
+    ;
+
+compound_statement_noloc
     : '{' '}'
         { $$ = compound_statement([], []); }
     | '{' statement_list '}'
@@ -588,21 +602,28 @@ expression_statement
 
 selection_statement /* we use compound_statement to avoid ambiguity */
     : IF '(' expression ')' compound_statement
-        { $$ = if_statement($3, $5, null); }
+        { $$ = if_statement(addloc($3, @3), $5, null); }
 
     | IF '(' expression ')' compound_statement ELSE compound_statement
-        { $$ = if_statement($3, $5, $7); }
+        { $$ = if_statement(addloc($3, @3), $5, $7); }
     ;
 
 iteration_statement
     : WHILE '(' expression ')' statement
-        { $$ = while_statement($3, $5); }
+        { $$ = while_statement(addloc($3, @3), $5); }
 
     | FOR '(' expression_statement expression_statement ')' statement
-        { $$ = for_statement($4.expression, $3.expression, null, $6); }
+        { $$ = for_statement(
+            addloc($4.expression, @4),
+            addloc($3.expression, @3),
+            null, $6); }
 
     | FOR '(' expression_statement expression_statement expression ')' statement
-        { $$ = for_statement($4.expression, $3.expression, $5, $7); }
+        { $$ = for_statement(
+            addloc($4.expression, @4),
+            addloc($3.expression, @3),
+            addloc($5, @5),
+            $7); }
     ;
 
 jump_statement
@@ -638,16 +659,16 @@ external_declaration
     ;
 
 function_definition
-    : function_declaration_no_colon compound_statement
-        { $$ = function_definition($1, $2); }
+    : function_declaration_no_semicolon compound_statement
+        { $$ = function_definition(addloc($1, @1), $2); }
     ;
 
 function_declaration
-    : function_declaration_no_colon ';'
+    : function_declaration_no_semicolon ';'
         { $$ = $1; }
     ;
 
-function_declaration_no_colon
+function_declaration_no_semicolon
     : type_specifier function_declarator
         { $$ = full_declaration($1, $2); }
     | VOID function_declarator
