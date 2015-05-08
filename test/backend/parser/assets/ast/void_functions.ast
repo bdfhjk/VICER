@@ -1,0 +1,78 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_declaration",
+            "name": "f",
+            "param_tvalues": [],
+            "param_names": [],
+            "return_tvalue": {
+                "type": "concrete_type",
+                "name": "void"
+            }
+        },
+        {
+            "type": "function_declaration",
+            "name": "g",
+            "param_tvalues": [
+                {
+                    "type": "pointer",
+                    "tvalue": {
+                        "type": "concrete_type",
+                        "name": "int"
+                    }
+                }
+            ],
+            "param_names": [
+                "a"
+            ],
+            "return_tvalue": {
+                "type": "concrete_type",
+                "name": "void"
+            }
+        },
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "h",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "void"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": []
+            }
+        },
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "z",
+                "param_tvalues": [
+                    {
+                        "type": "concrete_type",
+                        "name": "int"
+                    }
+                ],
+                "param_names": [
+                    "a"
+                ],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "void"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": []
+            }
+        }
+    ]
+}

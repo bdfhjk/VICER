@@ -1,0 +1,136 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "main",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": [
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "STRING_LITERAL",
+                            "value": "\n\t\u000b\b\r\f\u0007\\?'\""
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "STRING_LITERAL",
+                            "value": "?"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "STRING_LITERAL",
+                            "value": "'"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\n"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\t"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\u000b"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\b"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\r"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\f"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\u0007"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\\"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "?"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "?"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "'"
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\""
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "CHAR_CONSTANT",
+                            "value": "\""
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

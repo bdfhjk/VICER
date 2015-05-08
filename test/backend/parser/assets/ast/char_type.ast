@@ -1,0 +1,91 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "main",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [
+                    {
+                        "type": "declaration",
+                        "name": "a",
+                        "tvalue": {
+                            "type": "pointer",
+                            "tvalue": {
+                                "type": "concrete_type",
+                                "name": "char"
+                            }
+                        }
+                    }
+                ],
+                "statements": [
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "STRING_LITERAL",
+                                "value": "Ala ma kota"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "SUBSCRIPT",
+                                "left": {
+                                    "type": "INDENTIFIER",
+                                    "value": "a"
+                                },
+                                "right": {
+                                    "type": "CONSTANT",
+                                    "value": 3
+                                }
+                            },
+                            "right": {
+                                "type": "CHAR_CONSTANT",
+                                "value": "d"
+                            }
+                        }
+                    },
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "FUNCTION_CALL",
+                            "name": "printf",
+                            "parameters": [
+                                {
+                                    "type": "INDENTIFIER",
+                                    "value": "a"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "CONSTANT",
+                            "value": 0
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

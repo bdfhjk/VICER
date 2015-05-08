@@ -82,7 +82,26 @@ describe("Parser Grammar", function() {
             file: "two_functions",
             expected: "ok"
         },
-
+        {
+            description: "Void functions",
+            file: "void_functions",
+            expected: "ok",
+        },
+        {
+            description: "Char type",
+            file: "char_type",
+            expected: "ok",
+        },
+        {
+            description: "Character escape sequences",
+            file: "char_escapes",
+            expected: "ok",
+        },
+        {
+            description: "Malloc",
+            file: "malloc",
+            expected: "ok",
+        },
         // bad
         {
             description: "Bad - Hello World",
@@ -128,6 +147,16 @@ describe("Parser Grammar", function() {
             description: "No 2D arrays",
             file: "no_2Darrays",
             expected: "error"
+        },
+        {
+            description: "No void parameters",
+            file: "no_void_parameters",
+            expected: "error",
+        },
+        {
+            description: "No malloc without explicit cast",
+            file: "nocast_malloc",
+            expected: "error",
         },
     ]
     .map(function(testCase) {
