@@ -1,5 +1,5 @@
-define(["d3js"], function(){
-  function draw(svg, x, y, name, value, isnew) {
+define(["console", "d3js"], function(my_console){
+  function draw(svg, x, y, name, value, status) {
 
     var rectangle = svg.append("rect")
       .attr("x", x)
@@ -21,9 +21,11 @@ define(["d3js"], function(){
     // Centering
     var value_xs = 50 - value_s.length * 10 / 2 + 5;
 
-    var color = "black";
-    if (isnew)
-      color = "red";
+    var color = "Black";
+    if (status == "modified")
+      color = "Red";
+    if (status == "touched")
+      color = "GoldenRod";
 
     var sampleText = svg.append("text")
       .text(value_s)

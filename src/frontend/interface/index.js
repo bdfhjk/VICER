@@ -9,6 +9,7 @@ define(['jquery',
 
     function nextStep(){
         visualization.clearState();
+        /*
         backend.nextStep()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -17,11 +18,13 @@ define(['jquery',
                 my_console.addToConsole('exception', err.stack);
             })
             .done();
+        */
         visualization.update();
         visualization.redraw();
     }
 
     function nextStepOver(){
+        /*
         backend.nextStepOver()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -30,6 +33,7 @@ define(['jquery',
                 my_console.addToConsole('exception', err.stack);
             })
             .done();
+         */
     }
 
     function initiateExecution(){
@@ -43,7 +47,7 @@ define(['jquery',
     function startExecution(){
         stopExecution();
         try {
-            var exitCode = backend.runProgram(cm.doc.getValue());
+            var exitCode = backend.runProgram(cm.doc.getValue(), "sample_input_mockup");
             my_console.addToConsole('compile', 'Compilation successful.');
             my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
             // initiateExecution();    

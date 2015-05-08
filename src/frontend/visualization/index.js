@@ -4,13 +4,15 @@ define(["d3js",
         "tables",
         "pointers",
         "trees",
-        "stack"], function(_d3js,
+        "stack",
+        "console"], function(_d3js,
                            variables,
                            lists,
                            tables,
                            pointers,
                            trees,
-                           stack){
+                           stack,
+                           my_console){
 
   var variablesSectors = 0,
       listsSectors = 0,
@@ -57,11 +59,12 @@ define(["d3js",
     svg.attr("width", getWidth()).attr("height", getHeight());
 
     stack.draw(svg);
-    variables.drawSector(svg, variablesList, variablesSectors, getWidth(), 0);
-    lists.drawSector(svg, listsList, listsSectors);
-    tables.drawSector(svg, tablesList, tablesSectors);
-    trees.drawSector(svg, treesList, treesSectors);
-    pointers.drawSector(svg, pointersList, pointersSectors);
+    var position_y = 0;
+    variables.drawSector(svg, variablesList, variablesSectors, getWidth(), position_y); position_y += variablesSectors;
+    lists.drawSector(svg, listsList, listsSectors, getWidth(), position_y); position_y += listsSectors;
+    tables.drawSector(svg, tablesList, tablesSectors, getWidth(), position_y); position_y += tablesSectors;
+    trees.drawSector(svg, treesList, treesSectors, getWidth(), position_y); position_y += treesSectors;
+    pointers.drawSector(svg, pointersList, pointersSectors, getWidth(), position_y);
     }
 
     function changeVariable(name, value) {
@@ -69,42 +72,104 @@ define(["d3js",
       for (i = 0; i < variablesList.length; i++){
         if (variablesList[i].name == name){
           variablesList[i].value = value;
-          variablesList[i].isnew = true;
+          variablesList[i].status = "modified";
           found = true;
         }
       }
       if (!found)
-        variablesList.push({name: name, value: value, isnew: true});
+        variablesList.push({name: name, value: value, status: "modified"});
+    }
+
+    // When the variable was used, it will be displayed in separate color.
+    function useVariable(name) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].status = "touched";
+          found = true;
+        }
+      }
+      if (!found)
+        my_console.addToConsole('exception', "Internal exception #1 " + name);
+    }
+
+    function deleteVariable(name) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].status = "touched";
+          found = true;
+          variablesList.splice(i, 1);
+        }
+      }
+      if (!found)
+        my_console.addToConsole('exception', "Internal exception #2");
+    }
+
+    function changeActualSegment(startLine, startCharacter, endLine, endCharacter){
+      var doc = $('.CodeMirror')[0].CodeMirror;
+      var marks = doc.getAllMarks();
+      if (marks.length !== 0) {
+        marks[0].clear();
+      }
+      doc.markText(
+                   {line:startLine, ch:startCharacter},
+                   {line:endLine, ch:endCharacter},
+                   {css:"color: #fe3"});
     }
 
     function changeList() {}
-    function changeTable() {}
+
+    function changeTable(tableName, values) {
+      var found = false;
+      for (i = 0; i < tablesList.length; i++){
+        if (tablesList[i].name == tableName){
+          for(j = 0; j < tablesList[i].values.length; j++){
+            if (tablesList[i].values[j].value != values[j]){
+              tablesList[i].values[j].value = values[j];
+              tablesList[i].values[j].status = "modified";
+            }
+          }
+          found = true;
+        }
+      }
+      if (!found){
+        var t_values = [];
+        for(i = 0; i < values.length; i++){
+          t_values[i] = {};
+          t_values[i].value = values[i];
+          t_values[i].status = "modified";
+        }
+        tablesList.push({name: tableName, values: t_values});
+      }
+    }
     function changeTree() {}
     function changePointer() {}
     function changeStack() {}
 
     function clearState() {
       for(i = 0; i < variablesList.length; i++){
-        variablesList[i].isnew = false;
+        variablesList[i].status = "none";
       }
-      for(i = 0; i < listsList.length; i++){
-        variablesList[i].isnew = false;
-      }
+      for(i = 0; i < listsList.length; i++){}
       for(i = 0; i < tablesList.length; i++){
-        variablesList[i].isnew = false;
+        for(j = 0; j < tablesList[i].values.length; j++)
+          tablesList[i].values[j].status = "none";
       }
-      for(i = 0; i < treesList.length; i++){
-        variablesList[i].isnew = false;
-      }
-      for(i = 0; i < pointersList.length; i++){
-        variablesList[i].isnew = false;
-      }
+      for(i = 0; i < treesList.length; i++){}
+      for(i = 0; i < pointersList.length; i++){}
     }
 
     function update(){
       // just for test
       changeVariable("test" + String(Math.floor((Math.random() * 6) + 1)),
                      Math.floor((Math.random() * 100000000) + 1));
+      // just for test
+      useVariable("test" + String(Math.floor((Math.random() * 6) + 1)));
+      // just for test
+      changeActualSegment(Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)));
+      // just for test
+      changeTable("TestTable", [Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6))]);
 
       sectorLimit = getHeight() / SECTOR_SIZE;
       useStack = false;
