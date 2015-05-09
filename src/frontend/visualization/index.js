@@ -50,6 +50,16 @@ define(["d3js",
     return e.clientHeight * SIZE_RATIO_X;
   }
 
+  function clean(){
+    variablesList = [];
+    listsList = [];
+    tablesList = [];
+    treesList = [];
+    pointersList = [];
+    update();
+    redraw();
+  }
+
   function redraw(){
     d3.select("svg").remove();
 
@@ -227,5 +237,5 @@ define(["d3js",
     }
 
     window.onresize = redraw;
-    return {update: update, redraw: redraw, clearState: clearState};
+    return {update: update, redraw: redraw, clearState: clearState, clean: clean};
   });

@@ -11,6 +11,7 @@ requirejs.config({
         { name: 'cm', location: '../bower_components/codemirror', main: 'codemirror'},
         { name: 'd3js', location: '../bower_components/d3', main: 'd3.min'},
         { name: 'jquery', location: '../bower_components/jquery/dist', main: 'jquery.min'},
+        { name: 'bootstrap', location: '../bower_components/bootstrap/dist/js', main: 'bootstrap.min'},
         { name: 'sprintf', location: '../bower_components/sprintf/dist', main: 'sprintf.min'},
         { name: 'eventEmitter', location: '../bower_components/eventEmitter', main: 'EventEmitter.min'},
         { name: 'lodash', location: '../bower_components/lodash', main: 'lodash.min'},

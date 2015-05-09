@@ -2,7 +2,8 @@ define(["cm/lib/codemirror",
         "cm/mode/javascript/javascript",
         "cm/addon/selection/active-line",
         "cm/addon/edit/matchbrackets",
-        "jquery"], function(CodeMirror) {
+        "jquery",
+        "bootstrap"], function(CodeMirror) {
 	var cm = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		theme: "solarized light",

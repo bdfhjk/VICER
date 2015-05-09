@@ -47,7 +47,7 @@ define(['jquery',
     function startExecution(){
         stopExecution();
         try {
-            var exitCode = backend.runProgram(cm.doc.getValue(), "sample_input_mockup");
+            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
             my_console.addToConsole('compile', 'Compilation successful.');
             my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
             // initiateExecution();    
@@ -62,6 +62,7 @@ define(['jquery',
     function endExecution(){
         stopExecution();
         backend.clean();
+        visualization.clean();
         my_console.clearConsole();
     }
 
