@@ -2,7 +2,9 @@ define(["cm/lib/codemirror",
         "cm/mode/javascript/javascript",
         "cm/addon/selection/active-line",
         "cm/addon/edit/matchbrackets",
-        "jquery"], function(CodeMirror) {
+        "jquery",
+        "bootstrap"], function(CodeMirror) {
+  
 	var cm = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		theme: "solarized light",
@@ -12,6 +14,12 @@ define(["cm/lib/codemirror",
 		onUpdate: function(cm) {
 			cm.setSize("100%", "100%");
 		}
+    });
+    
+  
+    $('#profiletab a').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
     });
 	updateSize();
 	window.addEventListener('resize', updateSize);
@@ -25,5 +33,5 @@ define(["cm/lib/codemirror",
 		document.getElementById('codearea').style.width = Math.max(430, document.documentElement.clientWidth * 0.33) - 10;
 		document.getElementById('codearea').style.height = y - 55;
 	}
-    return cm;
+    return 0;//cm;
 });

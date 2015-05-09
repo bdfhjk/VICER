@@ -9,6 +9,40 @@
   </head>
   <body>
   <div id="container-codearea">
+  <div id="codearea">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li style="width: 50px;" class="nav active"><a href="#A" data-toggle="tab">CODE</a></li>
+            <li class="nav"><a href="#B" data-toggle="tab">INPUT</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="A">
+              <div>
+                <textarea rows="18" cols="50" id="code">
+int main(void)
+{
+  printf("Hello world!");
+  return 0;
+}</textarea>
+                </div>
+                <div id="container-buttons">
+                  <center>
+                    <button type="button" id="btn-start" class="btn btn-mini btn-success"><i class="fa fa-rocket"></i>&nbsp; Start</button>
+                    <button type="button" id="btn-step" class="btn btn-mini btn-primary"><i class="fa fa-share"></i>&nbsp; Step</button>
+                    <button type="button" id="btn-step-over" class="btn btn-mini btn-info"><i class="fa fa-share-square"></i>&nbsp; Step over</button>
+                    <button type="button" id="btn-stop" class="btn btn-mini btn-warning"><i class="fa fa-shield"></i>&nbsp; Stop</button>
+                    <button type="button" id="btn-end" class="btn btn-mini btn-danger"><i class="fa fa-square"></i>&nbsp; End</button>
+                  </center>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="B">Content inside tab B</div>
+        </div>
+    </div>
+  </div>
+    
+    <!--
     <div id="codearea">
       <div>
       <textarea rows="18" cols="50" id="code">
@@ -27,6 +61,7 @@ int main(void)
           <button type="button" id="btn-end" class="btn btn-mini btn-danger"><i class="fa fa-square"></i>&nbsp; End</button>
         </center>
       </div>
+    !-->
     </div>
     <div id="display"> </div>
 
