@@ -29,7 +29,7 @@
     }
 
     function addloc(target, loc_info, ops) {
-        if (get_options(ops).locations) {
+        if (get_options(ops).locations && target !== null) {
             target.loc = loc_info;
         }
         return target;
