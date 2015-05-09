@@ -14,6 +14,7 @@ describe("Parser Grammar", function() {
         var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
         var lexerSource = JisonLex.generate(lexerGrammar);
         var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
+
         parser = new Jison.Parser(parserGrammar);
         parser.lexer = new JisonLex(lexerGrammar);
 
@@ -164,7 +165,7 @@ describe("Parser Grammar", function() {
             var program = fs.readFileSync(__dirname + "/assets/programs/" + testCase.file + ".c", 'utf-8');
             var result;
             try {
-                result = parser.parse(program);
+                result = parser.parse(program, { locations: false });
             } catch (e) {
                 result = e;
             }

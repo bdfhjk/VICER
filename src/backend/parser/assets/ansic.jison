@@ -1,14 +1,37 @@
 %{
+    function get_options(ops) {
+        var defaults = {
+            print: false,
+            locations: true,
+        };
+
+        if (ops === undefined) {
+            return defaults;
+        }
+        result = {};
+        extend(result, ops);
+        extend(result, defaults);
+        return result;
+    }
+
     function extend(to, from) {
-        for (var k in from) to[k] = from[k];
+        for (var k in from) {
+            if (!(k  in to)) {
+                to[k] = from[k];
+            }
+        }
     }
 
-    function print(obj) {
-        //console.log(JSON.stringify(obj, null, 4));
+    function print(obj, ops) {
+        if (get_options(ops).print) {
+            console.log(JSON.stringify(obj, null, 4));
+        }
     }
 
-    function addloc(target, loc_info) {
-        target.loc = loc_info;
+    function addloc(target, loc_info, ops) {
+        if (get_options(ops).locations) {
+            target.loc = loc_info;
+        }
         return target;
     }
 
@@ -258,6 +281,8 @@
 %token MALLOC
 
 %start translation_unit
+
+%parse-param ops
 %%
 
 /* --------- EXPRESSIONS ---------- */
@@ -547,7 +572,7 @@ parameter_declaration
 
 statement
     : statement_noloc
-        { $$ = addloc($1, @1); }
+        { $$ = addloc($1, @1, ops); }
     ;
 
 statement_noloc
@@ -565,7 +590,7 @@ statement_noloc
 
 compound_statement
     : compound_statement_noloc
-        { $$ = addloc($1, @1); }
+        { $$ = addloc($1, @1, ops); }
     ;
 
 compound_statement_noloc
@@ -602,27 +627,27 @@ expression_statement
 
 selection_statement /* we use compound_statement to avoid ambiguity */
     : IF '(' expression ')' compound_statement
-        { $$ = if_statement(addloc($3, @3), $5, null); }
+        { $$ = if_statement(addloc($3, @3, ops), $5, null); }
 
     | IF '(' expression ')' compound_statement ELSE compound_statement
-        { $$ = if_statement(addloc($3, @3), $5, $7); }
+        { $$ = if_statement(addloc($3, @3, ops), $5, $7); }
     ;
 
 iteration_statement
     : WHILE '(' expression ')' statement
-        { $$ = while_statement(addloc($3, @3), $5); }
+        { $$ = while_statement(addloc($3, @3, ops), $5); }
 
     | FOR '(' expression_statement expression_statement ')' statement
         { $$ = for_statement(
-            addloc($4.expression, @4),
-            addloc($3.expression, @3),
+            addloc($4.expression, @4, ops),
+            addloc($3.expression, @3, ops),
             null, $6); }
 
     | FOR '(' expression_statement expression_statement expression ')' statement
         { $$ = for_statement(
-            addloc($4.expression, @4),
-            addloc($3.expression, @3),
-            addloc($5, @5),
+            addloc($4.expression, @4, ops),
+            addloc($3.expression, @3, ops),
+            addloc($5, @5, ops),
             $7); }
     ;
 
@@ -639,7 +664,7 @@ jump_statement
 
 translation_unit
     : external_declaration_list
-        { print(translation_unit($1)); return translation_unit($1); }
+        { print(translation_unit($1), ops); return translation_unit($1); }
     ;
 
 external_declaration_list
@@ -660,7 +685,7 @@ external_declaration
 
 function_definition
     : function_declaration_no_semicolon compound_statement
-        { $$ = function_definition(addloc($1, @1), $2); }
+        { $$ = function_definition(addloc($1, @1, ops), $2); }
     ;
 
 function_declaration
