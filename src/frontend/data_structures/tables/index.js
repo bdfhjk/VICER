@@ -1,9 +1,14 @@
 define(["console", "variable", "d3js"], function(my_console, variable){
   function drawSector(svg, list, available_s, available_y, start_s) {
-    var num_in_sec = Math.floor(available_y / 120);
+
+    var cellMargin = 120,
+        cellWidth = 100,
+        cellHeight = 50;
+
+    var num_in_sec = Math.floor(available_y / cellMargin);
 
     for(i = 0; i < list.length; i++){
-      var over_limit = false;
+      var over_limit = false; // If we need to cut the table display.
       if (list[i].values.length > num_in_sec)
         over_limit = true;
 
@@ -15,16 +20,16 @@ define(["console", "variable", "d3js"], function(my_console, variable){
         var name = j.toString();
         if (j === 0)
           name = list[i].name;
-        variable.draw(svg, 10 + j * 100,
-                      start_s * 50 + i * 50 + 5,
+        variable.draw(svg, 10 + j * cellWidth,
+                      start_s * cellHeight + i * cellHeight + 5,
                       name,
                       list[i].values[j].value,
                       list[i].values[j].status);
       }
 
       if (over_limit)
-        variable.draw(svg, 10 + number_to_draw * 100,
-                      start_s * 50 + i * 50 + 5,
+        variable.draw(svg, 10 + number_to_draw * cellWidth,
+                      start_s * cellHeight + i * cellHeight + 5,
                       "cutted",
                       "...",
                       "none");

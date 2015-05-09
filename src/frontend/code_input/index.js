@@ -4,6 +4,8 @@ define(["cm/lib/codemirror",
         "cm/addon/edit/matchbrackets",
         "jquery",
         "bootstrap"], function(CodeMirror) {
+
+    //CodeMirror plugin initialization.
 	var cm = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		theme: "solarized light",
@@ -16,6 +18,8 @@ define(["cm/lib/codemirror",
     });
 	updateSize();
 	window.addEventListener('resize', updateSize);
+
+    //Scaling left part of interface (code input and buttons).
 	function updateSize(){
         var w = window,
         dc = document,
@@ -23,8 +27,15 @@ define(["cm/lib/codemirror",
         g = dc.getElementsByTagName('body')[0];
         x = e.clientWidth;
         y = e.clientHeight;
-		document.getElementById('codearea').style.width = Math.max(430, document.documentElement.clientWidth * 0.33) - 10;
-		document.getElementById('codearea').style.height = y - 55;
+
+        var codeMinWidth = 430,
+            codeScale = 0.33,
+            codeMargin = 10,
+            buttonsHeight = 55;
+
+		document.getElementById('codearea').style.width = Math.max(codeMinWidth,
+                                                                   document.documentElement.clientWidth * codeScale) - codeMargin;
+		document.getElementById('codearea').style.height = y - buttonsHeight;
 	}
     return cm;
 });

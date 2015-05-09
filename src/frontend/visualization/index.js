@@ -34,6 +34,8 @@ define(["d3js",
       treesList = [],
       pointersList = [];
 
+  /* --------------- HELPERS --------------- */
+
   function getWidth(){
     var w = window,
     dc = document,
@@ -60,22 +62,7 @@ define(["d3js",
     redraw();
   }
 
-  function redraw(){
-    d3.select("svg").remove();
-
-    svg = d3.select("body").select("#display").append("svg")
-      .attr("width", getWidth())
-      .attr("height", getHeight());
-    svg.attr("width", getWidth()).attr("height", getHeight());
-
-    stack.draw(svg);
-    var position_y = 0;
-    variables.drawSector(svg, variablesList, variablesSectors, getWidth(), position_y); position_y += variablesSectors;
-    lists.drawSector(svg, listsList, listsSectors, getWidth(), position_y); position_y += listsSectors;
-    tables.drawSector(svg, tablesList, tablesSectors, getWidth(), position_y); position_y += tablesSectors;
-    trees.drawSector(svg, treesList, treesSectors, getWidth(), position_y); position_y += treesSectors;
-    pointers.drawSector(svg, pointersList, pointersSectors, getWidth(), position_y);
-    }
+  /* --------------- INTEFRACE IMPLEMENTATION --------------- */
 
     function changeVariable(name, value) {
       var found = false;
@@ -122,13 +109,10 @@ define(["d3js",
       if (marks.length !== 0) {
         marks[0].clear();
       }
-      doc.markText(
-                   {line:startLine, ch:startCharacter},
+      doc.markText({line:startLine, ch:startCharacter},
                    {line:endLine, ch:endCharacter},
                    {css:"color: #fe3"});
     }
-
-    function changeList() {}
 
     function changeTable(tableName, values) {
       var found = false;
@@ -143,6 +127,7 @@ define(["d3js",
           found = true;
         }
       }
+
       if (!found){
         var t_values = [];
         for(i = 0; i < values.length; i++){
@@ -153,9 +138,13 @@ define(["d3js",
         tablesList.push({name: tableName, values: t_values});
       }
     }
-    function changeTree() {}
-    function changePointer() {}
-    function changeStack() {}
+
+    function changeList() {}    //Stub
+    function changeTree() {}    //Stub
+    function changePointer() {}   //Stub
+    function changeStack() {}   //Stub
+
+    /* --------------- VISUAL UPDATE IMPLEMENTATION --------------- */
 
     function clearState() {
       for(i = 0; i < variablesList.length; i++){
@@ -170,16 +159,38 @@ define(["d3js",
       for(i = 0; i < pointersList.length; i++){}
     }
 
-    function update(){
-      // just for test
+    //Redraw the display part. Need to call update first.
+    function redraw(){
+      d3.select("svg").remove();
+
+      svg = d3.select("body").select("#display").append("svg")
+        .attr("width", getWidth())
+        .attr("height", getHeight());
+      svg.attr("width", getWidth()).attr("height", getHeight());
+
+      stack.draw(svg);
+      var position_y = 0;
+      variables.drawSector(svg, variablesList, variablesSectors, getWidth(), position_y); position_y += variablesSectors;
+      lists.drawSector(svg, listsList, listsSectors, getWidth(), position_y); position_y += listsSectors;
+      tables.drawSector(svg, tablesList, tablesSectors, getWidth(), position_y); position_y += tablesSectors;
+      trees.drawSector(svg, treesList, treesSectors, getWidth(), position_y); position_y += treesSectors;
+      pointers.drawSector(svg, pointersList, pointersSectors, getWidth(), position_y);
+    }
+
+    //Function randomly using interface. Don't worry about internal errors, because it's not checking conditions.
+    function testing(){
       changeVariable("test" + String(Math.floor((Math.random() * 6) + 1)),
                      Math.floor((Math.random() * 100000000) + 1));
-      // just for test
       useVariable("test" + String(Math.floor((Math.random() * 6) + 1)));
-      // just for test
       changeActualSegment(Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)));
-      // just for test
       changeTable("TestTable", [Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6))]);
+    }
+
+    //Update the internal structure of visualization.
+    function update(){
+
+      //Testing interface. To be removed in production.
+      testing();
 
       sectorLimit = getHeight() / SECTOR_SIZE;
       useStack = false;

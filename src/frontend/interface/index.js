@@ -9,7 +9,7 @@ define(['jquery',
 
     function nextStep(){
         visualization.clearState();
-        /*
+        /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStep()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -24,7 +24,7 @@ define(['jquery',
     }
 
     function nextStepOver(){
-        /*
+        /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStepOver()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -50,7 +50,7 @@ define(['jquery',
             var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
             my_console.addToConsole('compile', 'Compilation successful.');
             my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
-            // initiateExecution();    
+            // initiateExecution();
         } catch (err) {
             my_console.addToConsole('exception', err.message);
             if (DEBUG.COMPILE_ERROR_STACK && err.stack) {

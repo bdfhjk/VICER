@@ -1,3 +1,4 @@
+//Not implemented. Stub.
 define(["d3js", "variable"], function(){
   function drawSector(svg, list, available_s, available_y, start_s) {}
 
