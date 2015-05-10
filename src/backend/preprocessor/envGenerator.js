@@ -72,7 +72,7 @@ define(['lodash'], function (_) {
 	}
 
 	// substitute constants with implicit casts
-	if (ast.type === 'CONSTANT') {
+	if (ast.type === 'CONSTANT' || ast.type === 'CHAR_CONSTANT') {
 	    ast.tvalue = createEnvEntry(ENV_TEMPLATES[ast.type]);
 	    ast.type = 'INDENTIFIER';
 	    if (!constants[ast.value]) {
@@ -213,6 +213,10 @@ define(['lodash'], function (_) {
 	CONSTANT: {
 	    type: 'concrete_type',
 	    name: 'INT'
+	},
+	CHAR_CONSTANT: {
+	    type: 'concrete_type',
+	    name: 'CHAR'
 	},
 	STRING_LITERAL: {
 	    type: 'pointer',

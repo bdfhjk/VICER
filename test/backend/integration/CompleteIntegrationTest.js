@@ -110,11 +110,11 @@ describe("Complete Integration Test", function() {
 	    file: "pointer-add.c",
 	    expected: 7
 	},
-	{
-	    description: "change char in char array",
-	    file: "change-char.c",
-	    expected_printf: "Aladma kota"
-	}
+	// {
+	//     description: "change char in char array",
+	//     file: "change-char.c",
+	//     expected_printf: "Aladma kota"
+	// }
     ]
     .map(function(testCase) {
         it (testCase.description, function(done) {
