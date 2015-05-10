@@ -37,7 +37,6 @@ circle {
 
 .CodeMirror {
   font-family: monospace;
-  /*height: 70%;*/
   color: black;
 }
 
@@ -58,6 +57,7 @@ circle {
 
 .btn {
   font-size: 12px;
+  padding: 6px 6px;
 }
 
 #codearea {

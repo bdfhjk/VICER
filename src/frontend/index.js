@@ -1,4 +1,3 @@
-
 var backend;
 
 function initBackend() {

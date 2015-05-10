@@ -9,6 +9,8 @@
   </head>
   <body>
   <div id="container-codearea">
+
+    <!-- Code input place, implememted via CodeMirror plugin -->
     <div id="codearea">
       <div>
       <textarea rows="18" cols="50" id="code">
@@ -18,17 +20,51 @@ int main(void)
   return 0;
 }</textarea>
       </div>
+
+      <!-- Buttons for performing all operations -->
       <div id="container-buttons">
 		<center>
-          <button type="button" id="btn-start" class="btn btn-mini btn-success"><i class="fa fa-rocket"></i>&nbsp; Start</button>
-          <button type="button" id="btn-step" class="btn btn-mini btn-primary"><i class="fa fa-share"></i>&nbsp; Step</button>
-          <button type="button" id="btn-step-over" class="btn btn-mini btn-info"><i class="fa fa-share-square"></i>&nbsp; Step over</button>
-          <button type="button" id="btn-stop" class="btn btn-mini btn-warning"><i class="fa fa-shield"></i>&nbsp; Stop</button>
-          <button type="button" id="btn-end" class="btn btn-mini btn-danger"><i class="fa fa-square"></i>&nbsp; End</button>
+          <button type="button" id="btn-start" class="btn btn-mini btn-success">
+            <i class="fa fa-rocket"></i>&nbsp; Start
+          </button>
+          <button type="button" id="btn-step" class="btn btn-mini btn-primary">
+            <i class="fa fa-share"></i>&nbsp; Step
+          </button>
+          <button type="button" id="btn-step-over" class="btn btn-mini btn-info">
+            <i class="fa fa-share-square"></i>&nbsp; StepO
+          </button>
+          <button type="button" id="btn-stop" class="btn btn-mini btn-warning">
+            <i class="fa fa-shield"></i>&nbsp; Stop
+          </button>
+          <button type="button" id="btn-end" class="btn btn-mini btn-danger">
+            <i class="fa fa-square"></i>&nbsp; End
+          </button>
+          <button type="button" id="btn-input" class="btn btn-mini btn-default" data-toggle="modal" data-target="#inputModal">
+            <i class="fa  fa-external-link"></i>&nbsp; Input
+          </button>
         </center>
       </div>
     </div>
-    <div id="display"> </div>
+    <div id="display"></div>
+
+    <!-- Modal for code input-->
+    <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="inputModalLabel">Program options</h4>
+          </div>
+          <div class="modal-body">
+            <label for="inputTA" class="control-label">Input for the program:</label>
+            <textarea class="form-control" id="inputTA" rows="10" ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <footer class="footer">
     <div id="console">

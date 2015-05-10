@@ -1,9 +1,15 @@
-define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend, my_console, cm){
+define(['jquery',
+        'backend',
+        'console',
+        'code_input',
+        'visualization'], function(_jquery, backend, my_console, cm, visualization){
 
     var executionDelay = 1000;
     var loop = 0;
 
     function nextStep(){
+        visualization.clearState();
+        /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStep()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -12,9 +18,13 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
                 my_console.addToConsole('exception', err.stack);
             })
             .done();
+        */
+        visualization.update();
+        visualization.redraw();
     }
 
     function nextStepOver(){
+        /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStepOver()
             .then(function(executionResult) {
                 my_console.addToConsole('run', executionResult.description);
@@ -23,6 +33,7 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
                 my_console.addToConsole('exception', err.stack);
             })
             .done();
+         */
     }
 
     function initiateExecution(){
@@ -36,10 +47,10 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
     function startExecution(){
         stopExecution();
         try {
-            var exitCode = backend.runProgram(cm.doc.getValue());
+            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
             my_console.addToConsole('compile', 'Compilation successful.');
             my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
-            // initiateExecution();    
+            // initiateExecution();
         } catch (err) {
             my_console.addToConsole('exception', err.message);
             if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
@@ -51,6 +62,7 @@ define(['jquery', 'backend', 'console', 'code_input'], function(_jquery, backend
     function endExecution(){
         stopExecution();
         backend.clean();
+        visualization.clean();
         my_console.clearConsole();
     }
 

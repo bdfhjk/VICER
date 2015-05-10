@@ -4,13 +4,15 @@ define(["d3js",
         "tables",
         "pointers",
         "trees",
-        "stack"], function(_d3js,
+        "stack",
+        "console"], function(_d3js,
                            variables,
                            lists,
                            tables,
                            pointers,
                            trees,
-                           stack){
+                           stack,
+                           my_console){
 
   var variablesSectors = 0,
       listsSectors = 0,
@@ -32,6 +34,8 @@ define(["d3js",
       treesList = [],
       pointersList = [];
 
+  /* --------------- HELPERS --------------- */
+
   function getWidth(){
     var w = window,
     dc = document,
@@ -48,38 +52,154 @@ define(["d3js",
     return e.clientHeight * SIZE_RATIO_X;
   }
 
-  function redraw(){
-    d3.select("svg").remove();
+  function clean(){
+    variablesList = [];
+    listsList = [];
+    tablesList = [];
+    treesList = [];
+    pointersList = [];
+    update();
+    redraw();
+  }
 
-    svg = d3.select("body").select("#display").append("svg")
-      .attr("width", getWidth())
-      .attr("height", getHeight());
-    svg.attr("width", getWidth()).attr("height", getHeight());
+  /* --------------- INTEFRACE IMPLEMENTATION --------------- */
 
-    stack.draw();
-    variables.drawSector(variablesList, variablesSectors);
-    lists.drawSector(listsList, listsSectors);
-    tables.drawSector(tablesList, tablesSectors);
-    trees.drawSector(treesList, treesSectors);
-    pointers.drawSector(pointersList, pointersSectors);
+    function changeVariable(name, value) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].value = value;
+          variablesList[i].status = "modified";
+          found = true;
+        }
+      }
+      if (!found)
+        variablesList.push({name: name, value: value, status: "modified"});
     }
 
-    function changeVariable() {}
-    function changeList() {}
-    function changeTable() {}
-    function changeTree() {}
-    function changePointer() {}
-    function changeStack() {}
+    // When the variable was used, it will be displayed in separate color.
+    function useVariable(name) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].status = "touched";
+          found = true;
+        }
+      }
+      if (!found)
+        my_console.addToConsole('exception', "Internal exception #1 " + name);
+    }
 
+    function deleteVariable(name) {
+      var found = false;
+      for (i = 0; i < variablesList.length; i++){
+        if (variablesList[i].name == name){
+          variablesList[i].status = "touched";
+          found = true;
+          variablesList.splice(i, 1);
+        }
+      }
+      if (!found)
+        my_console.addToConsole('exception', "Internal exception #2");
+    }
+
+    function changeActualSegment(startLine, startCharacter, endLine, endCharacter){
+      var doc = $('.CodeMirror')[0].CodeMirror;
+      var marks = doc.getAllMarks();
+      if (marks.length !== 0) {
+        marks[0].clear();
+      }
+      doc.markText({line:startLine, ch:startCharacter},
+                   {line:endLine, ch:endCharacter},
+                   {css:"color: #fe3"});
+    }
+
+    function changeTable(tableName, values) {
+      var found = false;
+      for (i = 0; i < tablesList.length; i++){
+        if (tablesList[i].name == tableName){
+          for(j = 0; j < tablesList[i].values.length; j++){
+            if (tablesList[i].values[j].value != values[j]){
+              tablesList[i].values[j].value = values[j];
+              tablesList[i].values[j].status = "modified";
+            }
+          }
+          found = true;
+        }
+      }
+
+      if (!found){
+        var t_values = [];
+        for(i = 0; i < values.length; i++){
+          t_values[i] = {};
+          t_values[i].value = values[i];
+          t_values[i].status = "modified";
+        }
+        tablesList.push({name: tableName, values: t_values});
+      }
+    }
+
+    function changeList() {}    //Stub
+    function changeTree() {}    //Stub
+    function changePointer() {}   //Stub
+    function changeStack() {}   //Stub
+
+    /* --------------- VISUAL UPDATE IMPLEMENTATION --------------- */
+
+    function clearState() {
+      for(i = 0; i < variablesList.length; i++){
+        variablesList[i].status = "none";
+      }
+      for(i = 0; i < listsList.length; i++){}
+      for(i = 0; i < tablesList.length; i++){
+        for(j = 0; j < tablesList[i].values.length; j++)
+          tablesList[i].values[j].status = "none";
+      }
+      for(i = 0; i < treesList.length; i++){}
+      for(i = 0; i < pointersList.length; i++){}
+    }
+
+    //Redraw the display part. Need to call update first.
+    function redraw(){
+      d3.select("svg").remove();
+
+      svg = d3.select("body").select("#display").append("svg")
+        .attr("width", getWidth())
+        .attr("height", getHeight());
+      svg.attr("width", getWidth()).attr("height", getHeight());
+
+      stack.draw(svg);
+      var position_y = 0;
+      variables.drawSector(svg, variablesList, variablesSectors, getWidth(), position_y); position_y += variablesSectors;
+      lists.drawSector(svg, listsList, listsSectors, getWidth(), position_y); position_y += listsSectors;
+      tables.drawSector(svg, tablesList, tablesSectors, getWidth(), position_y); position_y += tablesSectors;
+      trees.drawSector(svg, treesList, treesSectors, getWidth(), position_y); position_y += treesSectors;
+      pointers.drawSector(svg, pointersList, pointersSectors, getWidth(), position_y);
+    }
+
+    //Function randomly using interface. Don't worry about internal errors, because it's not checking conditions.
+    function testing(){
+      changeVariable("test" + String(Math.floor((Math.random() * 6) + 1)),
+                     Math.floor((Math.random() * 100000000) + 1));
+      useVariable("test" + String(Math.floor((Math.random() * 6) + 1)));
+      changeActualSegment(Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)));
+      changeTable("TestTable", [Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6))]);
+    }
+
+    //Update the internal structure of visualization.
     function update(){
+
+      //Testing interface. To be removed in production.
+      testing();
+
       sectorLimit = getHeight() / SECTOR_SIZE;
       useStack = false;
 
-      var variablesDemand = variables.demand(variablesList, useStack),
-          listsDemand = lists.demand(listsList, useStack),
-          tablesDemand = tables.demand(tablesList, useStack),
-          treesDemand = trees.demand(treesList, useStack),
-          pointersDemand = pointers.demand(pointersList, useStack);
+      var variablesDemand = variables.demand(variablesList, getWidth()),
+          listsDemand = lists.demand(listsList, getWidth()),
+          tablesDemand = tables.demand(tablesList, getWidth()),
+          treesDemand = trees.demand(treesList, getWidth()),
+          pointersDemand = pointers.demand(pointersList, getWidth());
 
       pointersSectors = Math.min(pointersDemand, sectorLimit);
       pointersSectors = Math.min(pointersSectors, POINTERS_LIMIT);
@@ -128,7 +248,5 @@ define(["d3js",
     }
 
     window.onresize = redraw;
-
-    update();
-    redraw();
+    return {update: update, redraw: redraw, clearState: clearState, clean: clean};
   });
