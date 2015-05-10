@@ -8,6 +8,8 @@ define([
 	    type: 'BREAK'
 	});
 
+	breakPlaceholder.type = null;
+
 	return breakPlaceholder;
     }
 

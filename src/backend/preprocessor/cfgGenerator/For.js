@@ -1,17 +1,16 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
-    function For (paramNode, options) {
-	var firstParam = paramNode.body[0];
-	var body = cfgGenerator(firstParam, options);
-	for (var i = 1; i < paramNode.body.length; i++) {
-	    body.mergeLeft(cfgGenerator(paramNode.body[i], options));
-	}
-	var initiation = cfgGenerator(paramNode.preStatement, options);
-	var condition = cfgGenerator(paramNode.condition, options);
-	var action = cfgGenerator(paramNode.postStatement, options);
+    function For (paramNode) {
+	var body = cfgGenerator(paramNode.body);
+	var initiation = cfgGenerator(paramNode.pre_statement);
+	var condition = cfgGenerator(paramNode.condition);
+	var action = cfgGenerator(paramNode.post_statement);
+
+	CfgHelper.toValOrPtr(condition);
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
@@ -39,6 +38,8 @@ define([
 		result.graph[node].next = action.first;
 	    }
 	}
+
+	result.type = null;
 
 	return result;
     }

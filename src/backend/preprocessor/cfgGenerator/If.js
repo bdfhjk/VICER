@@ -1,17 +1,19 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
-    function If (paramNode, options) {
+    function If (paramNode) {
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
 	});
 
-	var tt = cfgGenerator(paramNode.true_body, options);
-	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body, options) : noopInstr;
+	var tt = cfgGenerator(paramNode.true_body);
+	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);
+	CfgHelper.toValOrPtr(condition);
 
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',
@@ -29,6 +31,8 @@ define([
 		result.graph[node].next = result.last;
 	    }
 	}
+
+	result.type = null;
 
 	return result;
     }

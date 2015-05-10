@@ -14,7 +14,8 @@ define([
 	// retrieve globals
 	this.preprocessed.global = {};
 	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
-	    if (this.astObj.external_declarations[i].type !== "declaration") {
+	    if (this.astObj.external_declarations[i].type !== 'declaration' &&
+	       this.astObj.external_declarations[i].type !== 'array_declaration') {
 		continue;
 	    }
 	    var varDef = this.astObj.external_declarations[i];
@@ -32,21 +33,29 @@ define([
 		};
 	    }
 	    // end of duplicate code
-	    this.preprocessed.global[varDef.name] = varEntry;
+	    if (varDef.type === 'array_declaration') {
+		this.preprocessed.global[varDef.name] = {
+		    type: 'array',
+		    size: varDef.size,
+		    of: varEntry
+		};
+	    } else {
+		this.preprocessed.global[varDef.name] = varEntry;
+	    }
 	}
     };
 
     AstToCfg.prototype.collectPrototypes = function collectPrototypes() {
         this.preprocessed.prototypes = this.preprocessed.prototypes || {};
 
-		for (var i = 0; i < this.astObj.external_declarations.length; i++) {
-		    if (this.astObj.external_declarations[i].type !== 'function_definition') {
-				continue;
-		    }
+	for (var i = 0; i < this.astObj.external_declarations.length; i++) {
+	    if (this.astObj.external_declarations[i].type !== 'function_definition') {
+		continue;
+	    }
 
-		    var funcDef = this.astObj.external_declarations[i];
-		    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
-		}
+	    var funcDef = this.astObj.external_declarations[i];
+	    this.preprocessed.prototypes[funcDef.declaration.name] = funcDef.declaration;
+	}
     };
 
     AstToCfg.prototype.generateFunctions = function generateFunctions() {
@@ -65,14 +74,16 @@ define([
 		args.push(funcDecl.name + '_PARAMETER_' + funcDecl.param_names[j]);
 	    }
 
-	    var envAndValues = envGenerator(funcDef);
+	    var globals = this.preprocessed.global;
+	    var decls = _.extend(this.preprocessed.prototypes, this.stdlib);
+	    var envAndValues = envGenerator(funcDef, globals, decls);
 	    var env = envAndValues.env;
 	    var values = {};
 	    for (var val in envAndValues.constants) {
 		values[envAndValues.constants[val]] = isNaN(val) ? val : Number(val); // replace it with smarter check maybe?
 	    }
 
-	    var cfg = cfgGenerator(funcDef.body, { prototypes: this.preprocessed.prototypes, stdlib: this.stdlib });
+	    var cfg = cfgGenerator(funcDef.body);
 
 	    // mark the first node
 	    var firstId = cfg.first;
@@ -98,7 +109,7 @@ define([
     };
 
     AstToCfg.prototype.getConverted = function getConverted() {
-	   return this.preprocessed;
+	return this.preprocessed;
     };
 
     AstToCfg.prototype.collectStdLibFunctions = function collectStdLibFunctions() {

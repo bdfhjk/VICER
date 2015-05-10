@@ -1,19 +1,13 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
 
-    function FunctionCall (paramNode, options) {
+    function FunctionCall (paramNode) {
 	var functionName = paramNode.name;
-	var isVariadic, parameters;
-	if (options && options.stdlib[functionName]) {
-		isVariadic = options.stdlib[functionName].args === "VARARGS";
-		parameters = options.stdlib[functionName].args;
-	} else {
-		isVariadic = options && options.prototypes[functionName].isVariadic;
-		parameters = paramNode.parameters;
-	}
-
+	var isVariadic = paramNode.declaration.args === 'varargs';
+	var parameters = paramNode.parameters;
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
 	    param: functionName
@@ -22,9 +16,13 @@ define([
 
 	if (parameters && parameters.length > 0) {
 	    var firstParameter = parameters[0];
-	    result = cfgGenerator(firstParameter, options); 
+	    result = cfgGenerator(firstParameter); 
+	    CfgHelper.toValOrPtr(result);
+	    var generated;
 	    for (var i = 1; i < parameters.length; i++) {
-		result.mergeLeft(cfgGenerator(parameters[i], options));
+		generated = cfgGenerator(parameters[i]);
+		CfgHelper.toValOrPtr(generated);
+		result.mergeLeft(generated);
 	    }
 	    result.mergeLeft(resolveInstr);
 	} else
@@ -43,6 +41,8 @@ define([
 
 	    result.mergeRight(vaendInstr);
 	}
+
+	result.type = CfgHelper.getNodeVal(paramNode.declaration);
 
 	return result;
     }

@@ -23,10 +23,11 @@ define([
     './cfgGenerator/Leq',
     './cfgGenerator/Geq',
     './cfgGenerator/More',
-    './cfgGenerator/Not'
-], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not) {
+    './cfgGenerator/Not',
+    './cfgGenerator/Subscript'
+], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
-    function generateCfg(node, options) {
+    function generateCfg(node) {
 	var generators = {
 	    'return': Return,
 	    'compound_statement': CompoundStatement,
@@ -34,8 +35,8 @@ define([
 	    'ADD': Add,
 	    'SUB': Sub,
 	    'INDENTIFIER': Identifier,
-	    'DEREF' : Deref,
-	    'REF' : Ref,
+	    'UNARYOP_*' : Deref,
+	    'UNARYOP_&' : Ref,
 	    'ARRAY_VAL' : ArrayVal,
 	    'ASSIGN': Assign,
 	    '+=': PlusAssign,
@@ -43,20 +44,21 @@ define([
 	    'FUNCTION_CALL': FunctionCall,
 	    'if': If,
 	    'while': While,
-	    'FOR': For,
+	    'for': For,
 	    'BREAK': Break,
 	    'CONTINUE': Continue,
 	    'LESS': Less,
 	    'EQ': Eq,
-	    'NEQ': Neq,
-	    'LEQ': Leq,
+	    'NE': Neq,
+	    'LESS_EQUAL': Leq,
 	    'GEQ': Geq,
 	    'MORE': More,
-	    'UNARYOP_!': Not
+	    'UNARYOP_!': Not,
+	    'SUBSCRIPT': Subscript
 	};
 
 	var generator = generators[node.type];
-	return generator(generateCfg)(node, options);
+	return generator(generateCfg)(node);
     }
 
     return generateCfg;

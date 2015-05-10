@@ -1,18 +1,25 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
 
-    function Leq(paramNode, options) {
-	var left = cfgGenerator(paramNode.left, options);
-	var right = cfgGenerator(paramNode.right, options);
+    function Leq(paramNode) {
+	var left = cfgGenerator(paramNode.left);
+	var right = cfgGenerator(paramNode.right);
+
+	CfgHelper.toValOrPtr(left);
+	CfgHelper.toValOrPtr(right);
 
 	var leqInstr = new Cfg ({
 	    type: 'LEQ'
 	});
 
-	left.mergeLeft(right);
-	left.mergeLeft(leqInstr);
+	var result = left;
+	result.mergeLeft(right);
+	result.mergeLeft(leqInstr);
+
+	result.type = null;
 
 	return left;
     }

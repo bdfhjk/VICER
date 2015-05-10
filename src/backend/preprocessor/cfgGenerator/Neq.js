@@ -1,11 +1,15 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
 
-    function Neq(paramNode, options) {
-	var left = cfgGenerator(paramNode.left, options);
-	var right = cfgGenerator(paramNode.right, options);
+    function Neq(paramNode) {
+	var left = cfgGenerator(paramNode.left);
+	var right = cfgGenerator(paramNode.right);
+
+	CfgHelper.toValOrPtr(left);
+	CfgHelper.toValOrPtr(right);
 
 	var notInstr = new Cfg ({
 	    type: 'NOT'
@@ -14,11 +18,14 @@ define([
 	    type: 'EQ'
 	});
 
-	left.mergeLeft(right);
-	left.mergeLeft(eqInstr);
-	left.mergeLeft(notInstr);
+	var result = left;
+	result.mergeLeft(right);
+	result.mergeLeft(eqInstr);
+	result.mergeLeft(notInstr);
 
-	return left;
+	result.type = null;
+
+	return result;
     }
 
     return (function(_cfgGenerator) {

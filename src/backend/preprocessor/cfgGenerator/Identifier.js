@@ -1,7 +1,8 @@
 define([
-    '../Cfg'
-], function (Cfg) {
-    function Identifier(paramNode, options) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
+    function Identifier(paramNode) {
 	var variableName = paramNode.value;
 
 	var resolveInstr = new Cfg ({
@@ -9,21 +10,22 @@ define([
 	    param: variableName
 	});
 
-	if (!options || !options.wantLocation) {
-	    if (paramNode.isPointer) {
-		var refInstr = new Cfg ({
-		    type: 'REF'
-		});
-		resolveInstr.mergeLeft(refInstr);
-	    } else {
-		var fetchInstr = new Cfg ({
-		    type: 'FETCH'
-		});
-		resolveInstr.mergeLeft(fetchInstr);
-	    }
+	var result = resolveInstr;
+	result.type = CfgHelper.getNodeVal(paramNode);
+	if (result.type === 'pointer') {
+	    result.type = 'locPtr';
+	} else if (result.type === 'value') {
+	    result.type = 'locVal';
+	} else {
+	    var refInstr = new Cfg ({
+		type: 'REF'
+	    });
+	    result.mergeLeft(refInstr);
+	    result.type = 'pointer';
 	}
+	result.tvalue = paramNode.tvalue;
 
-	return resolveInstr;
+	return result;
     }
 
     return (function () {

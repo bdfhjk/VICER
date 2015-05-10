@@ -3,16 +3,19 @@ define([
 ], function (Cfg) {
     var cfgGenerator;
     
-    function Ref(paramNode, options) {
-	var location = cfgGenerator(paramNode.expression, options);
+    function Ref(paramNode) {
+	var location = cfgGenerator(paramNode.subexp);
 
 	var refInstr = new Cfg ({
 	    type: 'REF'
 	});
 
-	location.mergeLeft(refInstr);
+	var result = location;
+	result.mergeLeft(refInstr);
 
-	return location;
+	result.type = 'pointer';
+
+	return result;
     }
 
     return (function (_cfgGenerator) {

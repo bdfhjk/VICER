@@ -1,16 +1,21 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../CfgHelper'
+], function (Cfg, CfgHelper) {
     var cfgGenerator;
     
-    function Not(paramNode, options) {
-	var value = cfgGenerator(paramNode.subexp, options);
+    function Not(paramNode) {
+	var value = cfgGenerator(paramNode.subexp);
+	CfgHelper.toValOrPtr(value);
+
 	var notInstr = new Cfg ({
 	    type: 'NOT'
 	});
 
 	var result = value;
 	result.mergeLeft(notInstr);
+
+	result.type = null;
 
 	return result;
     }

@@ -8,6 +8,8 @@ define([
 	    type: 'CONTINUE'
 	});
 
+	continuePlaceholder.type = null;
+
 	return continuePlaceholder;
     }
 
