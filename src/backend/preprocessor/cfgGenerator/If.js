@@ -8,12 +8,16 @@ define([
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
 	});
+	var stepInstr = new Cfg({
+	    type: 'STEP'
+	});
 
 	var tt = cfgGenerator(paramNode.true_body);
 	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);
 	CfgHelper.toValOrPtr(condition);
+	condition.mergeRight(stepInstr);
 
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',

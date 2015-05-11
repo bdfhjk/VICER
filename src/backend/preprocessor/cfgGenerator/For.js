@@ -15,11 +15,16 @@ define([
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
 	});
+	var stepInstr = new Cfg ({
+	    type: 'STEP'
+	});
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',
 	    'true': body.graph.first,
 	    'false': noopInstr.graph.first
 	});
+
+	condition.mergeRight(stepInstr);
 
 	var result = initiation;
 	result.mergeLeft(condition);
