@@ -85,7 +85,8 @@ define([
 	    }
 
 	    var funcStep = new Cfg({
-		type: 'STEP'
+		type: 'STEP',
+		param: funcDecl.loc
 	    });
 	    var cfg = funcStep;
 	    cfg.mergeLeft(cfgGenerator(funcDef.body));

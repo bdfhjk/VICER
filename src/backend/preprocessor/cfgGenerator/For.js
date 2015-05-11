@@ -16,7 +16,8 @@ define([
 	    type: 'NOOP'
 	});
 	var stepInstr = new Cfg ({
-	    type: 'STEP'
+	    type: 'STEP',
+	    param: paramNode.condition.loc
 	});
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',
