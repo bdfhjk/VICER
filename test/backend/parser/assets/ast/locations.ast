@@ -1,0 +1,405 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "declaration",
+            "name": "b",
+            "tvalue": {
+                "type": "concrete_type",
+                "name": "int"
+            }
+        },
+        {
+            "type": "declaration",
+            "name": "c",
+            "tvalue": {
+                "type": "concrete_type",
+                "name": "int"
+            }
+        },
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "main",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                },
+                "loc": {
+                    "first_line": 3,
+                    "last_line": 3,
+                    "first_column": 0,
+                    "last_column": 14
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [
+                    {
+                        "type": "declaration",
+                        "name": "h",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    },
+                    {
+                        "type": "declaration",
+                        "name": "j",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    },
+                    {
+                        "type": "declaration",
+                        "name": "k",
+                        "tvalue": {
+                            "type": "concrete_type",
+                            "name": "int"
+                        }
+                    }
+                ],
+                "statements": [
+                    {
+                        "type": "expression_statement",
+                        "expression": {
+                            "type": "ASSIGN",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "h"
+                            },
+                            "right": {
+                                "type": "ASSIGN",
+                                "left": {
+                                    "type": "INDENTIFIER",
+                                    "value": "j"
+                                },
+                                "right": {
+                                    "type": "ASSIGN",
+                                    "left": {
+                                        "type": "INDENTIFIER",
+                                        "value": "k"
+                                    },
+                                    "right": {
+                                        "type": "CONSTANT",
+                                        "value": 1
+                                    }
+                                }
+                            }
+                        },
+                        "loc": {
+                            "first_line": 6,
+                            "last_line": 6,
+                            "first_column": 4,
+                            "last_column": 18
+                        }
+                    },
+                    {
+                        "type": "for",
+                        "condition": null,
+                        "pre_statement": {
+                            "type": "COMMA",
+                            "left": {
+                                "type": "ASSIGN",
+                                "left": {
+                                    "type": "INDENTIFIER",
+                                    "value": "h"
+                                },
+                                "right": {
+                                    "type": "CONSTANT",
+                                    "value": 2
+                                }
+                            },
+                            "right": {
+                                "type": "ASSIGN",
+                                "left": {
+                                    "type": "INDENTIFIER",
+                                    "value": "j"
+                                },
+                                "right": {
+                                    "type": "CONSTANT",
+                                    "value": 3
+                                }
+                            },
+                            "loc": {
+                                "first_line": 8,
+                                "last_line": 8,
+                                "first_column": 9,
+                                "last_column": 22
+                            }
+                        },
+                        "post_statement": {
+                            "type": "PRE_INC",
+                            "subexp": {
+                                "type": "INDENTIFIER",
+                                "value": "j"
+                            },
+                            "loc": {
+                                "first_line": 8,
+                                "last_line": 8,
+                                "first_column": 24,
+                                "last_column": 27
+                            }
+                        },
+                        "body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "expression_statement",
+                                    "expression": {
+                                        "type": "ASSIGN",
+                                        "left": {
+                                            "type": "INDENTIFIER",
+                                            "value": "k"
+                                        },
+                                        "right": {
+                                            "type": "ADD",
+                                            "left": {
+                                                "type": "INDENTIFIER",
+                                                "value": "h"
+                                            },
+                                            "right": {
+                                                "type": "INDENTIFIER",
+                                                "value": "j"
+                                            }
+                                        }
+                                    },
+                                    "loc": {
+                                        "first_line": 9,
+                                        "last_line": 9,
+                                        "first_column": 8,
+                                        "last_column": 18
+                                    }
+                                }
+                            ],
+                            "loc": {
+                                "first_line": 8,
+                                "last_line": 10,
+                                "first_column": 29,
+                                "last_column": 5
+                            }
+                        },
+                        "loc": {
+                            "first_line": 8,
+                            "last_line": 10,
+                            "first_column": 4,
+                            "last_column": 5
+                        }
+                    },
+                    {
+                        "type": "while",
+                        "condition": {
+                            "type": "NE",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "k"
+                            },
+                            "right": {
+                                "type": "CONSTANT",
+                                "value": 2
+                            },
+                            "loc": {
+                                "first_line": 12,
+                                "last_line": 12,
+                                "first_column": 11,
+                                "last_column": 17
+                            }
+                        },
+                        "body": {
+                            "type": "expression_statement",
+                            "expression": {
+                                "type": "PRE_INC",
+                                "subexp": {
+                                    "type": "INDENTIFIER",
+                                    "value": "k"
+                                }
+                            },
+                            "loc": {
+                                "first_line": 12,
+                                "last_line": 12,
+                                "first_column": 19,
+                                "last_column": 23
+                            }
+                        },
+                        "loc": {
+                            "first_line": 12,
+                            "last_line": 12,
+                            "first_column": 4,
+                            "last_column": 23
+                        }
+                    },
+                    {
+                        "type": "if",
+                        "condition": {
+                            "type": "NE",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "h"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "j"
+                            },
+                            "loc": {
+                                "first_line": 14,
+                                "last_line": 14,
+                                "first_column": 8,
+                                "last_column": 14
+                            }
+                        },
+                        "true_body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "expression_statement",
+                                    "expression": {
+                                        "type": "FUNCTION_CALL",
+                                        "name": "printf",
+                                        "parameters": [
+                                            {
+                                                "type": "STRING_LITERAL",
+                                                "value": "LOL"
+                                            }
+                                        ]
+                                    },
+                                    "loc": {
+                                        "first_line": 15,
+                                        "last_line": 15,
+                                        "first_column": 8,
+                                        "last_column": 22
+                                    }
+                                }
+                            ],
+                            "loc": {
+                                "first_line": 14,
+                                "last_line": 16,
+                                "first_column": 16,
+                                "last_column": 5
+                            }
+                        },
+                        "false_body": {
+                            "type": "compound_statement",
+                            "declarations": [],
+                            "statements": [
+                                {
+                                    "type": "expression_statement",
+                                    "expression": {
+                                        "type": "FUNCTION_CALL",
+                                        "name": "printf",
+                                        "parameters": [
+                                            {
+                                                "type": "STRING_LITERAL",
+                                                "value": "NOLOL"
+                                            }
+                                        ]
+                                    },
+                                    "loc": {
+                                        "first_line": 17,
+                                        "last_line": 17,
+                                        "first_column": 8,
+                                        "last_column": 24
+                                    }
+                                }
+                            ],
+                            "loc": {
+                                "first_line": 16,
+                                "last_line": 18,
+                                "first_column": 11,
+                                "last_column": 5
+                            }
+                        },
+                        "loc": {
+                            "first_line": 14,
+                            "last_line": 18,
+                            "first_column": 4,
+                            "last_column": 5
+                        }
+                    },
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "CONSTANT",
+                            "value": 10
+                        },
+                        "loc": {
+                            "first_line": 20,
+                            "last_line": 20,
+                            "first_column": 4,
+                            "last_column": 14
+                        }
+                    }
+                ],
+                "loc": {
+                    "first_line": 3,
+                    "last_line": 21,
+                    "first_column": 15,
+                    "last_column": 1
+                }
+            }
+        },
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "square",
+                "param_tvalues": [
+                    {
+                        "type": "concrete_type",
+                        "name": "int"
+                    }
+                ],
+                "param_names": [
+                    "a"
+                ],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                },
+                "loc": {
+                    "first_line": 23,
+                    "last_line": 23,
+                    "first_column": 0,
+                    "last_column": 17
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": [
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "MUL",
+                            "left": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            },
+                            "right": {
+                                "type": "INDENTIFIER",
+                                "value": "a"
+                            }
+                        },
+                        "loc": {
+                            "first_line": 24,
+                            "last_line": 24,
+                            "first_column": 4,
+                            "last_column": 15
+                        }
+                    }
+                ],
+                "loc": {
+                    "first_line": 23,
+                    "last_line": 25,
+                    "first_column": 18,
+                    "last_column": 1
+                }
+            }
+        }
+    ]
+}
