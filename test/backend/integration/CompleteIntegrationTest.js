@@ -10,8 +10,8 @@ describe("Complete Integration Test", function() {
     before(function(done) {
 	var handle = this;
         requirejs(["mod_preprocessor/Preprocessor", "mod_executor/Executor", "eventEmitter"], function(preprocessor, executor, ee) {
-	    handle.timeout(5000);
-        EventEmitter = ee;
+	    handle.timeout(15000);
+            EventEmitter = ee;
 	    var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
 	    var lexerSource = JisonLex.generate(lexerGrammar);
 	    var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
