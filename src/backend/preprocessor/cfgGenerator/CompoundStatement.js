@@ -12,9 +12,19 @@ define([
 	    return noopInstr;
 	}
 	    
+	var firstStep = new Cfg({
+	    type: 'STEP',
+	    param: paramNode.statements[0].loc
+	});
 	var firstStatement = paramNode.statements[0];
-	var result = cfgGenerator(firstStatement);
+	var result = firstStep;
+	result.mergeLeft(cfgGenerator(firstStatement));
 	for (var i = 1; i < paramNode.statements.length; i++) {
+	    var nextStep = new Cfg({
+		type: 'STEP',
+		param: paramNode.statements[i].loc
+	    });
+	    result.mergeLeft(nextStep);
 	    result.mergeLeft(cfgGenerator(paramNode.statements[i]));
 	}
 

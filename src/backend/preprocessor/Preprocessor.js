@@ -1,9 +1,10 @@
 define([
     'lodash',
+    './Cfg',
     './cfgGenerator',
     './envGenerator',
     'mod_stdlib'
-], function(_, cfgGenerator, envGenerator, stdlib) {
+], function(_, Cfg, cfgGenerator, envGenerator, stdlib) {
 
     function AstToCfg(_astObj) {
 	this.astObj = _astObj;
@@ -83,7 +84,12 @@ define([
 		values[envAndValues.constants[val]] = isNaN(val) ? val : Number(val); // replace it with smarter check maybe?
 	    }
 
-	    var cfg = cfgGenerator(funcDef.body);
+	    var funcStep = new Cfg({
+		type: 'STEP',
+		param: funcDecl.loc
+	    });
+	    var cfg = funcStep;
+	    cfg.mergeLeft(cfgGenerator(funcDef.body));
 
 	    // mark the first node
 	    var firstId = cfg.first;

@@ -13,7 +13,12 @@ define([
 	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body) : noopInstr;
 	
 	var condition = cfgGenerator(paramNode.condition);
+	var stepInstr = new Cfg({
+	    type: 'STEP',
+	    param: paramNode.condition.loc
+	});
 	CfgHelper.toValOrPtr(condition);
+	condition.mergeRight(stepInstr);
 
 	var branchInstr = new Cfg ({
 	    type: 'BRANCH',

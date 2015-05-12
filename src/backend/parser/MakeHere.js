@@ -21,7 +21,7 @@ var ops = {};
 var args = process.argv.slice(2);
 var supported = ["locations", "print"];
 
-for (index in supported) {
+for (var index in supported) {
     var option = supported[index];
     if (args.indexOf(option) != -1) {
         ops[option] = true;
