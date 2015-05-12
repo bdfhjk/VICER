@@ -7,7 +7,7 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
     var FunctionValue = mod_process.valueTypes.FunctionValue;
     var callFunctionByName = functionCall.callFunctionByName;
 
-    function executeNext(process) {
+    function executeNextInstruction(process) {
         var top = process.getCurrentContext();
         if (!top) {
             return false;
@@ -24,8 +24,13 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
         return !process.finished;
     }
 
+    function executeNextStep(process) {
+        while(executeNextInstruction(process));
+        return !process.finished;
+    }
+
     function finish(process) {
-        while(executeNext(process));
+        while(executeNextStep(process));
         return process.exitCode;
     }
 

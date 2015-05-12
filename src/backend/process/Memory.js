@@ -1,6 +1,7 @@
-define(function() {
+define(["eventEmitter"], function(EventEmitter) {
 
     function Memory() {
+        this.emitter = new EventEmitter();
         this.cells = {};
         this.locBaseOffset = {};
         this.lastId = 0;
@@ -49,6 +50,7 @@ define(function() {
     };
 
     Memory.prototype.fetch = function fetch(loc) {
+        this.emitter.emitEvent("fetch", loc);
         if (!(loc in this.cells)) {
             throw new Error("Attempted to fetch a nonexistent location " + loc);
         }
@@ -56,6 +58,7 @@ define(function() {
     };
 
     Memory.prototype.assign = function assign(loc, val) {
+        this.emitter.emitEvent("assign", loc, val);
         if (!(loc in this.cells)) {
             throw new Error("Attempted to assign to a nonexistent location " + loc);
         }
@@ -73,6 +76,10 @@ define(function() {
             this.cells[loc].value.forEach(this.dealloc.bind(this));
         }
         delete this.cells[loc];
+    };
+
+    Memory.prototype.getEmitter = function getEmitter() {
+        return this.emitter;
     };
 
     return Memory;
