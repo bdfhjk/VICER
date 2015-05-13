@@ -23,7 +23,7 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
     }
 
     function callCfgFunction(proc, fun, args) {
-        var env = new Environment(proc.memory, proc.environment);
+        var env = new Environment(proc.memory, proc.environment, proc.getMemoryTracker());
         buildEnv(env, fun.env);
         for (var arg in args) {
             proc.memory.assign(env.resolve(arg), args[arg]);
@@ -33,6 +33,7 @@ define(["mod_process", "./EnvBuilder"], function(mod_process, buildEnv) {
     }
 
     function returnFromCall(proc, value) {
+        proc.getCurrentContext().environment.destroy();
         proc.callStack.pop();
         if (proc.callStack.length > 0) {
             if (typeof value !== "undefined") {

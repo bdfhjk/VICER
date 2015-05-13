@@ -1,16 +1,21 @@
 define(function() {
 
-    function Environment(memory, baseEnvironment) {
+    function Environment(memory, baseEnvironment, tracker) {
         this.memory = memory;
+        this.tracker = tracker;
         this.variableMap = {};
         this.baseEnvironment = baseEnvironment;
     }
 
-    Environment.prototype.add = function add(name, type) {
+    Environment.prototype.add = function add(name, type, track) {
         if (this.variableMap[name]) {
             throw new Error("Identifier already exists: " + name);
         }
-        return (this.variableMap[name] = this.memory.alloc(type));
+        this.variableMap[name] = this.memory.alloc(type);
+        if (track) {
+            this.tracker.register(name, this.variableMap[name]);
+        }
+        return this.variableMap[name];
     };
 
     Environment.prototype.remove = function remove(name) {
@@ -24,7 +29,8 @@ define(function() {
             }
             throw new Error("Invalid identifier " + name);
         }
-        return this.variableMap[name];
+        var loc = this.variableMap[name];
+        return loc;
     };
 
     Environment.prototype.destroy = function destroy() {

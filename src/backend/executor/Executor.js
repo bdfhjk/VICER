@@ -17,6 +17,9 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
             console.log(currentInstr.toString());
         if (currentInstr)
             top.next = currentInstr.invoke(top, process) || currentInstr.next;
+        if (process.paused) {
+            return false;
+        }
         if (top.result || !top.next) {
             var result = top.result ? top.result.returnValue : undefined;
             functionCall.returnFromCall(process, result);
@@ -26,11 +29,19 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
 
     function executeNextStep(process) {
         while(executeNextInstruction(process));
-        return !process.finished;
+        var result = {
+            finished: process.finished,
+            exitCode: process.exitCode,
+            highlight: process.codeOffset,
+            changes: process.getMemoryTracker().getChanges()
+        };
+        process.getMemoryTracker().clearChanges();
+        process.resume();
+        return result;
     }
 
     function finish(process) {
-        while(executeNextStep(process));
+        while (!executeNextStep(process).finished);
         return process.exitCode;
     }
 
@@ -45,7 +56,7 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
     }
 
     return {
-        executeNext: executeNext,
+        executeNextStep: executeNextStep,
         createProcess: createProcess,
         finish: finish
     };
