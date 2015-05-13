@@ -7,13 +7,13 @@ define(['jquery'], function(){
         if (last_type != type){
             switch(type) {
                 case "compile":
-                    $('#console-output').append('<span class="console-label"><span class="label label-primary">Compiling... </span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-success">Compilation</span></span>');
                     break;
                 case "run":
-                    $('#console-output').append('<span class="console-label"><span class="label label-success">Running... </span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-primary">Output</span></span>');
                     break;
                 case "exception":
-                    $('#console-output').append('<span class="console-label"><span class="label label-danger">Exception...</span></span>');
+                    $('#console-output').append('<span class="console-label"><span class="label label-danger">Error</span></span>');
                     break;
             }
             last_type = type;

@@ -39,7 +39,7 @@ define(["console", "d3js"], function(my_console){
 
     // Removing overlaping parts
     if (name_s.length >= 10)
-      name_s = name_s.substring(0, 5) + "...";
+      name_s = name_s.substring(0, 7) + "...";
 
     // Centering
     var name_xs = 50 - name_s.length * 10 / 2 + 5;

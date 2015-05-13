@@ -60,6 +60,7 @@ define(["d3js",
     pointersList = [];
     update();
     redraw();
+    cleanCodeMark();
   }
 
   /* --------------- INTEFRACE IMPLEMENTATION --------------- */
@@ -86,8 +87,8 @@ define(["d3js",
           found = true;
         }
       }
-      if (!found)
-        my_console.addToConsole('exception', "Internal exception #1 " + name);
+//      if (!found)
+//        my_console.addToConsole('exception', "Internal exception #1 " + name);
     }
 
     function deleteVariable(name) {
@@ -99,43 +100,63 @@ define(["d3js",
           variablesList.splice(i, 1);
         }
       }
-      if (!found)
-        my_console.addToConsole('exception', "Internal exception #2");
+      //if (!found)
+      //  my_console.addToConsole('exception', "Internal exception #2");
     }
 
-    function changeActualSegment(startLine, startCharacter, endLine, endCharacter){
+    function deleteTable(name) {
+      for (i = 0; i < tablesList.length; i++) {
+        if (tablesList[i].name == name){
+          tablesList.splice(i, 1);
+          return;
+        }
+      }
+    }
+
+    function cleanCodeMark() {
       var doc = $('.CodeMirror')[0].CodeMirror;
       var marks = doc.getAllMarks();
-      if (marks.length !== 0) {
-        marks[0].clear();
-      }
-      doc.markText({line:startLine, ch:startCharacter},
-                   {line:endLine, ch:endCharacter},
-                   {css:"color: #fe3"});
+      marks.forEach(function(mark) {
+        mark.clear();
+      });
     }
 
-    function changeTable(tableName, values) {
+    function changeActualSegment(startLine, startCharacter, endLine, endCharacter) {
+      var doc = $('.CodeMirror')[0].CodeMirror;
+      cleanCodeMark();
+      doc.markText({line:startLine, ch:startCharacter},
+                   {line:endLine, ch:endCharacter},
+                   {css:"background-color: #fe2"});
+    }
+
+    function createTable(tableName, size) {
+      var t_values = [];
+      for (i = 0; i < size; i++){
+          t_values[i] = {};
+          t_values[i].value = "???";
+          t_values[i].status = "modified";
+      }
+      tablesList.push({name: tableName, values: t_values});
+    }
+
+    function changeTableElement(tableName, id, value) {
       var found = false;
-      for (i = 0; i < tablesList.length; i++){
-        if (tablesList[i].name == tableName){
-          for(j = 0; j < tablesList[i].values.length; j++){
-            if (tablesList[i].values[j].value != values[j]){
-              tablesList[i].values[j].value = values[j];
-              tablesList[i].values[j].status = "modified";
-            }
-          }
-          found = true;
+      for (i = 0; i < tablesList.length; i++) {
+        if (tablesList[i].name == tableName) {
+          tablesList[i].values[id].value = value;
+          tablesList[i].values[id].status = "modified";
+          return;
         }
       }
+    }
 
-      if (!found){
-        var t_values = [];
-        for(i = 0; i < values.length; i++){
-          t_values[i] = {};
-          t_values[i].value = values[i];
-          t_values[i].status = "modified";
+    function useTableElement(tableName, id) {
+      var found = false;
+      for (i = 0; i < tablesList.length; i++) {
+        if (tablesList[i].name == tableName) {
+          tablesList[i].values[id].status = "touched";
+          return;
         }
-        tablesList.push({name: tableName, values: t_values});
       }
     }
 
@@ -160,7 +181,7 @@ define(["d3js",
     }
 
     //Redraw the display part. Need to call update first.
-    function redraw(){
+    function redraw() {
       d3.select("svg").remove();
 
       svg = d3.select("body").select("#display").append("svg")
@@ -178,7 +199,7 @@ define(["d3js",
     }
 
     //Function randomly using interface. Don't worry about internal errors, because it's not checking conditions.
-    function testing(){
+    function testing() {
       changeVariable("test" + String(Math.floor((Math.random() * 6) + 1)),
                      Math.floor((Math.random() * 100000000) + 1));
       useVariable("test" + String(Math.floor((Math.random() * 6) + 1)));
@@ -186,11 +207,12 @@ define(["d3js",
       changeTable("TestTable", [Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6))]);
     }
 
-    //Update the internal structure of visualization.
-    function update(){
+    function finishExecution(exitCode) {
+      my_console.addToConsole("run", "Program finished execution with exit code " + exitCode);
+    }
 
-      //Testing interface. To be removed in production.
-      testing();
+    //Update the internal structure of visualization.
+    function update() {
 
       sectorLimit = getHeight() / SECTOR_SIZE;
       useStack = false;
@@ -248,5 +270,20 @@ define(["d3js",
     }
 
     window.onresize = redraw;
-    return {update: update, redraw: redraw, clearState: clearState, clean: clean};
+    return {
+      update: update,
+      redraw: redraw,
+      clearState: clearState,
+      clean: clean,
+      cleanCodeMark: cleanCodeMark,
+      changeActualSegment: changeActualSegment,
+      useVariable: useVariable,
+      changeVariable: changeVariable,
+      createTable: createTable,
+      useTableElement: useTableElement,
+      changeTableElement: changeTableElement,
+      finishExecution: finishExecution,
+      deleteVariable: deleteVariable,
+      deleteTable: deleteTable
+    };
   });
