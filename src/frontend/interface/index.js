@@ -6,8 +6,13 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
 
     function nextStep() {
         visualization.clearState();
-        var events = backend.nextStep();
-        if (handleEvents(visualization, events) === "finished") {
+        try {
+            var events = backend.nextStep();
+            if (handleEvents(visualization, events) === "finished") {
+                stopExecution();
+            }
+        } catch (err) {
+            my_console.addToConsole('exception', err.message);
             stopExecution();
         }
         visualization.update();
@@ -37,10 +42,12 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     function startExecution() {
+        // TODO this is ugly!;
+        var stdin = $("#inputTA").val();
         endExecution();
         stopExecution();
         try {
-            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
+            backend.runProgram(cm.doc.getValue(), createWorld(stdin));
             my_console.addToConsole('compile', 'Compilation successful.');
             initiateExecution();
         } catch (err) {

@@ -1,7 +1,9 @@
 define([
-        "./stdio/printf"
-    ], function(printf) {
+        "./stdio/printf",
+        "./stdio/scanf",
+    ], function(printf, scanf) {
         return {
-            "printf": printf
+            "printf": printf,
+            "scanf": scanf
         };
 });
