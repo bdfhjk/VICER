@@ -345,7 +345,10 @@ unary_expression
     | unary_operator cast_expression
         { $$ = uexp("UNARYOP_" + $1, $2); }
 /*    | SIZEOF unary_expression  */
-/*    | SIZEOF '(' type_name ')' */
+    | SIZEOF '(' type_specifier ')'
+        { $$ = nullexp("SIZEOF", $3); }
+    | SIZEOF '(' type_specifier '*' ')'
+        { $$ = nullexp("SIZEOF", { type: "pointer", tvalue: $3 }); }
     ;
 
 unary_operator
