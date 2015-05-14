@@ -8,11 +8,13 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/grunt",
-    "test": "./node_modules/.bin/grunt test"
+    "test": "./node_modules/.bin/grunt test",
+    "postinstall": "./node_modules/.bin/bower install"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bower": "^1.4.1",
     "chai": "^1.10.0",
     "chai-as-promised": "^4.3.0",
     "express": "^4.12.3",
@@ -27,9 +29,7 @@
     "lodash": "^3.6.0",
     "mocha": "^2.1.0",
     "requirejs": "^2.1.16",
-    "sinon": "^1.12.2"
-  },
-  "devDependencies": {
+    "sinon": "^1.12.2",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-execute": "^0.2.2",
     "grunt-install-dependencies": "^0.2.0",
