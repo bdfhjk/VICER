@@ -6,6 +6,7 @@ define(['jquery',
 
     var executionDelay = 1000;
     var loop = 0;
+    var state = "stop";
 
     function nextStep(){
         visualization.clearState();
@@ -37,25 +38,43 @@ define(['jquery',
     }
 
     function initiateExecution(){
-        loop = setInterval(nextStep, executionDelay);
+       loop = setInterval(nextStep, executionDelay);
+       state = "running";
     }
 
     function stopExecution(){
-        clearInterval(loop);
+       clearInterval(nextStep);
     }
 
     function startExecution(){
-        stopExecution();
-        try {
-            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
-            my_console.addToConsole('compile', 'Compilation successful.');
-            my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
-            // initiateExecution();
-        } catch (err) {
-            my_console.addToConsole('exception', err.message);
-            if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
-                my_console.addToConsole('exception', err.stack.split('\n').join('<br />'));
+        if (state == "stop"){
+            try {
+                //stopExecution();
+                var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
+                my_console.addToConsole('compile', 'Compilation successful.');
+                my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
+                var doc = $('.CodeMirror')[0].CodeMirror;
+                doc.setOption("readOnly", true);
+                $("#inputTA").prop("disabled", true);
+                $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
+                state = "running";
+                //initiateExecution();
+            } catch (err) {
+                my_console.addToConsole('exception', err.message);
+                if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
+                    my_console.addToConsole('exception', err.stack.split('\n').join('<br />'));
+                }
             }
+        }
+        if (state == "running"){
+            //stopExecution();
+            state = "paused";
+            $("#btn-start").html('<i class="fa fa-start"></i>&nbsp; Resume');
+        }
+        if (state == "paused"){
+            //initiateExecution();
+            state = "running";
+            $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
         }
     }
 
@@ -64,11 +83,24 @@ define(['jquery',
         backend.clean();
         visualization.clean();
         my_console.clearConsole();
+        var doc = $('.CodeMirror')[0].CodeMirror;
+        doc.setOption("readOnly", false);
+        $("#inputTA").prop("disabled", false);
+        $("#btn-start").html('<i class="fa fa-rocket"></i>&nbsp; Start');
+    }
+
+    function btnStepClick(){
+        if (state == "stop" || state == "paused")
+            nextStep();
+    }
+
+    function btnStepOverClick(){
+        if (state == "stop" || state == "paused")
+            nextStepOver();
     }
 
     $('#btn-start').click(startExecution);
-    $('#btn-step').click(nextStep);
-    $('#btn-step-over').click(nextStepOver);
-    $('#btn-stop').click(stopExecution);
+    $('#btn-step').click(btnStepClick);
+    $('#btn-step-over').click(btnStepOverClick);
     $('#btn-end').click(endExecution);
 });
