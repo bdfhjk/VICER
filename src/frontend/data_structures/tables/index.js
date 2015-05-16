@@ -30,7 +30,7 @@ define(["console", "variable", "d3js"], function(my_console, variable){
       if (over_limit)
         variable.draw(svg, 10 + number_to_draw * cellWidth,
                       start_s * cellHeight + i * cellHeight + 5,
-                      "cutted",
+                      "...",
                       "...",
                       "none");
     }

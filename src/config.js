@@ -49,5 +49,5 @@ if (!isInNode) {
 DEBUG = {
     VM_INSTRUCTIONS: false,
     EXEC_STACK_OP: false,
-    COMPILE_ERROR_STACK: false
+    COMPILE_ERROR_STACK: true
 };

@@ -1,6 +1,7 @@
-define(function() {
+define(["eventEmitter"], function(EventEmitter) {
 
     function Memory() {
+        this.emitter = new EventEmitter();
         this.cells = {};
         this.locBaseOffset = {};
         this.lastId = 0;
@@ -26,6 +27,8 @@ define(function() {
             this.cells[newId].value = locArray;
         }
 
+        this.emitter.emitEvent("alloc", [newId, type.type === "array" ? type.size : -1]);
+
         return newId;
     };
 
@@ -49,9 +52,12 @@ define(function() {
     };
 
     Memory.prototype.fetch = function fetch(loc) {
+
         if (!(loc in this.cells)) {
             throw new Error("Attempted to fetch a nonexistent location " + loc);
         }
+        var bo = this.getBaseAndOffset(loc);
+        this.emitter.emitEvent("fetch", [bo.base, bo.offset]);
         return this.cells[loc].value;
     };
 
@@ -62,6 +68,8 @@ define(function() {
         if (this.cells[loc].meta.type === "array") {
             throw new Error("Attempted to assign to an array allocation table");
         }
+        var bo = this.getBaseAndOffset(loc);
+        this.emitter.emitEvent("assign", [bo.base, bo.offset, val]);
         this.cells[loc].value = val;
     };
 
@@ -72,7 +80,12 @@ define(function() {
         if (this.cells[loc].meta.type === "array") {
             this.cells[loc].value.forEach(this.dealloc.bind(this));
         }
+        this.emitter.emitEvent("dealloc", [loc]);
         delete this.cells[loc];
+    };
+
+    Memory.prototype.getEmitter = function getEmitter() {
+        return this.emitter;
     };
 
     return Memory;

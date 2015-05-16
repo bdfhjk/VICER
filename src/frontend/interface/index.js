@@ -1,29 +1,25 @@
-define(['jquery',
-        'backend',
-        'console',
-        'code_input',
-        'visualization'], function(_jquery, backend, my_console, cm, visualization){
+define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world', './handleEvents'], 
+    function(_jquery, backend, my_console, cm, visualization, createWorld, handleEvents) {
 
     var executionDelay = 1000;
     var loop = 0;
 
-    function nextStep(){
+    function nextStep() {
         visualization.clearState();
-        /* Removed temporary due to code crashing. Backend team please fix.
-        backend.nextStep()
-            .then(function(executionResult) {
-                my_console.addToConsole('run', executionResult.description);
-            })
-            .catch(function(err) {
-                my_console.addToConsole('exception', err.stack);
-            })
-            .done();
-        */
+        try {
+            var events = backend.nextStep();
+            if (handleEvents(visualization, events) === "finished") {
+                stopExecution();
+            }
+        } catch (err) {
+            printError(err);
+            stopExecution();
+        }
         visualization.update();
         visualization.redraw();
     }
 
-    function nextStepOver(){
+    function nextStepOver() {
         /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStepOver()
             .then(function(executionResult) {
@@ -40,22 +36,22 @@ define(['jquery',
         loop = setInterval(nextStep, executionDelay);
     }
 
-    function stopExecution(){
+    function stopExecution() {
+        visualization.cleanCodeMark();
         clearInterval(loop);
     }
 
-    function startExecution(){
+    function startExecution() {
+        // TODO this is ugly!;
+        var stdin = $("#inputTA").val();
+        endExecution();
         stopExecution();
         try {
-            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
+            backend.runProgram(cm.doc.getValue(), createWorld(stdin));
             my_console.addToConsole('compile', 'Compilation successful.');
-            my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
-            // initiateExecution();
+            initiateExecution();
         } catch (err) {
-            my_console.addToConsole('exception', err.message);
-            if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
-                my_console.addToConsole('exception', err.stack.split('\n').join('<br />'));
-            }
+            printError(err);
         }
     }
 
@@ -64,6 +60,13 @@ define(['jquery',
         backend.clean();
         visualization.clean();
         my_console.clearConsole();
+    }
+
+    function printError(err) {
+        my_console.addToConsole('exception', err.message);
+        if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
+            my_console.addToConsole('exception', err.stack);
+        }
     }
 
     $('#btn-start').click(startExecution);

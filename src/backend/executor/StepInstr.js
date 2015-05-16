@@ -1,15 +1,15 @@
 define(function() {
 
-    function StepInstr(num) {
-	// STEP
+    function StepInstr(codeOffset) {
+	    this.codeOffset = codeOffset;
     }
 
     StepInstr.prototype.invoke = function invoke(context, process) {
-	// STEP
+        process.pause(this.codeOffset);
     };
 
     StepInstr.prototype.toString = function toString() {
-        return "STEP";
+        return "STEP " + codeOffset;
     };
 
     return StepInstr;
