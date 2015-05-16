@@ -120,6 +120,12 @@ describe("Parser Grammar", function() {
             options: { locations: true },
             expected: "ok",
         },
+        {
+            description: "Sizeof",
+            file: "sizeof",
+            options: { locations: false },
+            expected: "ok",
+        },
         // bad
         {
             description: "Bad - Hello World",
