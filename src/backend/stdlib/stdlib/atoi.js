@@ -1,4 +1,4 @@
-define(["mod_process"], function(mp, utils) {
+define(["mod_process"], function(mp) {
 
     function atoi(args, process) {
         var str = mp.MemoryUtils.readStringPtr(process.memory, args.str);

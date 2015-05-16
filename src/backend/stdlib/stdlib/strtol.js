@@ -1,7 +1,7 @@
-define(["../Utils"], function(utils) {
+define(["mod_process"], function(mp) {
 
     function strtol(args, process) {
-        var str = utils.ptrToString(args[0], process.memory);
+        var str = mp.MemoryUtils.readString(process.memory, args[0]);
         var num = Number(str);
         return isNaN(num) ? -1 : num;
     }
