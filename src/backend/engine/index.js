@@ -3,7 +3,7 @@ define(["mod_parser", "mod_preprocessor", "mod_executor", "mod_data_structures"]
     
     var process;
 
-    function runProgram(source) {
+    function runProgram(source, world) {
         var tree = parser.parse(source);
         var program = preprocessor.compile(tree);
         process = executor.createProcess(program.global, program.functions, program.values, world);
