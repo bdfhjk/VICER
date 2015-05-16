@@ -183,7 +183,7 @@ define(["d3js",
                      Math.floor((Math.random() * 100000000) + 1));
       useVariable("test" + String(Math.floor((Math.random() * 6) + 1)));
       changeActualSegment(Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)));
-      changeTable("TestTable", [Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6)), Math.floor((Math.random() * 6))]);
+      changeTable("TestTable", [1,1,1,1,1,1,1,Math.floor((Math.random() * 6))]);
     }
 
     //Update the internal structure of visualization.
