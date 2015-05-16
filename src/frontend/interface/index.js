@@ -1,4 +1,8 @@
-define(['jquery', 'backend', 'console', 'code_input', './world'], function(_jquery, backend, my_console, cm, createWorld){
+define(['jquery',
+        'backend',
+        'console',
+        'code_input',
+        'visualization'], function(_jquery, backend, my_console, cm, visualization){
 
     var executionDelay = 1000;
     var loop = 0;
@@ -43,11 +47,10 @@ define(['jquery', 'backend', 'console', 'code_input', './world'], function(_jque
     function startExecution(){
         stopExecution();
         try {
-            backend.runProgram(cm.doc.getValue(), createWorld());
+            var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
             my_console.addToConsole('compile', 'Compilation successful.');
-            backend.nextStep();
-            my_console.addToConsole('run', 'Program finished with exit code ' + backend.getExitCode() + '.');
-            // initiateExecution();    
+            my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
+            // initiateExecution();
         } catch (err) {
             my_console.addToConsole('exception', err.message);
             if (DEBUG.COMPILE_ERROR_STACK && err.stack) {

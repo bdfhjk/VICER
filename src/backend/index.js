@@ -1,11 +1,8 @@
 define(["mod_engine"], function(engine) {
 
-    function runProgram(source, world) {
-        return engine.runProgram(source, world);
-    }
-
-    function getExitCode() {
-        return engine.getExitCode();
+    // TODO: Implement input code in backend
+    function runProgram(source, input) {
+        return engine.runProgram(source);
     }
 
     function nextStep() {
@@ -24,7 +21,6 @@ define(["mod_engine"], function(engine) {
         runProgram: runProgram,
         nextStep: nextStep,
         nextStepOver: nextStepOver,
-        getExitCode: getExitCode,
         clean: clean
     };
 
