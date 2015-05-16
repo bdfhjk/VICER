@@ -1,10 +1,10 @@
-define(["../Utils", "sprintf"], function(utils, sp) {
+define(["mod_process", "sprintf"], function(mp, sp) {
     var sprintf = sp.sprintf;
 
     function printf(varargs, process) {
         var strArgs = varargs.map(function(arg) {
             if (typeof arg === "object" && "base" in arg) {
-                return utils.ptrToString(process.memory, arg);
+                return mp.MemoryUtils.readStringPtr(process.memory, arg);
             }
             return arg;
         });

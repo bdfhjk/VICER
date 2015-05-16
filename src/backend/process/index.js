@@ -1,8 +1,10 @@
-define(["./Process", "./Environment", "./ValueTypes", "./ExecutionContext"], function(Process, Environment, valueTypes, ExecutionContext) {
+define(["./Process", "./Environment", "./ValueTypes", "./ExecutionContext", "./MemoryUtils"],
+    function(Process, Environment, valueTypes, ExecutionContext, MemoryUtils) {
     return {
+        MemoryUtils: MemoryUtils,
         Process: Process,
         valueTypes: valueTypes,
         Environment: Environment,
-        ExecutionContext: ExecutionContext
+        ExecutionContext: ExecutionContext,
     };
 });

@@ -14,15 +14,12 @@ define(["mod_process", "./CfgBuilder"], function(mp, buildCfg) {
             mem.assign(loc, value);
         },
         "string": function(mem, env, value, name) {
-            value += '\0';
             var loc = env.add(name, { 
                 type: "array",
                 of: { type: "char" },
-                size: value.length
+                size: value.length + 1
             });
-            for (var i = 0; i < value.length; i++) {
-                mem.assign(mem.at(loc, i), value.charCodeAt(i));
-            }
+            mp.MemoryUtils.writeString(mem, loc, value);
         },
         "object": function(mem, env, fun, name) {
             var loc = env.add(name, { type: "function" });

@@ -1,8 +1,8 @@
-define(["../Utils", "./util_sscanf"], function(utils, sscanf) {
+define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
     function scanf(varargs, process) {
         var buf = {};
         process.world.emitEvent("stdin_fetch", [buf]);
-        var fmtString = utils.ptrToString(process.memory, varargs[0]);
+        var fmtString = mp.MemoryUtils.readStringPtr(process.memory, varargs[0]);
         var scanned = sscanf(buf.result, fmtString);
         process.world.emitEvent("stdin_consume", [scanned.consumed]);
         var objects = 0;

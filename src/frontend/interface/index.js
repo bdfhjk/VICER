@@ -12,7 +12,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
                 stopExecution();
             }
         } catch (err) {
-            my_console.addToConsole('exception', err.message);
+            printError(err);
             stopExecution();
         }
         visualization.update();
@@ -51,10 +51,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
             my_console.addToConsole('compile', 'Compilation successful.');
             initiateExecution();
         } catch (err) {
-            my_console.addToConsole('exception', err.message);
-            if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
-                my_console.addToConsole('exception', err.stack);
-            }
+            printError(err);
         }
     }
 
@@ -63,6 +60,13 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
         backend.clean();
         visualization.clean();
         my_console.clearConsole();
+    }
+
+    function printError(err) {
+        my_console.addToConsole('exception', err.message);
+        if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
+            my_console.addToConsole('exception', err.stack);
+        }
     }
 
     $('#btn-start').click(startExecution);
