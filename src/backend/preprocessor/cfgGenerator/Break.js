@@ -9,6 +9,7 @@ define([
 	});
 
 	breakPlaceholder.type = null;
+	breakPlaceholder.tvalue = null;
 
 	return breakPlaceholder;
     }

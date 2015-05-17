@@ -30,7 +30,9 @@ define([
 	    } else if (tvalue.type === 'pointer') {
 		varEntry = {
 		    type: 'pointer',
-		    of: tvalue.tvalue.name // make it recursive
+		    of: {
+			type: tvalue.tvalue.name // make it recursive
+		    }
 		};
 	    }
 	    // end of duplicate code

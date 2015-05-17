@@ -28,6 +28,7 @@ define([
 	result.mergeLeft(assignInstr);
 
 	result.type = null;
+	result.tvalue = null;
 
 	return result;
     }

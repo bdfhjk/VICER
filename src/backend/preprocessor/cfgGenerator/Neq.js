@@ -23,7 +23,10 @@ define([
 	result.mergeLeft(eqInstr);
 	result.mergeLeft(notInstr);
 
-	result.type = null;
+	result.type = 'value';
+	result.tvalue = {
+	    type: 'int'
+	};
 
 	return result;
     }

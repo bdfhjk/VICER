@@ -11,7 +11,8 @@ define([
 	CfgHelper.toValOrPtr(left);
 	CfgHelper.toValOrPtr(right);
 
-	var leftFirst = left.type === 'pointer';
+	var ll = (left.type === 'pointer' || left.type === 'array') ? left : right;
+	var rr = (left.type === 'pointer' || left.type === 'array') ? right : left;
 
 	var paddInstr = new Cfg ({
 	    type: 'PADD'
@@ -20,16 +21,13 @@ define([
 	    type: 'DEREF'
 	});
 
-	var result = left;
-	if (leftFirst) {
-	    result.mergeLeft(right);
-	} else {
-	    result.mergeRight(right);
-	}
+	var result = ll;
+	result.mergeLeft(rr);
 	result.mergeLeft(paddInstr);
 	result.mergeLeft(derefInstr);
 
 	result.type = 'locVal';
+	result.tvalue = ll.tvalue.of;
 
 	return result;
     }

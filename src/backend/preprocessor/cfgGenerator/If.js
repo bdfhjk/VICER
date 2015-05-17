@@ -38,6 +38,7 @@ define([
 	}
 
 	result.type = null;
+	result.tvalue = null;
 
 	return result;
     }

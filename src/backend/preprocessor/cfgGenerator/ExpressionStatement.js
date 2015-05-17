@@ -7,6 +7,7 @@ define([
 	var expression = cfgGenerator(paramNode.expression);
 
 	expression.type = null;
+	expression.tvalue = null;
 
 	return expression;
     }

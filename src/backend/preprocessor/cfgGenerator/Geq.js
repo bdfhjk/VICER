@@ -19,7 +19,10 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(geqInstr);
 
-	result.type = null;
+	result.type = 'value';
+	result.tvalue = {
+	    type: 'int'
+	};
 
 	return left;
     }

@@ -18,6 +18,9 @@ define([
 	var result = expr;
 	result.mergeLeft(returnInstr);
 
+	result.type = null;
+	result.tvalue = null;
+
 	return result;
     }
 

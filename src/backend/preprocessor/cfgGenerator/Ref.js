@@ -14,6 +14,7 @@ define([
 	result.mergeLeft(refInstr);
 
 	result.type = 'pointer';
+	result.tvalue = location.tvalue;
 
 	return result;
     }

@@ -48,7 +48,7 @@ define(['lodash'], function (_) {
 	visitAst(ast, nameDict, ast.declaration.name);
 	ast.declaration.parameters = astParameters;
 
-	// delete globals from env
+	// remove globals from env, but don't delete them
 	for (var globName in globals) {
 	    delete env[globName];
 	}
@@ -67,7 +67,7 @@ define(['lodash'], function (_) {
 	// if an IDENTIFIER, substitute variable if not a constant
 	if (ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
 	    ast.value = nameDict[ast.value];
-	    ast.tvalue = env[ast.value];
+	    ast.tvalue = _.clone(env[ast.value]);
 	    return;
 	}
 
@@ -212,17 +212,17 @@ define(['lodash'], function (_) {
     var ENV_TEMPLATES = {
 	CONSTANT: {
 	    type: 'concrete_type',
-	    name: 'INT'
+	    name: 'int'
 	},
 	CHAR_CONSTANT: {
 	    type: 'concrete_type',
-	    name: 'CHAR'
+	    name: 'char'
 	},
 	STRING_LITERAL: {
 	    type: 'pointer',
 	    tvalue: {
 		type: 'concrete_type',
-		value: 'CHAR'
+		name: 'char'
 	    }
 	}
     };

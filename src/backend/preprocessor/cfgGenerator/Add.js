@@ -1,36 +1,59 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function Add(paramNode) {
 	var left = cfgGenerator(paramNode.left);
 	var right = cfgGenerator(paramNode.right);
-	if (!(left || right)) {
-	    throw new Error('Something occured during processing node ' + paramNode);
-	}
 
 	CfgHelper.toValOrPtr(left);
 	CfgHelper.toValOrPtr(right);
 
 	var addInstr;
-	if(left.type === 'pointer' || right.type === 'pointer') {
+	var result = left;
+	if (left.type === 'pointer' ^ right.type === 'pointer') {
+	    var ll = left.type === 'pointer' ? left : right;
+	    var rr = left.type === 'pointer' ? right : left;
+	    if (rr.tvalue.type !== ll.tvalue.of.type) {
+		throw new Errors.TypeMismatch(
+		    ll.tvalue.of.type,
+		    rr.tvalue.type,
+		    'ADD');
+	    }
+
 	    addInstr = new Cfg({
 		type: 'PADD'
 	    });
-	    left.type = 'pointer';
-	} else {
+	    result.type = 'pointer';
+	    result.tvalue = ll.tvalue;
+	} else if (left.type === 'value' && right.type === 'value') {
+	    if (left.tvalue.type !== right.tvalue.type) {
+		throw new Errors.TypeMismatch(
+		    left.tvalue.type,
+		    right.tvalue.type,
+		    'ADD');
+	    }
+
 	    addInstr = new Cfg({
 		type: 'ADD'
 	    });
-	    left.type = 'value';
+	    result.type = 'value';
+	    result.tvalue = left.tvalue;
+	} else {
+	    throw new Errors.TypeMismatch(
+		'(pointer, value) || (value, value)',
+		'(' + left.type + ', ' + right.type + ')',
+		'ADD'
+	    );
 	}
 
-	left.mergeLeft(right);
-	left.mergeLeft(addInstr);
+	result.mergeLeft(right);
+	result.mergeLeft(addInstr);
 
-	return left;
+	return result;
     }
 
     return (function(_cfgGenerator) {

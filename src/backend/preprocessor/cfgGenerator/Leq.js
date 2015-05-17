@@ -19,9 +19,12 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(leqInstr);
 
-	result.type = null;
+	result.type = 'value';
+	result.tvalue = {
+	    type: 'int'
+	};
 
-	return left;
+	return result;
     }
 
     return (function(_cfgGenerator) {
