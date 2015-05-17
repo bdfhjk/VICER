@@ -16,10 +16,14 @@ define([
     "./PaddInstr",
     "./VaEndInstr",
     "./NoopInstr",
-    "./StepInstr"
+    "./StepInstr",
+    "./AndInstr",
+    "./OrInstr",
+    "./ModInstr"
 ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, SubInstr, AssignInstr,
                 CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
-            RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr, StepInstr) {
+            RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr, StepInstr,
+	        AndInstr, OrInstr, ModInstr) {
 
         return {
             "RESOLVE": ResolveInstr,
@@ -40,7 +44,10 @@ define([
             "PSUB": createPointerOp("PSUB"),
             "VAEND": VaEndInstr,
             "NOOP": NoopInstr,
-	    "STEP": StepInstr
+	    "STEP": StepInstr,
+	    "AND": AndInstr,
+	    "OR": OrInstr,
+	    "MOD": ModInstr
         };
         
 });

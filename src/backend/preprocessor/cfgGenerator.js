@@ -1,4 +1,7 @@
 define([
+    './cfgGenerator/LogicalAnd',
+    './cfgGenerator/LogicalOr',
+    './cfgGenerator/Mod',
     './cfgGenerator/Return',
     './cfgGenerator/CompoundStatement',
     './cfgGenerator/ExpressionStatement',
@@ -25,10 +28,13 @@ define([
     './cfgGenerator/More',
     './cfgGenerator/Not',
     './cfgGenerator/Subscript'
-], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
+], function (LogicalAnd, LogicalOr, Mod, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
     function generateCfg(node, decls, return_tvalue) {
 	var generators = {
+	    'LOGICAL_AND': LogicalAnd,
+	    'LOGICAL_OR': LogicalOr,
+	    'MOD': Mod,
 	    'return': Return,
 	    'compound_statement': CompoundStatement,
 	    'expression_statement': ExpressionStatement,

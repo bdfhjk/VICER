@@ -60,6 +60,21 @@ describe("Complete Integration Test", function() {
             expected: 6
         },
         {
+            description: "call another function with 2 numbers",
+            file: "modder.c",
+            expected: 0
+        },
+        {
+            description: "logical and",
+            file: "logicals.c",
+            expected: 0
+        },
+        {
+            description: "logical or",
+            file: "logicalsOr.c",
+            expected: 0
+        },
+        {
             description: "simple branch true",
             file: "simple-branch-true.c",
             expected: 42
