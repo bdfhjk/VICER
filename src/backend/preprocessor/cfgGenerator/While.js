@@ -1,13 +1,21 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function While(paramNode) {
 	var body = cfgGenerator(paramNode.body);
 	var condition = cfgGenerator(paramNode.condition);
 	CfgHelper.toValOrPtr(condition);
+
+	if (condition.type !== 'value' || condition.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		condition.tvalue.type,
+		'int',
+		'WHILE');
+	}
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'

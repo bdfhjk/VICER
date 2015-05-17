@@ -1,7 +1,8 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function For (paramNode) {
@@ -11,6 +12,13 @@ define([
 	var action = cfgGenerator(paramNode.post_statement);
 
 	CfgHelper.toValOrPtr(condition);
+
+	if (condition.type !== 'value' || condition.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		condition.tvalue.type,
+		'int',
+		'FOR');
+	}
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'

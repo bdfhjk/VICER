@@ -1,18 +1,46 @@
 define([
+    'lodash',
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (_, Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function MinusAssign(paramNode) {
 	var lvalue = cfgGenerator(paramNode.left);
+	var lrvalue = lvalue.copy();
 	var rvalue = cfgGenerator(paramNode.right);
 
+	var types = ['int', 'char'];
+
+	CfgHelper.toValOrPtr(lrvalue);
 	CfgHelper.toValOrPtr(rvalue);
 
-	var fetchInstr = new Cfg ({
-	    type: 'FETCH'
-	});
+	if (lvalue.type !== 'locVal') {
+	    throw new Errors.TypeMismatch(
+		lvalue.type,
+		'locVal',
+		'-=');
+	}
+	if (lrvalue.type !== 'value') {
+	    throw new Errors.TypeMismatch(
+		lrvalue.type,
+		'value',
+		'-=');
+	}
+	if (rvalue.type !== 'value' || rvalue.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		rvalue.tvalue.type,
+		'int',
+		'-=');
+	}
+	if (!(_.contains(types, lvalue.tvalue.type))) {
+	    throw new Errors.TypeMismatch(
+		lvalue.tvalue.type,
+		types.join(),
+		'-=');
+	}
+
 	var subInstr = new Cfg ({
 	    type: 'SUB'
 	});
@@ -21,8 +49,7 @@ define([
 	});
 
 	var result = lvalue;
-	result.mergeLeft(lvalue);
-	result.mergeLeft(fetchInstr);
+	result.mergeLeft(lrvalue);
 	result.mergeLeft(rvalue);
 	result.mergeLeft(subInstr);
 	result.mergeLeft(assignInstr);

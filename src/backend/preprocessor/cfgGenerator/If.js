@@ -1,7 +1,8 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function If (paramNode) {
@@ -18,6 +19,14 @@ define([
 	    param: paramNode.condition.loc
 	});
 	CfgHelper.toValOrPtr(condition);
+
+	if (condition.type !== 'value' || condition.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		condition.tvalue.type,
+		'int',
+		'IF');
+	}
+
 	condition.mergeRight(stepInstr);
 
 	var branchInstr = new Cfg ({

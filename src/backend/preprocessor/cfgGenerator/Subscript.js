@@ -1,7 +1,8 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (Cfg, CfgHelper, Errors) {
     var cfgGenerator;
 
     function Subscript(paramNode) {
@@ -11,8 +12,23 @@ define([
 	CfgHelper.toValOrPtr(left);
 	CfgHelper.toValOrPtr(right);
 
+	if ((left.type !== 'pointer' && left.type !== 'array') &&
+	    (right.type !== 'pointer' && right.type !== 'array')) {
+	    throw new Errors.TypeMismatch(
+		left.type + ',' + right.type,
+		'(pointer/array, value)',
+		'SUBSCRIPT');
+	}
+
 	var ll = (left.type === 'pointer' || left.type === 'array') ? left : right;
 	var rr = (left.type === 'pointer' || left.type === 'array') ? right : left;
+
+	if (rr.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		rr.tvalue.type,
+		'int',
+		'SUBSCRIPT');
+	}
 
 	var paddInstr = new Cfg ({
 	    type: 'PADD'

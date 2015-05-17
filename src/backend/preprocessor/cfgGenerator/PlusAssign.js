@@ -1,7 +1,9 @@
 define([
+    'lodash',
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../CfgHelper',
+    '../Errors'
+], function (_, Cfg, CfgHelper, Errors) {
     var cfgGenerator;
     
     function PlusAssign(paramNode) {
@@ -9,8 +11,35 @@ define([
 	var lrvalue = lvalue.copy();
 	var rvalue = cfgGenerator(paramNode.right);
 
+	var types = ['int', 'char'];
+
 	CfgHelper.toValOrPtr(lrvalue);
 	CfgHelper.toValOrPtr(rvalue);
+
+	if (lvalue.type !== 'locVal') {
+	    throw new Errors.TypeMismatch(
+		lvalue.type,
+		'locVal',
+		'+=');
+	}
+	if (lrvalue.type !== 'value') {
+	    throw new Errors.TypeMismatch(
+		lrvalue.type,
+		'value',
+		'+=');
+	}
+	if (rvalue.type !== 'value' || rvalue.tvalue.type !== 'int') {
+	    throw new Errors.TypeMismatch(
+		rvalue.tvalue.type,
+		'int',
+		'+=');
+	}
+	if (!(_.contains(types, lvalue.tvalue.type))) {
+	    throw new Errors.TypeMismatch(
+		lvalue.tvalue.type,
+		types.join(),
+		'+=');
+	}
 
 	var addInstr = new Cfg ({
 	    type: 'ADD'
