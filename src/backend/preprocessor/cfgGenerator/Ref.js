@@ -14,7 +14,10 @@ define([
 	result.mergeLeft(refInstr);
 
 	result.type = 'pointer';
-	result.tvalue = location.tvalue;
+	result.tvalue = {
+	    type: 'pointer',
+	    of: location.tvalue
+	};
 
 	return result;
     }

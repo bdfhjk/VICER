@@ -90,7 +90,7 @@ define(['lodash'], function (_) {
 	    ast.type = 'UNARYOP_&';
 	    ast.subexp = {
 		type: 'INDENTIFIER',
-		tvalue: createEnvEntry(ENV_TEMPLATES.STRING_LITERAL),
+		tvalue: createEnvEntry(ENV_TEMPLATES.CHAR_CONSTANT),
 		value: constants[ast.value]
 	    };
 	    ast.value = null;

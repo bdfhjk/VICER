@@ -15,8 +15,8 @@ define([
 	if ((left.type !== 'pointer' && left.type !== 'array') &&
 	    (right.type !== 'pointer' && right.type !== 'array')) {
 	    throw new Errors.TypeMismatch(
-		left.type + ',' + right.type,
 		'(pointer/array, value)',
+		left.type + ',' + right.type,
 		'SUBSCRIPT');
 	}
 
@@ -25,8 +25,8 @@ define([
 
 	if (rr.tvalue.type !== 'int') {
 	    throw new Errors.TypeMismatch(
-		rr.tvalue.type,
 		'int',
+		rr.tvalue.type,
 		'SUBSCRIPT');
 	}
 

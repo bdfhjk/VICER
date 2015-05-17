@@ -91,7 +91,7 @@ define([
 		param: funcDecl.loc
 	    });
 	    var cfg = funcStep;
-	    cfg.mergeLeft(cfgGenerator(funcDef.body));
+	    cfg.mergeLeft(cfgGenerator(funcDef.body, decls, funcDecl.return_tvalue));
 
 	    // mark the first node
 	    var firstId = cfg.first;

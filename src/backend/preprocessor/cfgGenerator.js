@@ -27,7 +27,7 @@ define([
     './cfgGenerator/Subscript'
 ], function (Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
-    function generateCfg(node) {
+    function generateCfg(node, decls, return_tvalue) {
 	var generators = {
 	    'return': Return,
 	    'compound_statement': CompoundStatement,
@@ -58,7 +58,7 @@ define([
 	};
 
 	var generator = generators[node.type];
-	return generator(generateCfg)(node);
+	return generator(generateCfg)(node, decls, return_tvalue);
     }
 
     return generateCfg;
