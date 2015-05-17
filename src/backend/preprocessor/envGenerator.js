@@ -1,5 +1,5 @@
 define(['lodash'], function (_) {
-    var blocks, env, constants, constantsNum, declarations;
+    var blocks, env, constants, constantsNum, declarations, funcName;
 
     var nonBlockEdges = [
 	'value',
@@ -22,7 +22,8 @@ define(['lodash'], function (_) {
 	'parameters',
     ];
     
-    function generateEnvironment(ast, globals, decls) {
+    function generateEnvironment(ast, globals, decls, myName) {
+	funcName = myName;
 	blocks = 0;
 	env = {};
 	constants = {};
@@ -137,6 +138,11 @@ define(['lodash'], function (_) {
 	// append function declaration to call
 	if (ast.type === 'FUNCTION_CALL') {
 	    ast.declaration = declarations[ast.name];
+	}
+
+	// append current function declaration to return
+	if (ast.type === 'return') {
+	    ast.return_tvalue = declarations[funcName].return_tvalue;
 	}
 
 	// if is compound_statement, visit declarations

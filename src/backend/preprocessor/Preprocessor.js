@@ -79,7 +79,7 @@ define([
 
 	    var globals = this.preprocessed.global;
 	    var decls = _.extend(this.preprocessed.prototypes, this.stdlib);
-	    var envAndValues = envGenerator(funcDef, globals, decls);
+	    var envAndValues = envGenerator(funcDef, globals, decls, funcDecl.name);
 	    var env = envAndValues.env;
 	    var values = {};
 	    for (var val in envAndValues.constants) {

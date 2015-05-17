@@ -1,6 +1,6 @@
 char* hello;
 
-int main(void) {
+char main(void) {
     hello = "Hello, world!";
     return hello[12];
 }
