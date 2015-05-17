@@ -1,30 +1,26 @@
-define(['jquery',
-        'backend',
-        'console',
-        'code_input',
-        'visualization'], function(_jquery, backend, my_console, cm, visualization){
+define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world', './handleEvents'], 
+    function(_jquery, backend, my_console, cm, visualization, createWorld, handleEvents) {
 
     var executionDelay = 1000;
     var loop = 0;
     var state = "stop";
 
-    function nextStep(){
+    function nextStep() {
         visualization.clearState();
-        /* Removed temporary due to code crashing. Backend team please fix.
-        backend.nextStep()
-            .then(function(executionResult) {
-                my_console.addToConsole('run', executionResult.description);
-            })
-            .catch(function(err) {
-                my_console.addToConsole('exception', err.stack);
-            })
-            .done();
-        */
+        try {
+            var events = backend.nextStep();
+            if (handleEvents(visualization, events) === "finished") {
+                stopExecution();
+            }
+        } catch (err) {
+            printError(err);
+            stopExecution();
+        }
         visualization.update();
         visualization.redraw();
     }
 
-    function nextStepOver(){
+    function nextStepOver() {
         /* Removed temporary due to code crashing. Backend team please fix.
         backend.nextStepOver()
             .then(function(executionResult) {
@@ -42,37 +38,34 @@ define(['jquery',
        state = "running";
     }
 
-    function stopExecution(){
-       clearInterval(nextStep);
+    function stopExecution() {
+        visualization.cleanCodeMark();
+        clearInterval(loop);
     }
 
     function startExecution(){
         if (state == "stop"){
             try {
-                //stopExecution();
-                var exitCode = backend.runProgram(cm.doc.getValue(), $("#inputTA").val());
+                var stdin = $("#inputTA").val();
+                backend.runProgram(cm.doc.getValue(), createWorld(stdin));
                 my_console.addToConsole('compile', 'Compilation successful.');
-                my_console.addToConsole('run', 'Program finished with exit code ' + exitCode + '.');
                 var doc = $('.CodeMirror')[0].CodeMirror;
                 doc.setOption("readOnly", true);
                 $("#inputTA").prop("disabled", true);
                 $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
                 state = "running";
-                //initiateExecution();
+                initiateExecution();
             } catch (err) {
-                my_console.addToConsole('exception', err.message);
-                if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
-                    my_console.addToConsole('exception', err.stack.split('\n').join('<br />'));
-                }
+                printError(err);
             }
         }
         if (state == "running"){
-            //stopExecution();
+            stopExecution();
             state = "paused";
             $("#btn-start").html('<i class="fa fa-start"></i>&nbsp; Resume');
         }
         if (state == "paused"){
-            //initiateExecution();
+            initiateExecution();
             state = "running";
             $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
         }
@@ -97,6 +90,13 @@ define(['jquery',
     function btnStepOverClick(){
         if (state == "stop" || state == "paused")
             nextStepOver();
+    }
+
+    function printError(err) {
+        my_console.addToConsole('exception', err.message);
+        if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
+            my_console.addToConsole('exception', err.stack);
+        }
     }
 
     $('#btn-start').click(startExecution);

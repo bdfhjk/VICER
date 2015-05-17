@@ -1,19 +1,19 @@
-define(["../Utils", "sprintf"], function(utils, sp) {
+define(["mod_process", "sprintf"], function(mp, sp) {
     var sprintf = sp.sprintf;
 
     function printf(varargs, process) {
-        var result = "hello";
         var strArgs = varargs.map(function(arg) {
-            if ("base" in arg) {
-                return utils.ptrToString(process.memory, arg);
+            if (typeof arg === "object" && "base" in arg) {
+                return mp.MemoryUtils.readStringPtr(process.memory, arg);
             }
             return arg;
         });
         process.world.emitEvent("stdout", [sprintf.apply(null, strArgs)]);
+        return 0;
     }
 
     printf.args = "varargs";
-    printf.returns = { type: "void" };
+    printf.returns = { type: "int" };
 
     return printf;
 

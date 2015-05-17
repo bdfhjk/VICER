@@ -5,6 +5,15 @@ define(["cm/lib/codemirror",
         "jquery",
         "bootstrap"], function(CodeMirror) {
 
+
+    function supportsHtml5Storage() {
+      try {
+        return 'localStorage' in window && window.localStorage !== null;
+      } catch (e) {
+        return false;
+      }
+    }
+
     //CodeMirror plugin initialization.
 	var cm = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
@@ -16,11 +25,23 @@ define(["cm/lib/codemirror",
 			cm.setSize("100%", "100%");
 		}
     });
+
+    if (supportsHtml5Storage()) {
+        var oldCode = localStorage.getItem("source");
+        if (oldCode) {
+            cm.setValue(oldCode);
+        }
+
+        cm.on('change', function() {
+            localStorage.setItem("source", cm.getValue());
+        });        
+    }
+
 	updateSize();
 	window.addEventListener('resize', updateSize);
 
     //Scaling left part of interface (code input and buttons).
-	function updateSize(){
+	function updateSize() {
         var w = window,
         dc = document,
         e = dc.documentElement,
@@ -35,7 +56,8 @@ define(["cm/lib/codemirror",
 
 		document.getElementById('codearea').style.width = Math.max(codeMinWidth,
                                                                    document.documentElement.clientWidth * codeScale) - codeMargin;
-		document.getElementById('codearea').style.height = y - buttonsHeight;
+//		document.getElementById('codearea').style.height = y - buttonsHeight;
+        cm.setSize("100%", "100%");
 	}
     return cm;
 });
