@@ -6,7 +6,13 @@ define(function () {
 	this.message = operation + ': TYPE MISMATCH. EXPECTED ' + expected + ' GOT ' + got;
     }
 
+    function NotAFunction (name) {
+	this.name = name;
+	this.message = name + ' IS NOT A FUNCTION';
+    }
+
     return {
-	TypeMismatch: TypeMismatch
+	TypeMismatch: TypeMismatch,
+	NotAFunction: NotAFunction
     };
 });

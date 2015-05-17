@@ -1,4 +1,4 @@
-define(['lodash'], function (_) {
+define(['lodash', './Errors'], function (_, Errors) {
     var blocks, env, constants, constantsNum, declarations, funcName;
 
     var nonBlockEdges = [
@@ -137,6 +137,9 @@ define(['lodash'], function (_) {
 
 	// append function declaration to call
 	if (ast.type === 'FUNCTION_CALL') {
+	    if (!declarations[ast.name]) {
+		throw new Errors.NotAFunction(ast.name);
+	    }
 	    ast.declaration = declarations[ast.name];
 	}
 
