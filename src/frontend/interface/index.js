@@ -58,12 +58,12 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
             } catch (err) {
                 printError(err);
             }
-        }
+        } else
         if (state == "running"){
             stopExecution();
             state = "paused";
-            $("#btn-start").html('<i class="fa fa-start"></i>&nbsp; Resume');
-        }
+            $("#btn-start").html('<i class="fa fa-play"></i>&nbsp; Resume');
+        } else
         if (state == "paused"){
             initiateExecution();
             state = "running";
@@ -72,6 +72,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     function endExecution(){
+        state = "stop";
         stopExecution();
         backend.clean();
         visualization.clean();
@@ -83,12 +84,12 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     function btnStepClick(){
-        if (state == "stop" || state == "paused")
+        if (state == "paused")
             nextStep();
     }
 
     function btnStepOverClick(){
-        if (state == "stop" || state == "paused")
+        if (state == "paused")
             nextStepOver();
     }
 
