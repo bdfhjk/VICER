@@ -34,7 +34,7 @@ define(['lodash'], function (_) {
 
 	// add parameters to substitution, and add them to env
 	for (var i = 0; i < astParameters.length; i++) {
-	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER_' + astParameters[i];
+	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER|' + astParameters[i];
 	    env[nameDict[astParameters[i]]] = createEnvEntry(ast.declaration.param_tvalues[i]);
 	}
 
@@ -77,7 +77,7 @@ define(['lodash'], function (_) {
 	    ast.tvalue = createEnvEntry(ENV_TEMPLATES[ast.type]);
 	    ast.type = 'INDENTIFIER';
 	    if (!constants[ast.value]) {
-		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
+		constants[ast.value] = prefix + '_CONSTANT|' + constantsNum++;
 	    }
 	    ast.value = constants[ast.value];
 	    return;
@@ -86,7 +86,7 @@ define(['lodash'], function (_) {
 	// substitute string_literal and wrap it in ref
 	if (ast.type === 'STRING_LITERAL') {
 	    if (!constants[ast.value]) {
-		constants[ast.value] = prefix + '_CONSTANT_' + constantsNum++;
+		constants[ast.value] = prefix + '_CONSTANT|' + constantsNum++;
 	    }
 	    ast.type = 'UNARYOP_&';
 	    ast.subexp = {
@@ -101,7 +101,7 @@ define(['lodash'], function (_) {
 	// process POST_INC and PRE_INC
 	if (ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
 	    if (!constants[1]) {
-		constants[1] = prefix + '_CONSTANT_' + constantsNum++;
+		constants[1] = prefix + '_CONSTANT|' + constantsNum++;
 	    }
 	    ast.type = 'ASSIGN';
 	    ast.left = {
@@ -123,7 +123,7 @@ define(['lodash'], function (_) {
 	// process UNARY_OP_-
 	if (ast.type === 'UNARYOP_-') {
 	    if (!constants[0]) {
-		constants[0] = prefix + '_CONSTANT_' + constantsNum++;
+		constants[0] = prefix + '_CONSTANT|' + constantsNum++;
 	    }
 	    ast.type = 'SUB';
 	    ast.left = {
@@ -151,14 +151,14 @@ define(['lodash'], function (_) {
 		var varName, newVarName, tvalue;
 		if (ast.declarations[i].type === 'declaration') {
 		    varName = ast.declarations[i].name;
-		    newVarName = prefix + '_' + varName;
+		    newVarName = prefix + '|' + varName;
 		    nameDict[varName] = newVarName;
 
 		    tvalue = ast.declarations[i].tvalue;
 		    env[newVarName] = createEnvEntry(tvalue);
 		} else if (ast.declarations[i].type === 'array_declaration') {
 		    varName = ast.declarations[i].name;
-		    newVarName = prefix + '_' + varName;
+		    newVarName = prefix + '|' + varName;
 		    nameDict[varName] = newVarName;
 
 		    tvalue = ast.declarations[i].tvalue;

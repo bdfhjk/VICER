@@ -74,7 +74,7 @@ define([
 	    
 	    var args = [];
 	    for (var j = 0; j < funcDecl.param_names.length; j++) {
-		args.push(funcDecl.name + '_PARAMETER_' + funcDecl.param_names[j]);
+		args.push(funcDecl.name + '_PARAMETER|' + funcDecl.param_names[j]);
 	    }
 
 	    var globals = this.preprocessed.global;
