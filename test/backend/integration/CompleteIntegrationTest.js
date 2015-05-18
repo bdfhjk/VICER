@@ -124,6 +124,16 @@ describe("Complete Integration Test", function() {
 	    file: "pointer-add.c",
 	    expected: 7
 	},
+	{
+	    description: "multiplication",
+	    file: "mul.c",
+	    expected: 4
+	},
+	{
+	    description: "division",
+	    file: "div.c",
+	    expected: 2
+	},
 	// {
 	//     description: "change char in char array",
 	//     file: "change-char.c",

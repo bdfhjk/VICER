@@ -19,11 +19,13 @@ define([
     "./StepInstr",
     "./AndInstr",
     "./OrInstr",
-    "./ModInstr"
+    "./ModInstr",
+    "./MulInstr",
+    "./DivInstr"
 ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, SubInstr, AssignInstr,
                 CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
             RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr, StepInstr,
-	        AndInstr, OrInstr, ModInstr) {
+	        AndInstr, OrInstr, ModInstr, MulInstr, DivInstr) {
 
         return {
             "RESOLVE": ResolveInstr,
@@ -47,7 +49,9 @@ define([
 	    "STEP": StepInstr,
 	    "AND": AndInstr,
 	    "OR": OrInstr,
-	    "MOD": ModInstr
+	    "MOD": ModInstr,
+	    "MUL": MulInstr,
+	    "DIV": DivInstr
         };
         
 });
