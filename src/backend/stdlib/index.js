@@ -1,4 +1,4 @@
-define(["./LibraryFunctionSet"], function(rawFunctions) {
+define(["./LibraryFunctionSet", "./LibraryConstantSet"], function(rawFunctions, constants) {
 
     var functions = {};
 
@@ -6,7 +6,7 @@ define(["./LibraryFunctionSet"], function(rawFunctions) {
         var fun = rawFunctions[funName];
         functions[funName] = {
             args: fun.args,
-	    env: fun.env,
+            env: fun.env,
             returns: fun.returns,
             std: fun
         };
@@ -16,7 +16,12 @@ define(["./LibraryFunctionSet"], function(rawFunctions) {
         return functions;
     }
 
+    function getStdLibConstants() {
+        return constants;
+    }
+
     return {
-        getStdLibFunctions: getStdLibFunctions
+        getStdLibFunctions: getStdLibFunctions,
+        getStdLibConstants: getStdLibConstants
     };
 });

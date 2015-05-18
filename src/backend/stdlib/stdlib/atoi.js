@@ -1,5 +1,7 @@
 define(["mod_process"], function(mp) {
 
+    // int atoi(char* str);
+    
     function atoi(args, process) {
         var str = mp.MemoryUtils.readStringPtr(process.memory, args.str);
         var num = Number(str);

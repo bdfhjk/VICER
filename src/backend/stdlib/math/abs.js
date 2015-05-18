@@ -1,5 +1,7 @@
 define(function() {
 
+    // int abs(int val);
+
     function abs(args) {
         return Math.abs(args.val);
     }

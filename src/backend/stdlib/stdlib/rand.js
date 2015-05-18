@@ -1,5 +1,7 @@
 define(["./constants"], function(constants) {
 
+    // int rand();
+    
     function rand() {
         return Math.floor(Math.random() * constants.RAND_MAX);
     }

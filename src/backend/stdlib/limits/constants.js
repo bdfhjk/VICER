@@ -1,0 +1,7 @@
+define({
+    CHAR_BIT: 8,
+    CHAR_MIN: 0,
+    CHAR_MAX: 255,
+    INT_MIN: -2147483647,
+    INT_MAX: 2147483647
+});

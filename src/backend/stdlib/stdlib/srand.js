@@ -1,5 +1,7 @@
 define(function() {
     
+    // void srand(int seed);
+    
     function srand() {
         // do nothing, JS doesn't allow seeding
     }

@@ -46,12 +46,12 @@ define([
             "PSUB": createPointerOp("PSUB"),
             "VAEND": VaEndInstr,
             "NOOP": NoopInstr,
-	    "STEP": StepInstr,
-	    "AND": AndInstr,
-	    "OR": OrInstr,
-	    "MOD": ModInstr,
-	    "MUL": MulInstr,
-	    "DIV": DivInstr
+            "STEP": StepInstr,
+            "AND": AndInstr,
+            "OR": OrInstr,
+            "MOD": ModInstr,
+            "MUL": MulInstr,
+            "DIV": DivInstr
         };
         
 });
