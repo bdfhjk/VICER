@@ -3,6 +3,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
 
     var executionDelay = 1000;
     var loop = 0;
+    var state = "stop";
 
     function nextStep() {
         visualization.clearState();
@@ -33,7 +34,8 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     function initiateExecution(){
-        loop = setInterval(nextStep, executionDelay);
+       loop = setInterval(nextStep, executionDelay);
+       state = "running";
     }
 
     function stopExecution() {
@@ -41,25 +43,54 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
         clearInterval(loop);
     }
 
-    function startExecution() {
-        // TODO this is ugly!;
-        var stdin = $("#inputTA").val();
-        endExecution();
-        stopExecution();
-        try {
-            backend.runProgram(cm.doc.getValue(), createWorld(stdin));
-            my_console.addToConsole('compile', 'Compilation successful.');
+    function startExecution(){
+        if (state == "stop"){
+            try {
+                var stdin = $("#inputTA").val();
+                backend.runProgram(cm.doc.getValue(), createWorld(stdin));
+                my_console.addToConsole('compile', 'Compilation successful.');
+                var doc = $('.CodeMirror')[0].CodeMirror;
+                doc.setOption("readOnly", true);
+                $("#inputTA").prop("disabled", true);
+                $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
+                state = "running";
+                initiateExecution();
+            } catch (err) {
+                printError(err);
+            }
+        } else
+        if (state == "running"){
+            stopExecution();
+            state = "paused";
+            $("#btn-start").html('<i class="fa fa-play"></i>&nbsp; Resume');
+        } else
+        if (state == "paused"){
             initiateExecution();
-        } catch (err) {
-            printError(err);
+            state = "running";
+            $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
         }
     }
 
     function endExecution(){
+        state = "stop";
         stopExecution();
         backend.clean();
         visualization.clean();
         my_console.clearConsole();
+        var doc = $('.CodeMirror')[0].CodeMirror;
+        doc.setOption("readOnly", false);
+        $("#inputTA").prop("disabled", false);
+        $("#btn-start").html('<i class="fa fa-rocket"></i>&nbsp; Start');
+    }
+
+    function btnStepClick(){
+        if (state == "paused")
+            nextStep();
+    }
+
+    function btnStepOverClick(){
+        if (state == "paused")
+            nextStepOver();
     }
 
     function printError(err) {
@@ -70,8 +101,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     $('#btn-start').click(startExecution);
-    $('#btn-step').click(nextStep);
-    $('#btn-step-over').click(nextStepOver);
-    $('#btn-stop').click(stopExecution);
+    $('#btn-step').click(btnStepClick);
+    $('#btn-step-over').click(btnStepOverClick);
     $('#btn-end').click(endExecution);
 });
