@@ -5,6 +5,7 @@ define(["./constants"], function(constants) {
     }
 
     rand.args = [];
+    rand.env = {};
     rand.returns = { type: "int" };
 
     return rand;

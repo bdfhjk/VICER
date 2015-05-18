@@ -13,6 +13,7 @@ define(["mod_process", "sprintf"], function(mp, sp) {
     }
 
     printf.args = "varargs";
+    printf.env = {};
     printf.returns = { type: "int" };
 
     return printf;

@@ -16,6 +16,6 @@ define(["./LibraryFunctionSet"], function(rawFunctions) {
     }
 
     return {
-        getStdLibFunctions: getStdLibFunctions,
+        getStdLibFunctions: getStdLibFunctions
     };
 });

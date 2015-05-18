@@ -7,7 +7,7 @@ define(["mod_process"], function(mp) {
     }
 
     atoi.args = ["str"];
-    atoi.argTypes = {
+    atoi.env = {
         str: { 
             type: "pointer",
             to: { type: "char" }

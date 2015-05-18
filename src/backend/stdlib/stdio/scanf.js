@@ -23,6 +23,7 @@ define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
     }
 
     scanf.args = "varargs";
+    scanf.env = {};
     scanf.returns = { type: "int" };
 
     return scanf;

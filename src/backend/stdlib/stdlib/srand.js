@@ -4,7 +4,12 @@ define(function() {
         // do nothing, JS doesn't allow seeding
     }
 
-    srand.args = [{ type: "int" }];
+    srand.args = ["seed"];
+    srand.env = { 
+        seed: {
+            type: "int"
+        }
+    };
     srand.returns = { type: "void" };
 
     return srand;
