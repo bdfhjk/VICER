@@ -44,7 +44,7 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     }
 
     function startExecution(){
-        if (state == "stop"){
+        if (state === "stop"){
             try {
                 var stdin = $("#inputTA").val();
                 backend.runProgram(cm.doc.getValue(), createWorld(stdin));
@@ -59,12 +59,12 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
                 printError(err);
             }
         } else
-        if (state == "running"){
+        if (state === "running"){
             stopExecution();
             state = "paused";
             $("#btn-start").html('<i class="fa fa-play"></i>&nbsp; Resume');
         } else
-        if (state == "paused"){
+        if (state === "paused"){
             initiateExecution();
             state = "running";
             $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
