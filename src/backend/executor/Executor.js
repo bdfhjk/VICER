@@ -41,7 +41,6 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
         while(true) {
             var execInfo = executeNextInstruction(process);
             if (!execInfo.running) {
-                console.log(execInfo.level, level);
                 if ((isStepOver && execInfo.level <= level) || !isStepOver) {
                     break;
                 } else {
