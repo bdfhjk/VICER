@@ -5,26 +5,30 @@ The VIPER project.
 
 # Deployment
 
-1. Install Node.js in newest version (depends on your system).
+1. Install Node.js in newest version (actual procedure depends on your system).
 2. Install grunt CLI:
-````
-npm install -g grunt-cli
-````
+    ````
+    npm install -g grunt-cli
+    ````
+
 3. Clone the project:
-````
-git clone https://github.com/bdfhjk/VIPER
-````
+    ````
+    git clone https://github.com/bdfhjk/VIPER
+    ````
+
 4. Go to the project root:
-````
-cd VIPER
-````
+    ````
+    cd VIPER
+    ````
+
 5. Install dependencies:
-````
-npm install
-````
+    ````
+    npm install
+    ````
+
 6. Run project:
-````
-grunt
-````
+    ````
+    grunt
+    ````
 
 If all is OK, VIPER server will be listening on port *3000*.
