@@ -7,10 +7,10 @@ define(["./TypeCheck"], function(tc) {
     DivInstr.prototype.invoke = function invoke(context, process) {
         var a1 = tc.verifyInt(context.pop());
         var a2 = tc.verifyInt(context.pop());
-	if (a2 === 0) {
-	    throw new Error("Division by zero");
-	}
-        context.push(a2 / a1);
+    	if (a2 === 0) {
+    	    throw new Error("Division by zero");
+    	}
+        context.push(Math.floor(a2 / a1));
     };
 
     DivInstr.prototype.toString = function toString() {

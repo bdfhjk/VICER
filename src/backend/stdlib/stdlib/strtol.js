@@ -4,8 +4,8 @@ define(["mod_process"], function(mp) {
     // int strtol(char* str, int base);
 
     function strtol(args, process) {
-        var str = mp.MemoryUtils.readString(process.memory, args.str);
-        var num = parseInt(str, base);
+        var str = mp.MemoryUtils.readStringPtr(process.memory, args.str);
+        var num = parseInt(str, args.base);
         return isNaN(num) ? -1 : num;
     }
 

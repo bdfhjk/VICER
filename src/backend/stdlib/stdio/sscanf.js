@@ -5,8 +5,8 @@ define(["mod_process", "./util_sscanf", "./scanf"], function(mp, utilSscanf, myS
     function sscanf(varargs, process) {
         var source = mp.MemoryUtils.readStringPtr(process.memory, varargs[0]);
         var fmtString = mp.MemoryUtils.readStringPtr(process.memory, varargs[1]);
-        var scanned = utilSscanf(buf.result, fmtString);
-        return myScanf.writeResults(varargs.slice(2), scanned);
+        var scanned = utilSscanf(source, fmtString);
+        return myScanf.writeResults(varargs.slice(2), process, scanned);
     }
 
     sscanf.args = "varargs";

@@ -5,7 +5,7 @@ define(["mod_process"], function(mp) {
     function strcpy(args, process) {
         var strFrom = mp.MemoryUtils.readStringPtr(process.memory, args.strFrom);
         mp.MemoryUtils.writeStringPtr(process.memory, args.strTo, strFrom);
-        return strFrom;
+        return args.strTo;
     }
 
     strcpy.args = ["strTo", "strFrom"];

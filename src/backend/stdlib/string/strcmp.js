@@ -4,7 +4,7 @@ define(["mod_process"], function(mp) {
 
     function strcmp(args, process) {
         var str1 = mp.MemoryUtils.readStringPtr(process.memory, args.str1);
-        var str2 = mp.MemoryUtils.readStringPtr(process.memory, args.str1);
+        var str2 = mp.MemoryUtils.readStringPtr(process.memory, args.str2);
         return str1.localeCompare(str2);
     }
 

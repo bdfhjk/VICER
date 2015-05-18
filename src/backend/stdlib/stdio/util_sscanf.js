@@ -56,17 +56,22 @@ return function sscanf(str, format) {
     
   };
 
-  var _addNext = function (j, regex, cb) {
+  var _addNext = function (j, regex, cb, isChar) {
     if (assign) {
       var remaining = str.slice(j);
       var check = width ? remaining.substr(0, width) : remaining;
       var match = regex.exec(check);
+      var add = 0;
+      if (isChar && match) {
+        match[0] = match[0].charCodeAt(0);
+        add = 1;
+      }
       var testNull = retArr[digit !== undefined ? digit : retArr.length] = match ? (cb ? cb.apply(null, match) :
         match[0]) : null;
       if (testNull === null) {
         throw 'No match in string';
       }
-      return j + match[0].length;
+      return j + (match[0].length || add);
     }
     return j;
   };
@@ -167,7 +172,7 @@ return function sscanf(str, format) {
         case 'c':
           // Get character; suppresses skipping over whitespace! (but shouldn't be whitespace in format anyways, so no difference here)
           // Non-greedy match
-          j = _addNext(j, new RegExp('.{1,' + (width || 1) + '}'));
+          j = _addNext(j, new RegExp('.{1,' + (width || 1) + '}'), null, true);
           break;
         case 'D':
           // sscanf documented decimal number; equivalent of 'd';

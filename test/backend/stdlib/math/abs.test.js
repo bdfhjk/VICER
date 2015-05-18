@@ -1,4 +1,4 @@
-require("../../prepare-tests.js");
+require("../../../prepare-tests.js");
 
 describe("stdlib: abs", function() {
 
@@ -11,11 +11,11 @@ describe("stdlib: abs", function() {
         });
     });
 
-    it("abs: should return positive value", function() {
+    it("should return positive value", function() {
         expect(abs({val: 12})).to.equal(12);
     });
 
-    it("abs: should turn negative to positive", function() {
+    it("should turn negative to positive", function() {
         expect(abs({val: -12})).to.equal(12);
     });
 });

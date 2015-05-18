@@ -9,9 +9,9 @@ define([], function() {
         var buf = { };
         process.world.emitEvent("stdin_fetch", [buf]);
         if (buf.result.length > 0) {
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
     feof.args = ["fd"];

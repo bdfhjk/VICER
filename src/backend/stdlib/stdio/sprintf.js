@@ -13,7 +13,7 @@ define(["mod_process", "sprintf"], function(mp, libSprintf) {
             return arg;
         });
         var result = libSprintf.sprintf.apply(null, strArgs);
-        mp.MemoryUtils.writeStringPtr(varargs[0], result);
+        mp.MemoryUtils.writeStringPtr(process.memory, varargs[0], result);
         return 0;
     }
 

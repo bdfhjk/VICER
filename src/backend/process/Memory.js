@@ -4,7 +4,7 @@ define(["eventEmitter"], function(EventEmitter) {
         this.emitter = new EventEmitter();
         this.cells = {};
         this.locBaseOffset = {};
-        this.lastId = 0;
+        this.lastId = 1;
     }
 
     Memory.prototype.nextId = function nextId() {

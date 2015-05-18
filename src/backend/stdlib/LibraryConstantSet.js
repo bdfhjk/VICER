@@ -2,6 +2,7 @@ define(["./stdlib/constants", "./stdio/constants", "./limits/constants"], functi
     return {
         // stdlib
         RAND_MAX: stdlib.RAND_MAX,
+        NULL: stdlib.NULL,
         // stdio
         stdin: stdio.stdin,
         // limits

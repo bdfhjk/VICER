@@ -8,10 +8,10 @@ define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
         var fmtString = mp.MemoryUtils.readStringPtr(process.memory, varargs[0]);
         var scanned = sscanf(buf.result, fmtString);
         process.world.emitEvent("stdin_consume", [scanned.consumed]);
-        return scanf.writeResults(varargs.slice(1), scanned);
+        return scanf.writeResults(varargs.slice(1), process, scanned);
     }
 
-    scanf.writeResults = function writeResults(varargs, scanned) {
+    scanf.writeResults = function writeResults(varargs, process, scanned) {
         var objects = 0;
         for (var i = 0; i < varargs.length; i++) {
             var part = scanned.result[i];
@@ -22,6 +22,8 @@ define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
             var loc = process.memory.at(varargs[i].base, varargs[i].offset);
             if (typeof part === "number") {
                 process.memory.assign(loc, part);                
+            } else if (typeof part === "string") {
+                mp.MemoryUtils.writeString(process.memory, loc, part);
             } else {
                 throw new Error("scanf error: how to handle " + typeof part);
             }
