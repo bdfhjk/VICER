@@ -114,11 +114,11 @@ describe("Complete Integration Test", function() {
             file: "fibonacci10th-dynamic.c",
             expected: 55
         },
-        /*{
-            description: "call printf with varargs",
-            file: "printf-varargs.c",
-            expected_printf: "Hello world!"
-        },*/
+        {
+            description: "Use abs stdlib function",
+            file: "mathabs.c",
+            expected: 6
+        },
 	{
 	    description: "add number to pointer",
 	    file: "pointer-add.c",

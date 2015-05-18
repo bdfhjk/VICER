@@ -11,8 +11,14 @@ define(function () {
 	this.message = name + ' IS NOT A FUNCTION';
     }
 
+    function Unknown (name) {
+	this.name = name;
+	this.message = name + ': NAME UNKNOWN';
+    }
+
     return {
 	TypeMismatch: TypeMismatch,
-	NotAFunction: NotAFunction
+	NotAFunction: NotAFunction,
+	Unknown: Unknown
     };
 });

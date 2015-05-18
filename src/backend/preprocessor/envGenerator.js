@@ -66,9 +66,13 @@ define(['lodash', './Errors'], function (_, Errors) {
 	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
 
 	// if an IDENTIFIER, substitute variable if not a constant
-	if (ast.type === 'INDENTIFIER' && nameDict[ast.value]) {
-	    ast.value = nameDict[ast.value];
-	    ast.tvalue = _.clone(env[ast.value]);
+	if (ast.type === 'INDENTIFIER') {
+	    if (nameDict[ast.value]) {
+		ast.value = nameDict[ast.value];
+		ast.tvalue = _.clone(env[ast.value]);
+	    } else if (!_.invert(nameDict)[ast.value] && !_.invert(constants)[ast.value]) {
+		throw new Errors.Unknown(ast.value);
+	    }
 	    return;
 	}
 
@@ -100,13 +104,17 @@ define(['lodash', './Errors'], function (_, Errors) {
 
 	// process POST_INC and PRE_INC
 	if (ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
+	    if (!nameDict[ast.subexp.value] && !_.invert(nameDict)[ast.subexp.value] && !_.invert(constants)[ast.value]) {
+		throw new Errors.Unknown(ast.value);
+	    }
 	    if (!constants[1]) {
 		constants[1] = prefix + '_CONSTANT|' + constantsNum++;
 	    }
 	    ast.type = 'ASSIGN';
 	    ast.left = {
 		type: 'INDENTIFIER',
-		value: ast.subexp.value // must be an identifier
+		value: ast.subexp.value, // must be an identifier,
+		tvalue: ast.subexp.tvalue
 	    };
 	    ast.right = {
 		type: 'ADD',
@@ -138,7 +146,11 @@ define(['lodash', './Errors'], function (_, Errors) {
 	// append function declaration to call
 	if (ast.type === 'FUNCTION_CALL') {
 	    if (!declarations[ast.name]) {
-		throw new Errors.NotAFunction(ast.name);
+		if (!nameDict[ast.name] && !_.invert(nameDict)[ast.value] && !_.invert(constants)[ast.value]) {
+		    throw new Errors.Unknown(ast.value);
+		} else {
+		    throw new Errors.NotAFunction(ast.name);
+		}
 	    }
 	    ast.declaration = declarations[ast.name];
 	}

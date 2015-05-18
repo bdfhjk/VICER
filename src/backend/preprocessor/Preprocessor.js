@@ -121,7 +121,51 @@ define([
     };
 
     AstToCfg.prototype.collectStdLibFunctions = function collectStdLibFunctions() {
-        this.stdlib = stdlib.getStdLibFunctions();
+	this.stdlib = {};
+        var rawStdlib = stdlib.getStdLibFunctions();
+	var rawDesc, finDesc, rawEntry, finEntry;
+	for (var stdFunc in rawStdlib) {
+	    rawDesc = rawStdlib[stdFunc];
+	    finDesc = {};
+	    if (rawDesc.returns.type === 'pointer' || rawDesc.returns.type === 'array') {
+		finDesc.return_tvalue = {
+		    type: rawDesc.returns.type,
+		    of: {
+			type: 'concrete_type',
+			name: rawDesc.returns.of.type
+		    }
+		};
+	    } else {
+		finDesc.return_tvalue = {
+		    type: 'concrete_type',
+		    name: rawDesc.returns.type
+		};
+	    }
+	    finDesc.param_tvalues = [];
+	    if (rawDesc.args !== 'varargs') {
+		for (var i = 0; i < rawDesc.args.length; i++) {
+		    finEntry = {};
+		    rawEntry = rawDesc.env[rawDesc.args[i]];
+		    if (rawEntry.type === 'pointer' || rawEntry.type === 'array') {
+			finEntry = {
+			    type: rawEntry.type,
+			    of: {
+				type: 'concrete_type',
+				name: rawEntry.of ? rawEntry.of.type : rawEntry.to.type
+			    }
+			};
+		    } else {
+			finEntry = {
+			    type: 'concrete_type',
+			    name: rawEntry.type
+			};
+		    }
+		    finDesc.param_tvalues.push(finEntry);
+		}
+	    }
+	    finDesc.param_tvalues.reverse();
+	    this.stdlib[stdFunc] = finDesc;
+	}
     };
 
     AstToCfg.prototype.convert = function convert() {

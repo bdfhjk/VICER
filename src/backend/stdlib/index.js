@@ -6,6 +6,7 @@ define(["./LibraryFunctionSet"], function(rawFunctions) {
         var fun = rawFunctions[funName];
         functions[funName] = {
             args: fun.args,
+	    env: fun.env,
             returns: fun.returns,
             std: fun
         };
