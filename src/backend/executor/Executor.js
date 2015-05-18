@@ -49,6 +49,7 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
         var proc = new Process(world);
         buildEnv(proc.environment, envTemplate);
         allocValues(proc, mod_stdlib.getStdLibFunctions());
+        allocValues(proc, mod_stdlib.getStdLibConstants());
         allocValues(proc, functions);
         allocValues(proc, values);
         callFunctionByName(proc, "main");

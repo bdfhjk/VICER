@@ -1,13 +1,20 @@
 define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
+
+    // int scanf(...);
+    
     function scanf(varargs, process) {
         var buf = {};
         process.world.emitEvent("stdin_fetch", [buf]);
         var fmtString = mp.MemoryUtils.readStringPtr(process.memory, varargs[0]);
         var scanned = sscanf(buf.result, fmtString);
         process.world.emitEvent("stdin_consume", [scanned.consumed]);
+        return scanf.writeResults(varargs.slice(1), scanned);
+    }
+
+    scanf.writeResults = function writeResults(varargs, scanned) {
         var objects = 0;
-        for (var i = 1; i < varargs.length; i++) {
-            var part = scanned.result[i-1];
+        for (var i = 0; i < varargs.length; i++) {
+            var part = scanned.result[i];
             if (part === null || part === undefined) {
                 continue;
             }
@@ -16,11 +23,11 @@ define(["mod_process", "./util_sscanf"], function(mp, sscanf) {
             if (typeof part === "number") {
                 process.memory.assign(loc, part);                
             } else {
-                throw new Error("sscanf error: how to handle " + typeof part);
+                throw new Error("scanf error: how to handle " + typeof part);
             }
         }
         return objects;
-    }
+    };
 
     scanf.args = "varargs";
     scanf.env = {};
