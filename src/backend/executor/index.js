@@ -1,6 +1,6 @@
 define(["./Executor", "./generateEvents"], function(executor, generateEvents) {
 
-    function executeNextStep(process) {
+    function executeNextStep(process, isStepOver) {
         // CHANGED_VARIABLE = variableName, value
         // USED_VARIABLE = variableName
         // DELETED_VARIABLE = variableName
@@ -15,7 +15,7 @@ define(["./Executor", "./generateEvents"], function(executor, generateEvents) {
         // CHANGED_TREE = treeName, rootName, childrens(name, value)[], connections(id, id)[]
         // CHANGED_POINTERS = pointersName, elements(name, value)[], connections(id, id)[]
         // CHANGED_STACK = ??? 
-        var result = executor.executeNextStep(process);
+        var result = executor.executeNextStep(process, isStepOver);
         return generateEvents(result);
     }
 

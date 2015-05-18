@@ -10,7 +10,10 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
     function executeNextInstruction(process) {
         var top = process.getCurrentContext();
         if (!top) {
-            return false;
+            return {
+                running: false,
+                level: process.callStack.length
+            };
         }
         var currentInstr = top.next;
         if (DEBUG.VM_INSTRUCTIONS)
@@ -18,17 +21,34 @@ define(["mod_process", "mod_stdlib", "./CfgBuilder", "./EnvBuilder", "./Function
         if (currentInstr)
             top.next = currentInstr.invoke(top, process) || currentInstr.next;
         if (process.paused) {
-            return false;
+            return {
+                running: false,
+                level: process.callStack.length
+            };
         }
         if (top.result || !top.next) {
             var result = top.result ? top.result.returnValue : undefined;
             functionCall.returnFromCall(process, result);
         }
-        return !process.finished;
+        return {
+            running: !process.finished,
+            level: process.callStack.length
+        };
     }
 
-    function executeNextStep(process) {
-        while(executeNextInstruction(process));
+    function executeNextStep(process, isStepOver) {
+        var level = process.callStack.length;
+        while(true) {
+            var execInfo = executeNextInstruction(process);
+            if (!execInfo.running) {
+                console.log(execInfo.level, level);
+                if ((isStepOver && execInfo.level <= level) || !isStepOver) {
+                    break;
+                } else {
+                    process.resume();
+                }
+            }            
+        }
         var result = {
             finished: process.finished,
             exitCode: process.exitCode,

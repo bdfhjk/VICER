@@ -13,10 +13,8 @@ define(["mod_parser", "mod_preprocessor", "mod_executor", "mod_data_structures"]
         return executor.executeNextStep(process);
     }
 
-    /* Mock up */
     function nextStepOver() {
-        return executor.processNext(process)
-            .then(dataStructures.interpret);
+        return executor.executeNextStep(process, true);
     }
 
     function clean() {

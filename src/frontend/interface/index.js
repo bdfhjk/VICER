@@ -4,11 +4,12 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
     var executionDelay = 1000;
     var loop = 0;
     var state = "stop";
+    toggleControls(state);
 
-    function nextStep() {
+    function processNext(nextStep) {
         visualization.clearState();
         try {
-            var events = backend.nextStep();
+            var events = nextStep();
             if (handleEvents(visualization, events) === "finished") {
                 stopExecution();
             }
@@ -20,67 +21,92 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
         visualization.redraw();
     }
 
+    function nextStep() {
+        processNext(function() { return backend.nextStep(); });
+    }
+
     function nextStepOver() {
-        /* Removed temporary due to code crashing. Backend team please fix.
-        backend.nextStepOver()
-            .then(function(executionResult) {
-                my_console.addToConsole('run', executionResult.description);
-            })
-            .catch(function(err) {
-                my_console.addToConsole('exception', err.stack);
-            })
-            .done();
-         */
+        processNext(function() { return backend.nextStepOver(); });   
     }
 
     function initiateExecution(){
        loop = setInterval(nextStep, executionDelay);
        state = "running";
+       toggleControls(state);
+    }
+
+    function pauseExecution() {
+        state = "paused";
+        toggleControls(state);
+        clearInterval(loop);
     }
 
     function stopExecution() {
+        pauseExecution();
+        state = "stop";
         visualization.cleanCodeMark();
-        clearInterval(loop);
+        var doc = $('.CodeMirror')[0].CodeMirror;
+        doc.setOption("readOnly", false);
+        toggleControls(state);
+        $("#btn-start").html('<i class="fa fa-rocket"></i>&nbsp; Start');
+    }
+
+    function toggleControls(state) {
+        var allButtons = [
+            "#btn-start", "#btn-step", "#btn-step-over", "#btn-end", "#btn-input"
+        ];
+        var stateMap = {
+            stop: {
+                "#btn-start": true,
+                "#btn-end": true,
+                "#btn-input": true
+            },
+            running: {
+                "#btn-start": true,
+                "#btn-end": true,
+            },
+            paused: {
+                "#btn-start": true,
+                "#btn-end": true,
+                "#btn-step": true,
+                "#btn-step-over": true
+            }
+        };
+        allButtons.forEach(function(button) {
+            $(button).prop("disabled", !stateMap[state][button]);
+        });
     }
 
     function startExecution(){
         if (state === "stop"){
             try {
                 var stdin = $("#inputTA").val();
+                endExecution();
                 backend.runProgram(cm.doc.getValue(), createWorld(stdin));
                 my_console.addToConsole('compile', 'Compilation successful.');
                 var doc = $('.CodeMirror')[0].CodeMirror;
                 doc.setOption("readOnly", true);
-                $("#inputTA").prop("disabled", true);
                 $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
-                state = "running";
                 initiateExecution();
             } catch (err) {
                 printError(err);
             }
         } else
         if (state === "running"){
-            stopExecution();
-            state = "paused";
+            pauseExecution();
             $("#btn-start").html('<i class="fa fa-play"></i>&nbsp; Resume');
         } else
         if (state === "paused"){
             initiateExecution();
-            state = "running";
             $("#btn-start").html('<i class="fa fa-pause"></i>&nbsp; Pause');
         }
     }
 
     function endExecution(){
-        state = "stop";
         stopExecution();
         backend.clean();
         visualization.clean();
         my_console.clearConsole();
-        var doc = $('.CodeMirror')[0].CodeMirror;
-        doc.setOption("readOnly", false);
-        $("#inputTA").prop("disabled", false);
-        $("#btn-start").html('<i class="fa fa-rocket"></i>&nbsp; Start');
     }
 
     function btnStepClick(){
