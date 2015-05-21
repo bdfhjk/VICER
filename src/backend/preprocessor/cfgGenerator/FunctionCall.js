@@ -17,11 +17,15 @@ define([
 	});
 	var result;
 
-	if (!isVariadic && args.length !== 0 && (!parameters || parameters.length !== args.length)) {
-	    throw new Errors.WrongArgNum(
-		args.length,
-		parameters ? parameters.length : 0,
-		'CALL ' + functionName);
+	if (!isVariadic) {
+	    if (args.length !== 0 && (!parameters || parameters.length !== args.length)) {
+		throw new Errors.WrongArgNum(
+		    args.length,
+		    parameters ? parameters.length : 0,
+		    'CALL ' + functionName);
+	    } else {
+		parameters.reverse(); // order of passing arguments is important
+	    }
 	}
 
 	if (parameters && parameters.length > 0) {
@@ -30,6 +34,7 @@ define([
 	    CfgHelper.toValOrPtr(result);
 
 	    if (!isVariadic) {
+		args.reverse();
 		var firstParameterDeclared = args[0];
 		if (firstParameterDeclared.type === 'concrete_type') {
 		    if (firstParameterDeclared.name !== result.tvalue.type) {
