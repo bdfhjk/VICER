@@ -162,6 +162,8 @@ define([
 		    }
 		    finDesc.param_tvalues.push(finEntry);
 		}
+	    } else {
+		finDesc.args = 'varargs';
 	    }
 	    finDesc.param_tvalues.reverse();
 	    this.stdlib[stdFunc] = finDesc;
