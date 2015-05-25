@@ -1,15 +1,25 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
-    function Geq(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
 
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
+    function Geq(paramNode) {
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var geqInstr = new Cfg ({
 	    type: 'GEQ'
@@ -19,10 +29,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(geqInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return left;
     }

@@ -1,97 +1,43 @@
 define([
+    'lodash',
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../Errors',
+    '../cfgHelper'
+], function (_, Cfg, Errors, cfgHelper) {
     var cfgGenerator;
 
     function FunctionCall (paramNode) {
-	var functionName = paramNode.name;
-	var args = paramNode.declaration.param_tvalues;
-	var returnType = paramNode.declaration.return_tvalue;
 	var isVariadic = paramNode.declaration.args === 'varargs';
+	var functionName = paramNode.declaration.name;
+	var args = paramNode.declaration.param_tvalues;
 	var parameters = paramNode.parameters;
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
 	    param: functionName
 	});
-	var result;
+	var result = new Cfg ({
+	    type: 'NOOP'
+	});
 
-	if (!isVariadic) {
-	    if (args.length !== 0 && (!parameters || parameters.length !== args.length)) {
-		throw new Errors.WrongArgNum(
-		    args.length,
-		    parameters ? parameters.length : 0,
-		    'CALL ' + functionName);
-	    } else {
-		parameters.reverse(); // order of passing arguments is important
-	    }
+	var paramNum = parameters ? parameters.length : 0;
+	var argNum = args ? args.length : 0;
+
+	if (!isVariadic && paramNum !== argNum) {
+	    throw new Errors.WrongArgNum();
 	}
 
-	if (parameters && parameters.length > 0) {
-	    var firstParameter = parameters[0];
-	    result = cfgGenerator(firstParameter); 
-	    CfgHelper.toValOrPtr(result);
+	var paramsDecls = _.zip(parameters, args);
+	_.each(paramsDecls, function (paramDecl) {
+	    var computedParam = cfgHelper.computeAndCheckType(
+		paramDecl[1], // type
+		false,         // lvalue
+		paramDecl[0]  // node
+	    );
 
-	    if (!isVariadic) {
-		args.reverse();
-		var firstParameterDeclared = args[0];
-		if (firstParameterDeclared.type === 'concrete_type') {
-		    if (firstParameterDeclared.name !== result.tvalue.type) {
-			throw new Errors.TypeMismatch(
-			    firstParameterDeclared.name,
-			    result.tvalue.type,
-			    'CALL ' + functionName);
-		    }
-		} else {
-		    if (result.type === 'value') {
-			throw new Errors.TypeMismatch(
-			    'pointer || array',
-			    'value',
-			    'CALL ' + functionName);
-		    } else if (result.tvalue.of.type !== firstParameterDeclared.tvalue.name) {
-			throw new Errors.TypeMismatch(
-			    firstParameterDeclared.tvalue.name,
-			    result.tvalue.of.type,
-			    'CALL ' + functionName);
-		    }
-		}
-	    }
-	    
-	    var generated, curParamDeclared;
-	    for (var i = 1; i < parameters.length; i++) {
-		generated = cfgGenerator(parameters[i]);
-		CfgHelper.toValOrPtr(generated);
+	    result.mergeLeft(computedParam);
+	});
 
-		if (!isVariadic) {
-		    curParamDeclared = args[i];
-		    if (curParamDeclared.type === 'concrete_type') {
-			if (curParamDeclared.name !== generated.tvalue.type) {
-			    throw new Errors.TypeMismatch(
-				curParamDeclared.name,
-				generated.tvalue.type,
-				'CALL ' + functionName);
-			}
-		    } else {
-			if (generated.type === 'value') {
-			    throw new Errors.TypeMismatch(
-				'pointer || array',
-				'value',
-				'CALL ' + functionName);
-			} else if (generated.tvalue.of.type !== curParamDeclared.tvalue.name) {
-			    throw new Errors.TypeMismatch(
-				curParamDeclared.tvalue.name,
-				generated.tvalue.of.type,
-				'CALL ' + functionName);
-			}
-		    }
-		}
-
-		result.mergeLeft(generated);
-	    }
-	    result.mergeLeft(resolveInstr);
-	} else
-	    result = resolveInstr;
+	result.mergeLeft(resolveInstr);
 
 	var callInstr = new Cfg ({
 	    type: 'CALL'
@@ -107,19 +53,8 @@ define([
 	    result.mergeRight(vaendInstr);
 	}
 
-	if (returnType.type === 'concrete_type') {
-	    result.tvalue = {
-		type: returnType.name
-	    };
-	} else {
-	    result.tvalue = {
-		type: returnType.type,
-		of: {
-		    type: returnType.tvalue.name
-		}
-	    };
-	}
-	result.type = CfgHelper.getNodeVal(paramNode.declaration);
+	result.tvalue = paramNode.declaration.return_tvalue;
+	result.lvalue = false;
 
 	return result;
     }

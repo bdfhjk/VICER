@@ -1,27 +1,20 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
+
+    var decl = {
+	subexp: {
+	    lvalue: false,
+	    type: { type: 'pointer' }
+	}
+    };
     
     function Deref(paramNode) {
-	var location = cfgGenerator(paramNode.subexp);
-	CfgHelper.toValOrPtr(location);
-
-	if (location.type !== 'pointer') {
-	    throw new Errors.TypeMismatch(
-		'pointer',
-		location.value,
-		'DEREF');
-	}
-	if (location.tvalue.type !== 'pointer' && location.tvalue.type !== 'array') {
-	    throw new Errors.TypeMismatch(
-		'pointer || array',
-		location.tvalue.type,
-		'DEREF'
-	    );
-	}
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var location = compSubtrees.subexp;
 
 	var derefInstr = new Cfg ({
 	    type: 'DEREF'
@@ -30,7 +23,7 @@ define([
 	var result = location;
 	result.mergeLeft(derefInstr);
 
-	result.type = 'locVal';
+	result.lvalue = true;
 	result.tvalue = location.tvalue.of;
 
 	return result;

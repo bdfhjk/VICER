@@ -1,28 +1,25 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
     
-    function LogicalAnd (paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
 
-	if (left.type !== 'value' || left.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		left.tvalue.type,
-		'int',
-		'LOGICAL_AND');
-	}
-	if (right.type !== 'value' || right.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		right.tvalue.type,
-		'int',
-		'LOGICAL_AND');
-	}
+    function LogicalAnd (paramNode) {
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var andInstr = new Cfg ({
 	    type: 'AND',
@@ -32,10 +29,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(andInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

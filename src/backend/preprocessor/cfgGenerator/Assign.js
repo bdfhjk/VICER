@@ -1,51 +1,31 @@
 define([
     'lodash',
+    '../Errors',
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (_, Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (_, Errors, Cfg, cfgHelper) {
     var cfgGenerator;
+
+    var decl = {
+	left: {
+	    lvalue: true,
+	},
+	right: {
+	    lvalue: false
+	}
+    };
     
     function Assign(paramNode) {
-	var lvalue = cfgGenerator(paramNode.left);
-	var rvalue = cfgGenerator(paramNode.right);
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var lvalue = compSubtrees.left;
+	var rvalue = compSubtrees.right;
 
-	CfgHelper.toValOrPtr(rvalue);
-
-	if (lvalue.type === 'locVal') {
-	    if (rvalue.type !== 'value') {
-		throw new Errors.TypeMismatch(
-		    'value',
-		    rvalue.type,
-		    'ASSIGN');
-	    }
-	    if (lvalue.tvalue.type !== rvalue.tvalue.type) {
-		throw new Errors.TypeMismatch(
-		    lvalue.tvalue.type,
-		    rvalue.tvalue.type,
-		    'ASSIGN'
-		);
-	    }
-	} else if (lvalue.type === 'locPtr') {
-	    if (rvalue.type !== 'pointer') {
-		throw new Errors.TypeMismatch(
-		    'pointer',
-		    rvalue.type,
-		    'ASSIGN'
-		);
-	    }
-	    if (lvalue.tvalue.of.type !== rvalue.tvalue.of.type) {
-		throw new Errors.TypeMismatch(
-		    lvalue.tvalue.of.type,
-		    rvalue.tvalue.of.type,
-		    'ASSIGN'
-		);
-	    }
-	} else {
+	if (!cfgHelper.matchTypes(lvalue.tvalue, rvalue.tvalue)) {
 	    throw new Errors.TypeMismatch(
-		'locVal || locPtr',
-		lvalue.type,
-		'ASSIGN');
+		lvalue.tvalue,
+		rvalue.tvalue
+	    );
 	}
 
 	var assignInstr = new Cfg ({
@@ -56,8 +36,8 @@ define([
 	result.mergeLeft(rvalue);
 	result.mergeLeft(assignInstr);
 
-	result.type = null;
-	result.tvalue = null;
+	result.lvalue = false;
+	result.tvalue = rvalue.tvalue;
 
 	return result;
     }

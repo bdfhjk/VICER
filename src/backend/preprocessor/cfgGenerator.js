@@ -12,7 +12,6 @@ define([
     './cfgGenerator/Identifier',
     './cfgGenerator/Deref',
     './cfgGenerator/Ref',
-    './cfgGenerator/ArrayVal',
     './cfgGenerator/Assign',
     './cfgGenerator/PlusAssign',
     './cfgGenerator/MinusAssign',
@@ -30,9 +29,9 @@ define([
     './cfgGenerator/More',
     './cfgGenerator/Not',
     './cfgGenerator/Subscript'
-], function (LogicalAnd, LogicalOr, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, ArrayVal, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
+], function (LogicalAnd, LogicalOr, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
-    function generateCfg(node, decls, return_tvalue) {
+    function generateCfg(node) {
 	var generators = {
 	    'LOGICAL_AND': LogicalAnd,
 	    'LOGICAL_OR': LogicalOr,
@@ -47,7 +46,6 @@ define([
 	    'INDENTIFIER': Identifier,
 	    'UNARYOP_*' : Deref,
 	    'UNARYOP_&' : Ref,
-	    'ARRAY_VAL' : ArrayVal,
 	    'ASSIGN': Assign,
 	    '+=': PlusAssign,
 	    '-=': MinusAssign,
@@ -68,7 +66,10 @@ define([
 	};
 
 	var generator = generators[node.type];
-	return generator(generateCfg)(node, decls, return_tvalue);
+	if (!generator) {
+	    throw new Error("generateCfg: no function for " + JSON.stringify(node.type, null, 2));
+	}
+	return generator(generateCfg)(node);
     }
 
     return generateCfg;

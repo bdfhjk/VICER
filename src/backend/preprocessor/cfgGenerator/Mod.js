@@ -1,41 +1,24 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
+
     function Mod(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
-
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
-
-	if (left.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		left.type,
-		'value',
-		'MOD');
-	}
-	if (left.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		left.tvalue.type,
-		'int',
-		'MOD');
-	}
-	if (right.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		right.type,
-		'value',
-		'MOD');
-	}
-	if (right.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		right.tvalue.type,
-		'int',
-		'MOD');
-	}
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var modInstr = new Cfg ({
 	    type: 'MOD'
@@ -45,10 +28,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(modInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

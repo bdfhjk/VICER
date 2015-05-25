@@ -10,7 +10,7 @@ describe("Complete Integration Test", function() {
     before(function(done) {
 	var handle = this;
         requirejs(["mod_preprocessor/Preprocessor", "mod_executor/Executor"], function(preprocessor, executor) {
-	    handle.timeout(5000);
+	    handle.timeout(15000);
 	    var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
 	    var lexerSource = JisonLex.generate(lexerGrammar);
 	    var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
@@ -24,56 +24,56 @@ describe("Complete Integration Test", function() {
     });
 
     [
-        {
-            description: "an empty program",
-            file: "empty.c",
-            expected: 0
-        },
-        {
-            description: "a program with an empty block",
-            file: "empty-block.c",
-            expected: 0
-        },
-        {
-            description: "just exit with code 42",
-            file: "return-42.c",
-            expected: 42
-        },
-        {
-            description: "just exit with code -42",
-            file: "negative-integer.c",
-            expected: -42
-        },
-        {
-            description: "assign and add to global and local scope",
-            file: "global-local-scope.c",
-            expected: 5
-        },
-        {
-            description: "return function called without parameters",
-            file: "paramless-function-call.c",
-            expected: 42
-        },
-        {
-            description: "call a function with 2 numbers",
-            file: "adder.c",
-            expected: 6
-        },
-        {
-            description: "call another function with 2 numbers",
-            file: "modder.c",
-            expected: 0
-        },
-        {
-            description: "logical and",
-            file: "logicals.c",
-            expected: 0
-        },
-        {
-            description: "logical or",
-            file: "logicalsOr.c",
-            expected: 0
-        },
+        // {
+        //     description: "an empty program",
+        //     file: "empty.c",
+        //     expected: 0
+        // },
+        // {
+        //     description: "a program with an empty block",
+        //     file: "empty-block.c",
+        //     expected: 0
+        // },
+        // {
+        //     description: "just exit with code 42",
+        //     file: "return-42.c",
+        //     expected: 42
+        // },
+        // {
+        //     description: "just exit with code -42",
+        //     file: "negative-integer.c",
+        //     expected: -42
+        // },
+        // {
+        //     description: "assign and add to global and local scope",
+        //     file: "global-local-scope.c",
+        //     expected: 5
+        // },
+        // {
+        //     description: "return function called without parameters",
+        //     file: "paramless-function-call.c",
+        //     expected: 42
+        // },
+        // {
+        //     description: "call a function with 2 numbers",
+        //     file: "adder.c",
+        //     expected: 6
+        // },
+        // {
+        //     description: "call another function with 2 numbers",
+        //     file: "modder.c",
+        //     expected: 0
+        // },
+        // {
+        //     description: "logical and",
+        //     file: "logicals.c",
+        //     expected: 0
+        // },
+        // {
+        //     description: "logical or",
+        //     file: "logicalsOr.c",
+        //     expected: 0
+        // },
         {
             description: "simple branch true",
             file: "simple-branch-true.c",
@@ -99,11 +99,11 @@ describe("Complete Integration Test", function() {
             file: "fibonacci10th.c",
             expected: 55
         },
-        {
-            description: "String literal",
-            file: "string-literal.c",
-            expected: 33 // char code of '!'
-        },
+        // {
+        //     description: "String literal",
+        //     file: "string-literal.c",
+        //     expected: 33 // char code of '!'
+        // },
         {
             description: "Adder upon pointers",
             file: "adder-upon-pointers.c",

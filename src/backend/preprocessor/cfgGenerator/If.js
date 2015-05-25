@@ -1,31 +1,35 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
+
+    var decl = {
+	true_body: true,
+	condition: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
     
     function If (paramNode) {
+	if (paramNode.false_body) {
+	    decl.false_body = true;
+	}
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
 	});
 
-	var tt = cfgGenerator(paramNode.true_body);
-	var ff = paramNode.false_body ? cfgGenerator(paramNode.false_body) : noopInstr;
+	var tt = compSubtrees.true_body;
+	var ff = paramNode.false_body ? compSubtrees.false_body : noopInstr;
 	
-	var condition = cfgGenerator(paramNode.condition);
+	var condition = compSubtrees.condition;
 	var stepInstr = new Cfg({
 	    type: 'STEP',
 	    param: paramNode.condition.loc
 	});
-	CfgHelper.toValOrPtr(condition);
-
-	if (condition.type !== 'value' || condition.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		condition.tvalue.type,
-		'int',
-		'IF');
-	}
 
 	condition.mergeRight(stepInstr);
 
@@ -46,7 +50,6 @@ define([
 	    }
 	}
 
-	result.type = null;
 	result.tvalue = null;
 
 	return result;

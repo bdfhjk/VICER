@@ -1,45 +1,32 @@
 define([
     'lodash',
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (_, Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (_, Cfg, cfgHelper) {
     var cfgGenerator;
     
+    var decl = {
+	left: {
+	    lvalue: true,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
+    
     function PlusAssign(paramNode) {
-	var lvalue = cfgGenerator(paramNode.left);
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var lvalue = compSubtrees.left;
+	var rvalue = compSubtrees.right;
+
 	var lrvalue = lvalue.copy();
-	var rvalue = cfgGenerator(paramNode.right);
-
-	var types = ['int', 'char'];
-
-	CfgHelper.toValOrPtr(lrvalue);
-	CfgHelper.toValOrPtr(rvalue);
-
-	if (lvalue.type !== 'locVal') {
-	    throw new Errors.TypeMismatch(
-		lvalue.type,
-		'locVal',
-		'+=');
-	}
-	if (lrvalue.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		lrvalue.type,
-		'value',
-		'+=');
-	}
-	if (rvalue.type !== 'value' || rvalue.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		rvalue.tvalue.type,
-		'int',
-		'+=');
-	}
-	if (!(_.contains(types, lvalue.tvalue.type))) {
-	    throw new Errors.TypeMismatch(
-		lvalue.tvalue.type,
-		types.join(),
-		'+=');
-	}
+	var fetchInstr = new Cfg ({
+	    type: 'FETCH'
+	});
+	lrvalue.mergeLeft(fetchInstr);
 
 	var addInstr = new Cfg ({
 	    type: 'ADD'
@@ -54,8 +41,8 @@ define([
 	result.mergeLeft(addInstr);
 	result.mergeLeft(assignInstr);
 
-	result.type = null;
-	result.tvalue = null;
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }
