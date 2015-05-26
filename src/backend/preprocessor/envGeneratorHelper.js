@@ -11,7 +11,7 @@ define(['lodash', 'string', './nameHelper'], function(_, S, nameHelper) {
     
     function getEntityByName(name, nameDict, globalContext) {
 	return getVariableByName(name, nameDict, globalContext) ||
-	       getFunctionByName(name, nameDict, globalContext);
+	       getFunctionByName(name, globalContext);
     }
 
     function getVariableByName(name, nameDict, globalContext) {
