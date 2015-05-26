@@ -11,7 +11,16 @@ define([
 
 	var result = resolveInstr;
 
-	result.lvalue = true;
+	if (paramNode.tvalue.type === 'array') {
+	    var refInstr = new Cfg ({
+		type: 'REF'
+	    });
+	    result.mergeLeft(refInstr);
+	    result.lvalue = false;
+	} else {
+	    result.lvalue = true;
+	}
+
 	result.tvalue = paramNode.tvalue;
 
 	return result;

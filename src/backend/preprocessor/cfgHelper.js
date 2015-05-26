@@ -19,7 +19,6 @@ define([
     }
 
     function computeAndCheckType(type, lvalue, node) {
-	//console.log(JSON.stringify(node, null, 2));
 	var cfg = cfgGenerator(node);
 
 	if (typeof lvalue === 'boolean') {
@@ -53,7 +52,6 @@ define([
     }
 
     function matchTypes(type1, type2) {
-	console.log(type2);
 	if ((type1.type === 'pointer' && type2.type === 'array') || // case one
 	    (type2.type === 'pointer' && type1.type === 'array')) {
 	    if ((type1.of && type2.of) && type1.of.type !== type2.of.type) {

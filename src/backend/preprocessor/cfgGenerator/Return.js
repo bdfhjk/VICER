@@ -13,7 +13,7 @@ define([
     
     function Return(paramNode) {
 	var result;
-	var expectedReturnType = paramNode.declaration.return_tvalue;
+	var expectedReturnType = paramNode.declaration.returns;
 
 	if (paramNode.rexpression && cfgHelper.matchTypes({ type: 'void' }, expectedReturnType)) {
 	    throw new Errors.TypeMismatch(

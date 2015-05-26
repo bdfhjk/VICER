@@ -16,6 +16,7 @@ define([
     };
 
     function Mul(paramNode) {
+	cfgHelper.init(cfgGenerator);
 	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
 	var left = compSubtrees.left;
 	var right = compSubtrees.right;

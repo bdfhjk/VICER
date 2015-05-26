@@ -9,7 +9,7 @@ define([
     function FunctionCall (paramNode) {
 	var isVariadic = paramNode.declaration.args === 'varargs';
 	var functionName = paramNode.declaration.name;
-	var args = paramNode.declaration.param_tvalues;
+	var args;
 	var parameters = paramNode.parameters;
 	var resolveInstr = new Cfg ({
 	    type: 'RESOLVE',
@@ -19,11 +19,21 @@ define([
 	    type: 'NOOP'
 	});
 
+	if (isVariadic) {
+	    args = {};
+	} else {
+	    args = _.map(paramNode.declaration.args, function (arg) {
+		return paramNode.declaration.env[arg];
+	    });
+	}
+
 	var paramNum = parameters ? parameters.length : 0;
 	var argNum = args ? args.length : 0;
 
 	if (!isVariadic && paramNum !== argNum) {
-	    throw new Errors.WrongArgNum();
+	    throw new Errors.WrongArgNum(functionName,
+					 argNum,
+					 paramNum);
 	}
 
 	var paramsDecls = _.zip(parameters, args);
@@ -53,7 +63,7 @@ define([
 	    result.mergeRight(vaendInstr);
 	}
 
-	result.tvalue = paramNode.declaration.return_tvalue;
+	result.tvalue = paramNode.declaration.returns;
 	result.lvalue = false;
 
 	return result;

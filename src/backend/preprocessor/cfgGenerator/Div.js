@@ -28,6 +28,7 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(divInstr);
 
+	result.lvalue = false;
 	result.tvalue = { type: 'int' };
 
 	return result;

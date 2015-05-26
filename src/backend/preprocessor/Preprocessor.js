@@ -46,13 +46,18 @@ define([
 		return;
 	    }
 
-	    var convParams = [];
-	    _.each(decl.declaration.param_tvalues, function (tvalue) {
-		convParams.push(envHelper.createEnvEntry(tvalue));
-	    });
+	    var paramTypePairs = _.zip(decl.declaration.param_names, decl.declaration.param_tvalues);
 
-	    decl.declaration.param_tvalues = convParams;
-	    decl.declaration.return_tvalue = envHelper.createEnvEntry(decl.declaration.return_tvalue);
+	    var convParamTypes = _.reduce(paramTypePairs, function (result, tvalue) {
+		var paramName = tvalue[0];
+		var paramType = envHelper.createEnvEntry(tvalue[1]);
+		result[paramName] = paramType;
+		return result;
+	    }, {});
+
+	    decl.declaration.args = decl.declaration.param_names;
+	    decl.declaration.env = convParamTypes;
+	    decl.declaration.returns = envHelper.createEnvEntry(decl.declaration.return_tvalue);
 	    prototypes[decl.declaration.name] = decl.declaration;
 	});
     };
@@ -123,7 +128,11 @@ define([
     };
 
     AstToCfg.prototype.collectStdLibFunctions = function collectStdLibFunctions() {
-	this.stdlib = stdlib.getStdLibFunctions();
+	var colStdlib = stdlib.getStdLibFunctions();
+	_.forOwn(colStdlib, function (value, key) {
+	    colStdlib[key].name = key;
+	});
+	this.stdlib= colStdlib;
     };
 
     AstToCfg.prototype.convert = function convert() {

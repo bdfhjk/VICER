@@ -34,7 +34,7 @@ define(['lodash', '../envGeneratorHelper', '../nameHelper'], function (_, envHel
 	    } else {
 		globalContext.env[newName] = {
 		    type: 'array',
-		    of: creteEnvEntry(decl.tvalue),
+		    of: envHelper.createEnvEntry(decl.tvalue),
 		    size: decl.size
 		};
 	    }

@@ -34,7 +34,7 @@ define([
 	result.mergeLeft(derefInstr);
 
 	result.lvalue = true;
-	result.tvalue = left.lvalue.of;
+	result.tvalue = left.tvalue.of;
 
 	return result;
     }
