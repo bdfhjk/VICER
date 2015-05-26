@@ -4,7 +4,10 @@ define(function () {
 	this.got = got;
 	this.operation = operation;
 	//this.stack = new Error().stack;
-	this.message = operation + ': TYPE MISMATCH. EXPECTED ' + expected + ' GOT ' + got;
+	this.message = operation + ': TYPE MISMATCH. EXPECTED ' +
+	    prettyPrint(expected) +
+	    ' GOT ' +
+	    prettyPrint(got);
     }
 
     function NotAFunction (name) {
@@ -22,6 +25,10 @@ define(function () {
 	this.got = got;
 	this.funName = funName;
 	this.message = 'FUNCTION_CALL: WRONG ARGUMENT NUMBER. FUNCTION ' + funName + ' EXPECTED ' + expected + ' GOT ' + got;
+    }
+
+    function prettyPrint(obj) {
+	return JSON.stringify(obj, null, 2);
     }
 
     return {

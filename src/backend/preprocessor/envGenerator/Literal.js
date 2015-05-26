@@ -4,10 +4,7 @@ define(['../envGeneratorHelper'], function (envHelper) {
 	ast.subexp = {
 	    type: 'INDENTIFIER',
 	    tvalue: {
-		'type': 'pointer',
-		'of': {
-		    'type': 'char'
-		}
+		'type': 'char'
 	    },
 	    value: envHelper.getOrSetConstantByValue(ast.value, 'literal', globalContext, prefix)
 	};
