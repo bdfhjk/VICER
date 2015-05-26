@@ -26,6 +26,7 @@
     "font-awesome": "~4.3.0",
     "sprintf": "~1.0.2",
     "eventEmitter": "~4.2.11",
-    "lodash": "~3.7.0"
+    "lodash": "~3.7.0",
+    "stringjs": "~3.1.1"
   }
 }
