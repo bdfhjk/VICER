@@ -12,16 +12,16 @@ define(["mod_process"], function(mp) {
     strcpy.env = {
         strTo: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         },
         strFrom: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         }
     };
     strcpy.returns = { 
         type: "pointer",
-        to: { type: "char" }
+        of: { type: "char" }
     };
 
     return strcpy;

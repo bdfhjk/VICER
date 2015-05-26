@@ -12,7 +12,7 @@ define(["mod_process"], function(mp) {
     atoi.env = {
         str: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         }
     };
     atoi.returns = { type: "int" };

@@ -12,11 +12,11 @@ define(["mod_process"], function(mp) {
     strcmp.env = {
         str1: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         },
         str2: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         }
     };
     strcmp.returns = { type: "int" };
