@@ -11,12 +11,12 @@ define(["mod_process"], function(mp) {
     strlen.env = {
         str: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         }
     };
     strlen.returns = { 
         type: "pointer",
-        to: { type: "char" }
+        of: { type: "char" }
     };
 
     return strlen;

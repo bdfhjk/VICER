@@ -13,7 +13,7 @@ define(["mod_process"], function(mp) {
     strtol.env = {
         str: { 
             type: "pointer",
-            to: { type: "char" }
+            of: { type: "char" }
         }, 
         base: {
             type: "int"

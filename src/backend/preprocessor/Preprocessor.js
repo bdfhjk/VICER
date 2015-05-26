@@ -151,7 +151,7 @@ define([
 			    type: rawEntry.type,
 			    of: {
 				type: 'concrete_type',
-				name: rawEntry.of ? rawEntry.of.type : rawEntry.to.type
+				name: rawEntry.of.type
 			    }
 			};
 		    } else {

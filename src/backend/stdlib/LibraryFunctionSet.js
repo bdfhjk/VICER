@@ -1,21 +1,42 @@
 define([
+        // math
+        "./math/abs",
+        
+        // stdio
+        "./stdio/feof",
         "./stdio/printf",
         "./stdio/scanf",
-        "./math/abs",
+        "./stdio/sprintf",
+        "./stdio/sscanf",
+        
+        // stdlib
+        "./stdlib/atoi",
         "./stdlib/rand",
         "./stdlib/srand",
-        "./stdlib/atoi",
         "./stdlib/strtol",
-    ], function(printf, scanf, abs, rand, srand, atoi, strtol) {
+        
+        // string
+        "./string/strcmp",
+        "./string/strcpy",
+        "./string/strlen"
+    ], function(abs, feof, printf, scanf, sprintf, sscanf, atoi,
+        rand, srand, strtol, strcmp, strcpy, strlen) {
+
         return {
             "abs": abs,
+            "labs": abs,
+            "feof": feof,
+            "printf": printf,
+            "scanf": scanf,
+            "sprintf": sprintf,
+            "sscanf": sscanf,
             "atoi": atoi,
             "atol": atoi,
-            "labs": abs,
             "rand": rand,
             "srand": srand,
             "strtol": strtol,
-            "printf": printf,
-            "scanf": scanf,
+            "strcmp": strcmp,
+            "strcpy": strcpy,
+            "strlen": strlen
         };
 });

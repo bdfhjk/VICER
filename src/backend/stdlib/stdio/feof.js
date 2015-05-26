@@ -16,7 +16,9 @@ define([], function() {
 
     feof.args = ["fd"];
     feof.env = {
-        type: "int"
+        fd: {
+            type: "int"    
+        }
     };
     feof.returns = { type: "int" };
 
