@@ -15,6 +15,7 @@ requirejs.config({
         { name: 'sprintf', location: '../bower_components/sprintf/dist', main: 'sprintf.min'},
         { name: 'eventEmitter', location: '../bower_components/eventEmitter', main: 'EventEmitter.min'},
         { name: 'lodash', location: '../bower_components/lodash', main: 'lodash.min'},
+        { name: 'string', location: '../bower_components/stringjs/lib', main: 'string.min'},
 
         { name: 'mod_engine', location: 'backend/engine', main: 'index'},
         { name: 'mod_executor', location: 'backend/executor', main: 'index'},

@@ -1,10 +1,19 @@
 define([
-    '../Cfg'
-], function (Cfg) {
+    '../Cfg',
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
-    
+
+    var decl = {
+	subexp: {
+	    lvalue: true
+	}
+    };
+
     function Ref(paramNode) {
-	var location = cfgGenerator(paramNode.subexp);
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var location = compSubtrees.subexp;
 
 	var refInstr = new Cfg ({
 	    type: 'REF'
@@ -13,7 +22,7 @@ define([
 	var result = location;
 	result.mergeLeft(refInstr);
 
-	result.type = 'pointer';
+	result.lvalue = false;
 	result.tvalue = {
 	    type: 'pointer',
 	    of: location.tvalue

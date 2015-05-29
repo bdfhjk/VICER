@@ -1,34 +1,25 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'pointer' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
+
     function Subscript(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
-
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
-
-	if ((left.type !== 'pointer' && left.type !== 'array') &&
-	    (right.type !== 'pointer' && right.type !== 'array')) {
-	    throw new Errors.TypeMismatch(
-		'(pointer/array, value)',
-		left.type + ',' + right.type,
-		'SUBSCRIPT');
-	}
-
-	var ll = (left.type === 'pointer' || left.type === 'array') ? left : right;
-	var rr = (left.type === 'pointer' || left.type === 'array') ? right : left;
-
-	if (rr.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		'int',
-		rr.tvalue.type,
-		'SUBSCRIPT');
-	}
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var paddInstr = new Cfg ({
 	    type: 'PADD'
@@ -37,13 +28,13 @@ define([
 	    type: 'DEREF'
 	});
 
-	var result = ll;
-	result.mergeLeft(rr);
+	var result = left;
+	result.mergeLeft(right);
 	result.mergeLeft(paddInstr);
 	result.mergeLeft(derefInstr);
 
-	result.type = 'locVal';
-	result.tvalue = ll.tvalue.of;
+	result.lvalue = true;
+	result.tvalue = left.tvalue.of;
 
 	return result;
     }

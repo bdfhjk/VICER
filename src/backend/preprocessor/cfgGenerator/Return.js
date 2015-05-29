@@ -1,56 +1,44 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../Errors',
+    '../cfgHelper'
+], function (Cfg, Errors, cfgHelper) {
     var cfgGenerator;
+
+    var decl = {
+	rexpression: {
+	    lvalue: false
+	}
+    };
     
     function Return(paramNode) {
 	var result;
-	var return_tvalue = paramNode.return_tvalue;
+	var expectedReturnType = paramNode.declaration.returns;
+
+	if (paramNode.rexpression && cfgHelper.matchTypes({ type: 'void' }, expectedReturnType)) {
+	    throw new Errors.TypeMismatch(
+		expectedReturnType,
+		'void'
+	    );
+	}
 
 	var returnInstr = new Cfg ({
 	    type: 'RETURN'
 	});
 
-	if (return_tvalue.type === 'concrete_type' && return_tvalue.name === 'void') {
-	    if (paramNode.rexpression) {
-		throw new Errors.TypeMismatch(
-		    'void',
-		    'not void',
-		    'RETURN');
-	    }
-	    result = returnInstr;
-	} else {
-	    if (!paramNode.rexpression) {
-		throw new Errors.TypeMismatch(
-		    return_tvalue.name,
-		    'void',
-		    'RETURN');
-	    }
-		
-	    var expr = cfgGenerator(paramNode.rexpression);
-	    CfgHelper.toValOrPtr(expr);
+	if (paramNode.rexpression) {
+	    cfgHelper.init(cfgGenerator);
+	    decl.rexpression.type = expectedReturnType;
 
-	    if (return_tvalue.type === 'concrete_type') {
-		if (expr.tvalue.type !== return_tvalue.name) {
-		    throw new Errors.TypeMismatch(
-			return_tvalue.name,
-			expr.tvalue.type,
-			'RETURN');
-		}
-	    } else if (expr.tvalue.of.type !== return_tvalue.tvalue.of.name) {
-		throw new Errors.TypeMismatch(
-		    return_tvalue.tvalue.of.name,
-		    expr.tvalue.of.type,
-		    'RETURN');
-	    }
-	    result = expr;
+	    var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+
+	    result = compSubtrees.rexpression;
 	    result.mergeLeft(returnInstr);
+	} else {
+	    result = returnInstr;
 	}
 
 	result.type = null;
-	result.tvalue = null;
 
 	return result;
     }

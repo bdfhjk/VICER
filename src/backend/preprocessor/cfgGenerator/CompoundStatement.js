@@ -28,7 +28,6 @@ define([
 	    result.mergeLeft(cfgGenerator(paramNode.statements[i]));
 	}
 
-	result.type = null;
 	result.tvalue = null;
 
 	return result;

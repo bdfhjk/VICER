@@ -1,24 +1,26 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
+
+    var decl = {
+	body: true,
+	pre_statement: true,
+	condition: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	post_statement: true
+    };
     
     function For (paramNode) {
-	var body = cfgGenerator(paramNode.body);
-	var initiation = cfgGenerator(paramNode.pre_statement);
-	var condition = cfgGenerator(paramNode.condition);
-	var action = cfgGenerator(paramNode.post_statement);
-
-	CfgHelper.toValOrPtr(condition);
-
-	if (condition.type !== 'value' || condition.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		condition.tvalue.type,
-		'int',
-		'FOR');
-	}
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var body = compSubtrees.body;
+	var initiation = compSubtrees.pre_statement;
+	var condition = compSubtrees.condition;
+	var action = compSubtrees.post_statement;
 
 	var noopInstr = new Cfg ({
 	    type: 'NOOP'
@@ -53,7 +55,6 @@ define([
 	    }
 	}
 
-	result.type = null;
 	result.tvalue = null;
 
 	return result;

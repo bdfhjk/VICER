@@ -1,41 +1,25 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
+
     function Mul(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
-
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
-
-	if (left.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		left.type,
-		'value',
-		'MUL');
-	}
-	if (left.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		left.tvalue.type,
-		'int',
-		'MUL');
-	}
-	if (right.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		right.type,
-		'value',
-		'MUL');
-	}
-	if (right.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		right.tvalue.type,
-		'int',
-		'MUL');
-	}
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var mulInstr = new Cfg ({
 	    type: 'MUL'
@@ -45,10 +29,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(mulInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

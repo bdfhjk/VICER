@@ -1,15 +1,33 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
-    function Eq(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'char' },
+		{ type: 'pointer' }
+	    ]
+	},
+	right: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'char' },
+		{ type: 'pointer' }
+	    ]
+	}
+    };
 
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
+    function Eq(paramNode) {
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var eqInstr = new Cfg ({
 	    type: 'EQ',
@@ -19,10 +37,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(eqInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

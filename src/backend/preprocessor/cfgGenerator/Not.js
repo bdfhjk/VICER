@@ -1,26 +1,19 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
     
-    function Not(paramNode) {
-	var value = cfgGenerator(paramNode.subexp);
-	CfgHelper.toValOrPtr(value);
+    var decl = {
+	subexp: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
 
-	if (value.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		value.type,
-		'value',
-		'NOT');
-	}
-	if (value.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		value.tvalue.type,
-		'int',
-		'NOT');
-	}
+    function Not(paramNode) {
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var value = compSubtrees.subexp;
 
 	var notInstr = new Cfg ({
 	    type: 'NOT'
@@ -29,10 +22,8 @@ define([
 	var result = value;
 	result.mergeLeft(notInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

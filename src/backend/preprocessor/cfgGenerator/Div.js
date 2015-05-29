@@ -1,42 +1,25 @@
 define([
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	},
+	right: {
+	    lvalue: false,
+	    type: { type: 'int' }
+	}
+    };
+
     function Div(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
-
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
-
-	if (left.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		left.type,
-		'value',
-		'DIV');
-	}
-	if (left.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		left.tvalue.type,
-		'int',
-		'DIV');
-	}
-	if (right.type !== 'value') {
-	    throw new Errors.TypeMismatch(
-		right.type,
-		'value',
-		'DIV');
-	}
-	if (right.tvalue.type !== 'int') {
-	    throw new Errors.TypeMismatch(
-		right.tvalue.type,
-		'int',
-		'DIV');
-	}
-
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 	var divInstr = new Cfg ({
 	    type: 'DIV'
 	});
@@ -45,10 +28,8 @@ define([
 	result.mergeLeft(right);
 	result.mergeLeft(divInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.lvalue = false;
+	result.tvalue = { type: 'int' };
 
 	return result;
     }

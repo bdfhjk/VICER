@@ -1,252 +1,34 @@
-define(['lodash', './Errors'], function (_, Errors) {
-    var blocks, env, constants, constantsNum, declarations, funcName;
+define(['lodash', './nameHelper', './envGeneratorHelper', './envGenerator/envVisitor'], function (_, nameHelper, envHelper, envVisitor) {
+    function generateEnvironment(ast, globals, decls) {
+	// declare some helper variables to make the code more readable
+	var funcName = ast.declaration.name;
 
-    var nonBlockEdges = [
-	'value',
-	'left',
-	'right',
-	'condition',
-	'pre_statement',
-	'post_statement',
-	'subexp',
-	'index',
-	'true_body',
-	'false_body',
-	'body',
-	'rexpression',
-	'expression'
-    ];
-
-    var blockEdges = [
-	'statements',
-	'parameters',
-    ];
-    
-    function generateEnvironment(ast, globals, decls, myName) {
-	funcName = myName;
-	blocks = 0;
-	env = {};
-	constants = {};
-	constantsNum = 0;
-	declarations = decls;
+	// declare start values of computed objects
+	var globalContext = envHelper.generateGlobalContext({}, {}, globals, decls, funcName);
 	var nameDict = {};
-	var astParameters = ast.declaration.param_names;
+
+	// associate param types with their respective names
+	var astParameters = _.zip(ast.declaration.param_names, ast.declaration.param_tvalues);
 
 	// add parameters to substitution, and add them to env
-	for (var i = 0; i < astParameters.length; i++) {
-	    nameDict[astParameters[i]] = ast.declaration.name + '_PARAMETER|' + astParameters[i];
-	    env[nameDict[astParameters[i]]] = createEnvEntry(ast.declaration.param_tvalues[i]);
-	}
+	_.each(astParameters, function (parameter) {
+	    var name = parameter[0];
+	    var type = parameter[1];
 
-	// add globals to env
-	for (var varName in globals) {
-	    nameDict[varName] = varName;
-	    env[varName] = globals[varName];
-	}
+	    nameDict[name] = nameHelper.getParameterName(funcName, name);
+	    globalContext.env[nameDict[name]] = envHelper.createEnvEntry(type);
+	});
 
 	// visit nodes
-	ast.declaration.parameters = null;
-	visitAst(ast, nameDict, ast.declaration.name);
-	ast.declaration.parameters = astParameters;
-
-	// remove globals from env, but don't delete them
-	for (var globName in globals) {
-	    delete env[globName];
-	}
+	envVisitor(ast, nameDict, funcName, globalContext);
 
 	var result = {
-	    env: env,
-	    constants: constants
+	    env: globalContext.env,
+	    constants: globalContext.constants
 	};
 	
 	return result;
     }
-
-    function visitAst(ast, nameDict, prefix) {
-	nameDict = _.clone(nameDict); // possible stack overflow, if tree is deep
-
-	// if an IDENTIFIER, substitute variable if not a constant
-	if (ast.type === 'INDENTIFIER') {
-	    if (nameDict[ast.value]) {
-		ast.value = nameDict[ast.value];
-		ast.tvalue = _.clone(env[ast.value]);
-	    } else if (!_.invert(nameDict)[ast.value] && !_.invert(constants)[ast.value]) {
-		throw new Errors.Unknown(ast.value);
-	    }
-	    return;
-	}
-
-	// substitute constants with implicit casts
-	if (ast.type === 'CONSTANT' || ast.type === 'CHAR_CONSTANT') {
-	    ast.tvalue = createEnvEntry(ENV_TEMPLATES[ast.type]);
-	    ast.type = 'INDENTIFIER';
-	    if (!constants[ast.value]) {
-		constants[ast.value] = prefix + '_CONSTANT|' + constantsNum++;
-	    }
-	    ast.value = constants[ast.value];
-	    return;
-	}
-
-	// substitute string_literal and wrap it in ref
-	if (ast.type === 'STRING_LITERAL') {
-	    if (!constants[ast.value]) {
-		constants[ast.value] = prefix + '_CONSTANT|' + constantsNum++;
-	    }
-	    ast.type = 'UNARYOP_&';
-	    ast.subexp = {
-		type: 'INDENTIFIER',
-		tvalue: createEnvEntry(ENV_TEMPLATES.CHAR_CONSTANT),
-		value: constants[ast.value]
-	    };
-	    ast.value = null;
-	    return;
-	}
-
-	// process POST_INC and PRE_INC
-	if (ast.type === 'POST_INC' || ast.type === 'PRE_INC') {
-	    if (!nameDict[ast.subexp.value] && !_.invert(nameDict)[ast.subexp.value] && !_.invert(constants)[ast.value]) {
-		throw new Errors.Unknown(ast.value);
-	    }
-	    if (!constants[1]) {
-		constants[1] = prefix + '_CONSTANT|' + constantsNum++;
-	    }
-	    ast.type = 'ASSIGN';
-	    ast.left = {
-		type: 'INDENTIFIER',
-		value: ast.subexp.value, // must be an identifier,
-		tvalue: ast.subexp.tvalue
-	    };
-	    ast.right = {
-		type: 'ADD',
-		left: ast.subexp,
-		right: {
-		    type: 'INDENTIFIER',
-		    value: constants[1],
-		    tvalue: createEnvEntry(ENV_TEMPLATES.CONSTANT)
-		}
-	    };
-	    ast.subexp = null;
-	}
-
-	// process UNARY_OP_-
-	if (ast.type === 'UNARYOP_-') {
-	    if (!constants[0]) {
-		constants[0] = prefix + '_CONSTANT|' + constantsNum++;
-	    }
-	    ast.type = 'SUB';
-	    ast.left = {
-		type: 'INDENTIFIER',
-		value: constants[0],
-		tvalue: createEnvEntry(ENV_TEMPLATES.CONSTANT)
-	    };
-	    ast.right = ast.subexp;
-	    ast.subexp = null;
-	}
-
-	// append function declaration to call
-	if (ast.type === 'FUNCTION_CALL') {
-	    if (!declarations[ast.name]) {
-		if (!nameDict[ast.name] && !_.invert(nameDict)[ast.value] && !_.invert(constants)[ast.value]) {
-		    throw new Errors.Unknown(ast.value);
-		} else {
-		    throw new Errors.NotAFunction(ast.name);
-		}
-	    }
-	    ast.declaration = declarations[ast.name];
-	}
-
-	// append current function declaration to return
-	if (ast.type === 'return') {
-	    ast.return_tvalue = declarations[funcName].return_tvalue;
-	}
-
-	// if is compound_statement, visit declarations
-	if (ast.declarations) {
-	    for (var i = 0; i < ast.declarations.length; i++) {
-		var varName, newVarName, tvalue;
-		if (ast.declarations[i].type === 'declaration') {
-		    varName = ast.declarations[i].name;
-		    newVarName = prefix + '|' + varName;
-		    nameDict[varName] = newVarName;
-
-		    tvalue = ast.declarations[i].tvalue;
-		    env[newVarName] = createEnvEntry(tvalue);
-		} else if (ast.declarations[i].type === 'array_declaration') {
-		    varName = ast.declarations[i].name;
-		    newVarName = prefix + '|' + varName;
-		    nameDict[varName] = newVarName;
-
-		    tvalue = ast.declarations[i].tvalue;
-		    env[newVarName] = {
-			type: 'array',
-			of: createEnvEntry(tvalue),
-			size: ast.declarations[i].size
-		    };
-		}
-	    }
-	}
-
-	// visit non-block nodes - except blocks
-	for (var nonB = 0; nonB < nonBlockEdges.length; nonB++) {
-	    var nonBlockEdge = nonBlockEdges[nonB];
-	    if (!ast[nonBlockEdge]) {
-		continue;
-	    }
-	    if (Array.isArray(ast[nonBlockEdge])) {
-		for (var l = 0; l < ast[nonBlockEdge].length; l++)
-		    visitAst(ast[nonBlockEdge][l], nameDict, prefix);
-	    } else
-		visitAst(ast[nonBlockEdge], nameDict, prefix);
-	}
-
-	// visit block nodes
-	blocks = 0;
-	for (var b = 0; b < blockEdges.length; b++) {
-	    var blockEdge = blockEdges[b];
-	    if (!ast[blockEdge]) {
-		continue;
-	    }
-	    for (var k = 0; k < ast[blockEdge].length; k++) {
-		var newPrefix = prefix + '_' + ast.type + blocks++;
-		visitAst(ast[blockEdge][k], nameDict, newPrefix);
-	    }
-	}
-    }
-
-    function createEnvEntry(tvalue) {
-	if (tvalue.type === 'concrete_type') {
-	    return {
-		type: tvalue.name
-	    };
-	} else if (tvalue.type === 'pointer') {
-	    return {
-		type: 'pointer',
-		of: {
-		    type: tvalue.tvalue.name
-		}
-	    };
-	} else {
-	    throw new Error('Wrong declaration type: ' + tvalue.type);
-	}
-    }
-
-    var ENV_TEMPLATES = {
-	CONSTANT: {
-	    type: 'concrete_type',
-	    name: 'int'
-	},
-	CHAR_CONSTANT: {
-	    type: 'concrete_type',
-	    name: 'char'
-	},
-	STRING_LITERAL: {
-	    type: 'pointer',
-	    tvalue: {
-		type: 'concrete_type',
-		name: 'char'
-	    }
-	}
-    };
 
     return generateEnvironment;
 });

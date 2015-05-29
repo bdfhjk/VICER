@@ -15,8 +15,7 @@ define(["mod_process"], function(mp) {
         }
     };
     strlen.returns = { 
-        type: "pointer",
-        of: { type: "char" }
+        type: "int"
     };
 
     return strlen;

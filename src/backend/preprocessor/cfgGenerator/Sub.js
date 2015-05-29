@@ -1,75 +1,67 @@
 define([
     'lodash',
+    '../Errors',
     '../Cfg',
-    '../CfgHelper',
-    '../Errors'
-], function (_, Cfg, CfgHelper, Errors) {
+    '../cfgHelper'
+], function (_, Errors, Cfg, cfgHelper) {
     var cfgGenerator;
     
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'pointer'}
+	    ]
+	},
+	right: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'pointer' }
+	    ]
+	}
+    };
+    
     function Sub(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
-	var types = ['int'];
-	var wrongType;
-
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
-
-	var subInstr;
-	var result = left;
-	if(left.type === 'pointer' ^ right.type === 'pointer') {
-	    var ll = left.type === 'pointer' ? left : right;
-	    var rr = left.type === 'pointer' ? right : left;
-	    if (!(_.contains(types, rr.tvalue.type) && _.contains(types, ll.tvalue.of.type))) {
-		wrongType = _.contains(types, rr.tvalue.type) ? ll.tvalue.of.type : rr.tvalue.type;
-		throw new Errors.TypeMismatch(
-		    types.join(),
-		    wrongType,
-		    'SUB');
-	    }
-	    if (rr.tvalue.type !== ll.tvalue.of.type) {
-		throw new Errors.TypeMismatch(
-		    ll.tvalue.of.type,
-		    rr.tvalue.type,
-		    'SUB');
-	    }
-
-	    subInstr = new Cfg({
-		type: 'PSUB'
-	    });
-	    result.type = 'pointer';
-	    result.tvalue = ll.tvalue;
-	} else if (left.type === 'value' && right.type === 'value') {
-	    if (!(_.contains(types, left.tvalue.type) && _.contains(types, right.tvalue.type))) {
-		wrongType = _.contains(types, right.tvalue.type) ? left.tvalue.type : right.tvalue.type;
-		throw new Errors.TypeMismatch(
-		    types.join(),
-		    wrongType,
-		    'SUB');
-	    }
-	    if (left.tvalue.type !== right.tvalue.type) {
-		throw new Errors.TypeMismatch(
-		    left.tvalue.type,
-		    right.tvalue.type,
-		    'ADD');
-	    }
-	    subInstr = new Cfg({
-		type: 'SUB'
-	    });
-
-	    result.type = 'value';
-	    result.tvalue = left.tvalue;
-	} else {
+	if (cfgHelper.matchTypes(left.tvalue, { type: 'pointer' }) &&
+	    cfgHelper.matchTypes(right.tvalue, { type: 'pointer' })) {
 	    throw new Errors.TypeMismatch(
-		'(pointer, value) || (value, value)',
-		'(' + left.type + ', ' + right.type + ')',
-		'SUB'
+		'pointer, int',
+		'pointer, pointer'
 	    );
 	}
 
+	var subInstr;
+	
+	if (cfgHelper.matchTypes(left.tvalue, { type: 'pointer' }) ^
+	    cfgHelper.matchTypes(right.tvalue, { type: 'pointer'})) {
+	    // swap, because we have to have pointer on the left side
+	    if (!cfgHelper.matchTypes(left.tvalue, { type: 'pointer' })) {
+		var tmp = left;
+		left = right;
+		right = tmp;
+	    }
+	    subInstr = new Cfg({
+		type: 'PSUB'
+	    });
+	} else {
+	    subInstr = new Cfg({
+		type: 'SUB'
+	    });
+	}
+
+	var result = left;
 	result.mergeLeft(right);
 	result.mergeLeft(subInstr);
+
+	result.lvalue = false;
+	result.tvalue = left.tvalue;
 
 	return result;
     }

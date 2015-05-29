@@ -1,15 +1,33 @@
 define([
     '../Cfg',
-    '../CfgHelper'
-], function (Cfg, CfgHelper) {
+    '../cfgHelper'
+], function (Cfg, cfgHelper) {
     var cfgGenerator;
 
-    function Neq(paramNode) {
-	var left = cfgGenerator(paramNode.left);
-	var right = cfgGenerator(paramNode.right);
+    var decl = {
+	left: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'char' },
+		{ type: 'pointer' }
+	    ]
+	},
+	right: {
+	    lvalue: false,
+	    type: [
+		{ type: 'int' },
+		{ type: 'char' },
+		{ type: 'pointer' }
+	    ]
+	}
+    };
 
-	CfgHelper.toValOrPtr(left);
-	CfgHelper.toValOrPtr(right);
+    function Neq(paramNode) {
+	cfgHelper.init(cfgGenerator);
+	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
+	var left = compSubtrees.left;
+	var right = compSubtrees.right;
 
 	var notInstr = new Cfg ({
 	    type: 'NOT'
@@ -23,10 +41,8 @@ define([
 	result.mergeLeft(eqInstr);
 	result.mergeLeft(notInstr);
 
-	result.type = 'value';
-	result.tvalue = {
-	    type: 'int'
-	};
+	result.tvalue = { type: 'int' };
+	result.lvalue = false;
 
 	return result;
     }
