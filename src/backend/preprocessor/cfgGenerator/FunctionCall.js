@@ -18,6 +18,7 @@ define([
 	var result = new Cfg ({
 	    type: 'NOOP'
 	});
+	cfgHelper.init(cfgGenerator);
 
 	if (isVariadic) {
 	    args = {};
@@ -37,6 +38,9 @@ define([
 	}
 
 	var paramsDecls = _.zip(parameters, args);
+	if (!isVariadic) {
+	    paramsDecls.reverse();
+	}
 	_.each(paramsDecls, function (paramDecl) {
 	    var computedParam = cfgHelper.computeAndCheckType(
 		paramDecl[1], // type
