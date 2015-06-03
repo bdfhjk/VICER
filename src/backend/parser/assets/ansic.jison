@@ -287,7 +287,7 @@
 
 /* --------- EXPRESSIONS ---------- */
 
-constant
+constant_
     : HEX_CONSTANT
         { $$ = parseInt($1, 16); }
     | OCTAL_CONSTANT
@@ -295,8 +295,13 @@ constant
     | DECIMAL_CONSTANT
         { $$ = parseInt($1, 10); }
     ;
+    
+constant
+    : constant_
+        { $$ = addloc($1, @1, ops); }
+    ;
 
-primary_expression
+primary_expression_
     : IDENTIFIER
         { $$ = nullexp("INDENTIFIER", $1); }
     | constant
@@ -313,7 +318,12 @@ primary_expression
         { $$ = $2; }
     ;
 
-postfix_expression
+primary_expression
+    : primary_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+        
+postfix_expression_
     : primary_expression 
         { $$ = $1; }
     | IDENTIFIER '(' ')'
@@ -328,6 +338,11 @@ postfix_expression
         { $$ = uexp("POST_DEC", $1); }
     ;
 
+postfix_expression
+    : postfix_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+
 argument_expression_list
     : assignment_expression
         { $$ = [$1]; }
@@ -335,7 +350,7 @@ argument_expression_list
         { $$ = push_elem($1, $3); }
     ;
 
-unary_expression
+unary_expression_
     : postfix_expression
         { $$ = $1; }
     | INC_OP unary_expression
@@ -350,7 +365,12 @@ unary_expression
     | SIZEOF '(' type_specifier '*' ')'
         { $$ = nullexp("SIZEOF", { type: "pointer", tvalue: $3 }); }
     ;
-
+    
+unary_expression
+    : unary_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+    
 unary_operator
     : '&'
     | '*'
@@ -361,7 +381,7 @@ unary_operator
     ;
     
 
-cast_expression
+cast_expression_
     : unary_expression
         { $$ = $1; }
     | '(' type_specifier '*' ')' MALLOC '(' constant ')'
@@ -369,7 +389,12 @@ cast_expression
 /*    | '(' type_name ')' cast_expression */
     ;
 
-multiplicative_expression
+cast_expression
+    : cast_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+    
+multiplicative_expression_
     : cast_expression
         { $$ = $1; }
     | multiplicative_expression '*' cast_expression
@@ -379,8 +404,13 @@ multiplicative_expression
     | multiplicative_expression '%' cast_expression
         { $$ = bexp("MOD", $1, $3); }
     ;
-
-additive_expression
+    
+multiplicative_expression
+    : multiplicative_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+    
+additive_expression_
     : multiplicative_expression
         { $$ = $1; }
     | additive_expression '+' multiplicative_expression
@@ -389,7 +419,12 @@ additive_expression
         { $$ = bexp("SUB", $1, $3); }
     ;
 
-shift_expression
+additive_expression
+    : additive_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+    
+shift_expression_
     : additive_expression
         { $$ = $1; }
     | shift_expression LEFT_OP additive_expression
@@ -398,7 +433,12 @@ shift_expression
         { $$ = bexp("RIGHT", $1, $3); }
     ;
 
-relational_expression
+shift_expression
+    : shift_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;
+    
+relational_expression_
     : shift_expression
         { $$ = $1; }
     | relational_expression '<' shift_expression
@@ -410,8 +450,13 @@ relational_expression
     | relational_expression GE_OP shift_expression
         { $$ = bexp("GREATER_EQUAL", $1, $3); }
     ;
+    
+relational_expression
+    : relational_expression_
+        { $$ = addloc($1, @1, ops); }
+    ;    
 
-equality_expression
+equality_expression_
     : relational_expression
         { $$ = $1; }
     | equality_expression EQ_OP relational_expression
@@ -420,55 +465,96 @@ equality_expression
         { $$ = bexp("NE", $1, $3); }
     ;
 
-and_expression
+equality_expression
+    : equality_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;    
+    
+and_expression_
     : equality_expression
         { $$ = $1; }
     | and_expression '&' equality_expression
         { $$ = bexp("AND", $1, $3); }
     ;
 
-exclusive_or_expression
+and_expression
+    : and_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;    
+    
+exclusive_or_expression_
     : and_expression
         { $$ = $1; }
     | exclusive_or_expression '^' and_expression
         { $$ = bexp("XOR", $1, $3); }
     ;
+    
+exclusive_or_expression
+    : exclusive_or_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;    
 
-inclusive_or_expression
+inclusive_or_expression_
     : exclusive_or_expression
         { $$ = $1; }
     | inclusive_or_expression '|' exclusive_or_expression
         { $$ = bexp("OR", $1, $3); }
     ;
 
-logical_and_expression
+inclusive_or_expression
+    : inclusive_or_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;    
+    
+
+logical_and_expression_
     : inclusive_or_expression
         { $$ = $1; }
     | logical_and_expression AND_OP inclusive_or_expression
         { $$ = bexp("LOGICAL_AND", $1, $3); }
     ;
-
-logical_or_expression
+    
+logical_and_expression
+    : logical_and_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
+    
+logical_or_expression_
     : logical_and_expression
         { $$ = $1; }
     | logical_or_expression OR_OP logical_and_expression
         { $$ = bexp("LOGICAL_OR", $1, $3); }
     ;
-
-conditional_expression
+    
+logical_or_expression
+    : logical_or_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
+    
+conditional_expression_
     : logical_or_expression
         { $$ = $1; }
     | logical_or_expression '?' expression ':' conditional_expression
         { $$ = conditional_exp($1, $3, $5); }
     ;
 
-assignment_expression
+conditional_expression
+    : conditional_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
+    
+assignment_expression_
     : conditional_expression
         { $$ = $1; }
     | unary_expression assignment_operator assignment_expression
         { $$ = bexp($2 == "=" ? "ASSIGN" : $2, $1, $3); }
     ;
 
+assignment_expression
+    : assignment_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
+        
 assignment_operator
     : '='
     | MUL_ASSIGN
@@ -483,17 +569,27 @@ assignment_operator
     | OR_ASSIGN
     ;
 
-expression
+expression_
     : assignment_expression
         { $$ = $1; }
     | expression ',' assignment_expression
         { $$ = bexp("COMMA", $1, $3); }
     ;
 
-constant_expression
+expression
+    : expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
+
+constant_expression_
     : conditional_expression
         { $$ = $1; }
     ;
+
+constant_expression
+    : constant_expression_
+         { $$ = addloc($1, @1, ops); }
+    ;   
 
 /* ---------- DECLARATIONS ---------- */
 
