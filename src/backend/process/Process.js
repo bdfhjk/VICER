@@ -1,8 +1,10 @@
-define(["./Memory", "./Environment", "./MemoryTracker"], function(Memory, Environment, MemoryTracker) {
+define(["./Memory", "./Heap", "./Environment", "./MemoryTracker"], 
+    function(Memory, Heap, Environment, MemoryTracker) {
 
     function Process(world) {
         this.paused = true;
         this.memory = new Memory();
+        this.heap = new Heap(this.memory);
         this.tracker = new MemoryTracker(this.memory);     
         this.environment = new Environment(this.memory, undefined, this.tracker);
         this.callStack = [];

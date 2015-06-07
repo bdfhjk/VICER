@@ -1,7 +1,7 @@
 require("../../prepare-tests.js");
 
 describe("VM Memory", function() {
-    var Executor;
+    var Memory;
     var mem;
 
     var VAR_T = {
