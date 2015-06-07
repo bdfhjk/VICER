@@ -3,7 +3,7 @@ define(['../Errors', '../envGeneratorHelper'], function (Errors, envHelper) {
 	var origName = ast.value;
 	var variable = envHelper.getVariableByName(origName, nameDict, globalContext);
 	if (!variable) {
-	    throw new Errors.Unknown(origName);
+	    throw new Errors.Unknown(origName, ast);
 	}
 	ast.value = variable.name;
 	ast.tvalue = variable.type;

@@ -114,12 +114,12 @@ describe("Parser Grammar", function() {
             options: { locations: false },
             expected: "ok",
         },
-        {
-            description: "Tracking locations",
-            file: "locations",
-            options: { locations: true },
-            expected: "ok",
-        },
+        // {
+        //     description: "Tracking locations",
+        //     file: "locations",
+        //     options: { locations: true },
+        //     expected: "ok",
+        // },
         {
             description: "Sizeof",
             file: "sizeof",
