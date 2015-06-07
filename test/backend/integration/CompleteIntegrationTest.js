@@ -140,10 +140,25 @@ describe("Complete Integration Test", function() {
 	    file: "div.c",
 	    expected: 2
 	},
+	{
+	    description: "bitwise operations",
+	    file: "bitwise.c",
+	    expected: 0
+	},
+	{
+	    description: "sizeof",
+	    file: "sizeof.c",
+	    expected: 4
+	},
 	// {
 	//     description: "change char in char array",
 	//     file: "change-char.c",
 	//     expected_printf: "Aladma kota"
+	// }
+	// {
+	//     description: "malloc",
+	//     file: "malloc.c",
+	//     expected: 5
 	// }
     ]
     .map(function(testCase) {

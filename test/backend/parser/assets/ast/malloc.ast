@@ -54,7 +54,10 @@
                                     "type": "concrete_type",
                                     "name": "char"
                                 },
-                                "size": 800
+				"subexp": {
+			            "type": "CONSTANT",
+				    "value": 800
+				}
                             }
                         }
                     },
@@ -72,7 +75,10 @@
                                     "type": "concrete_type",
                                     "name": "int"
                                 },
-                                "size": 100
+				"subexp": {
+			            "type": "CONSTANT",
+				    "value": 100
+				}
                             }
                         }
                     },
@@ -88,7 +94,10 @@
                                         "type": "concrete_type",
                                         "name": "int"
                                     },
-                                    "size": 20
+				    "subexp": {
+					"type": "CONSTANT",
+					"value": 20
+				    }
                                 },
                                 "right": {
                                     "type": "CONSTANT",
