@@ -11,6 +11,20 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
         return this.lastId++;
     };
 
+    function getDefaultValue(type) {
+        var DEFAULT_VALUES = {
+            int: function() { return 0; },
+            char: function() { return 0; },
+            pointer: function() { return {
+                    base: 0,
+                    offset: 0
+                };
+            }
+        };
+
+        return DEFAULT_VALUES[type]();
+    }
+
     Memory.prototype.alloc = function alloc(type, base, offset) {
         var newId = String(this.nextId());
         this.cells[newId] = { meta: type, value: null };
@@ -28,6 +42,9 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
         }
 
         this.emitter.emitEvent("alloc", [newId, type.type === "array" ? type.size : -1, type]);
+        if (type.type !== "array") {
+            this.assign(newId, getDefaultValue(type.type));
+        }
 
         return newId;
     };
