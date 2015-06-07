@@ -34,11 +34,7 @@ requirejs.config({
         { name: 'interface', location: 'frontend/interface', main: 'index'},
 
         { name: 'variables', location: 'frontend/data_structures/variables', main: 'index'},
-        { name: 'lists', location: 'frontend/data_structures/lists', main: 'index'},
         { name: 'tables', location: 'frontend/data_structures/tables', main: 'index'},
-        { name: 'trees', location: 'frontend/data_structures/trees', main: 'index'},
-        { name: 'pointers', location: 'frontend/data_structures/pointers', main: 'index'},
-        { name: 'stack', location: 'frontend/data_structures/stack', main: 'index'},
         { name: 'variable', location: 'frontend/visual_elements/variable', main: 'index'},
     ]
 });

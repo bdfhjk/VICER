@@ -7,11 +7,11 @@ define(["cm/lib/codemirror",
 
 
     function supportsHtml5Storage() {
-      try {
-        return 'localStorage' in window && window.localStorage !== null;
-      } catch (e) {
-        return false;
-      }
+        try {
+            return 'localStorage' in window && window.localStorage !== null;
+        } catch (e) {
+            return false;
+        }
     }
 
     //CodeMirror plugin initialization.
@@ -56,7 +56,6 @@ define(["cm/lib/codemirror",
 
 		document.getElementById('codearea').style.width = Math.max(codeMinWidth,
                                                                    document.documentElement.clientWidth * codeScale) - codeMargin;
-//		document.getElementById('codearea').style.height = y - buttonsHeight;
         cm.setSize("100%", "100%");
 	}
     return cm;

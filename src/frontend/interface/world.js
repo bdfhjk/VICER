@@ -24,5 +24,4 @@ define(["console", "eventEmitter"], function(viperConsole, EventEmitter) {
     }
 
     return createWorld;
-
 });
