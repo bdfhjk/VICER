@@ -22,6 +22,12 @@ define(function () {
 	this.message = name + ': NAME UNKNOWN';
     }
 
+    function Overflow (type, node) {
+	this.name = name;
+	this.location = node.loc;
+	this.message = type + ' OVERFLOW';
+    }
+
     function WrongArgNum(expected, got, funName, node) {
 	this.expected = expected;
 	this.got = got;
@@ -43,6 +49,7 @@ define(function () {
 	TypeMismatch: TypeMismatch,
 	NotAFunction: NotAFunction,
 	Unknown: Unknown,
+	Overflow: Overflow,
 	WrongArgNum: WrongArgNum,
 	ExpectedLvalue: ExpectedLvalue
     };
