@@ -21,6 +21,7 @@ define([
     "./OrInstr",
     "./BitwiseAndInstr",
     "./BitwiseOrInstr",
+    "./BitwiseNotInstr",
     "./BitwiseLeftShiftInstr",
     "./BitwiseRightShiftInstr",
     "./ModInstr",
@@ -29,8 +30,8 @@ define([
 ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, SubInstr, AssignInstr,
                 CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
             RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr, StepInstr,
-	        AndInstr, OrInstr, BitwiseAndInstr, BitwiseOrInstr, BitwiseLeftShiftInstr,
-	    BitwiseRightShiftInstr, ModInstr, MulInstr, DivInstr) {
+	        AndInstr, OrInstr, BitwiseAndInstr, BitwiseOrInstr, BitwiseNotInstr,
+	    BitwiseLeftShiftInstr, BitwiseRightShiftInstr, ModInstr, MulInstr, DivInstr) {
 
         return {
             "RESOLVE": ResolveInstr,
@@ -56,6 +57,7 @@ define([
             "OR": OrInstr,
             "BITWISEAND": BitwiseAndInstr,
             "BITWISEOR": BitwiseOrInstr,
+            "BITWISENOT": BitwiseNotInstr,
             "BITWISELEFTSHIFT": BitwiseLeftShiftInstr,
             "BITWISERIGHTSHIFT": BitwiseRightShiftInstr,
             "MOD": ModInstr,

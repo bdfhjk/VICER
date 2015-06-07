@@ -3,6 +3,7 @@ define([
     './cfgGenerator/LogicalOr',
     './cfgGenerator/BitwiseAnd',
     './cfgGenerator/BitwiseOr',
+    './cfgGenerator/BitwiseNot',
     './cfgGenerator/BitwiseLeftShift',
     './cfgGenerator/BitwiseRightShift',
     './cfgGenerator/Mod',
@@ -33,7 +34,7 @@ define([
     './cfgGenerator/More',
     './cfgGenerator/Not',
     './cfgGenerator/Subscript'
-], function (LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, BitwiseLeftShift, BitwiseRightShift, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
+], function (LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, BitwiseNot, BitwiseLeftShift, BitwiseRightShift, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
     function generateCfg(node) {
 	var generators = {
@@ -41,6 +42,7 @@ define([
 	    'LOGICAL_OR': LogicalOr,
 	    'AND': BitwiseAnd,
 	    'OR': BitwiseOr,
+	    'UNARYOP_~': BitwiseNot,
 	    'LEFT': BitwiseLeftShift,
 	    'RIGHT': BitwiseRightShift,
 	    'MOD': Mod,

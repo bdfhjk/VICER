@@ -19,5 +19,9 @@ int main(void) {
     errs++;
   }
 
+  if ((~23) != -24) {
+    errs++;
+  }
+
   return errs;
 }
