@@ -23,7 +23,7 @@ define([
 
 	if (typeof lvalue === 'boolean') {
 	    if (lvalue && !cfg.lvalue) {
-		throw new Errors.ExpectedLvalue();
+		throw new Errors.ExpectedLvalue(node);
 	    }
 	    if (!lvalue && cfg.lvalue) {
 		var fetchInstr = new Cfg({
@@ -44,7 +44,8 @@ define([
 	if (!isMatching) {
 	    throw new Errors.TypeMismatch(
 		JSON.stringify(type, null, 2),
-		JSON.stringify(cfg.tvalue, null, 2)
+		JSON.stringify(cfg.tvalue, null, 2),
+		node
 	    );
 	}
 	

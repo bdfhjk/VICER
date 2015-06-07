@@ -1,30 +1,38 @@
 define(function () {
-    function TypeMismatch (expected, got, operation) {
+    function TypeMismatch (expected, got, node) {
 	this.expected = expected;
 	this.got = got;
-	this.operation = operation;
+	this.location = node.loc;
 	//this.stack = new Error().stack;
-	this.message = operation + ': TYPE MISMATCH. EXPECTED ' +
+	this.message = 'TYPE MISMATCH. EXPECTED ' +
 	    prettyPrint(expected) +
 	    ' GOT ' +
 	    prettyPrint(got);
     }
 
-    function NotAFunction (name) {
+    function NotAFunction (name, node) {
 	this.name = name;
+	this.location = node.loc;
 	this.message = name + ' IS NOT A FUNCTION';
     }
 
-    function Unknown (name) {
+    function Unknown (name, node) {
 	this.name = name;
+	this.location = node.loc;
 	this.message = name + ': NAME UNKNOWN';
     }
 
-    function WrongArgNum(expected, got, funName) {
+    function WrongArgNum(expected, got, funName, node) {
 	this.expected = expected;
 	this.got = got;
 	this.funName = funName;
-	this.message = 'FUNCTION_CALL: WRONG ARGUMENT NUMBER. FUNCTION ' + funName + ' EXPECTED ' + expected + ' GOT ' + got;
+	this.location = node.loc;
+	this.message = 'WRONG ARGUMENT NUMBER. FUNCTION ' + funName + ' EXPECTED ' + expected + ' GOT ' + got;
+    }
+
+    function ExpectedLvalue(node) {
+	this.location = node.loc;
+	this.message = 'EXPECTED LVALUE';
     }
 
     function prettyPrint(obj) {
@@ -35,6 +43,7 @@ define(function () {
 	TypeMismatch: TypeMismatch,
 	NotAFunction: NotAFunction,
 	Unknown: Unknown,
-	WrongArgNum: WrongArgNum
+	WrongArgNum: WrongArgNum,
+	ExpectedLvalue: ExpectedLvalue
     };
 });

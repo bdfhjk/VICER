@@ -33,7 +33,8 @@ define([
 	    cfgHelper.matchTypes(right.tvalue, { type: 'pointer' })) {
 	    throw new Errors.TypeMismatch(
 		'pointer, int',
-		'pointer, pointer'
+		'pointer, pointer',
+		paramNode
 	    );
 	}
 

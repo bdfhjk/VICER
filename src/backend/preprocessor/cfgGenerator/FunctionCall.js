@@ -34,7 +34,8 @@ define([
 	if (!isVariadic && paramNum !== argNum) {
 	    throw new Errors.WrongArgNum(functionName,
 					 argNum,
-					 paramNum);
+					 paramNum,
+					 paramNode);
 	}
 
 	var paramsDecls = _.zip(parameters, args);

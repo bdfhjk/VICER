@@ -3,9 +3,9 @@ define(['../Errors', '../envGeneratorHelper', './Generic'], function (Errors, en
 	var decl = envHelper.getFunctionByName(ast.name, globalContext);
 	if (!decl) {
 	    if (envHelper.getEntityByName(ast.name, nameDict, globalContext)) {
-		throw new Errors.NotAFunction(ast.name);
+		throw new Errors.NotAFunction(ast.name, ast);
 	    } else {
-		throw new Errors.Unknown(ast.name);
+		throw new Errors.Unknown(ast.name, ast);
 	    }
 	}
 

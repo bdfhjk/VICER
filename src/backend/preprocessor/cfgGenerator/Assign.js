@@ -24,7 +24,8 @@ define([
 	if (!cfgHelper.matchTypes(lvalue.tvalue, rvalue.tvalue)) {
 	    throw new Errors.TypeMismatch(
 		lvalue.tvalue,
-		rvalue.tvalue
+		rvalue.tvalue,
+		paramNode
 	    );
 	}
 
