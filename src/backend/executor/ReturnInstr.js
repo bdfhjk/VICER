@@ -5,7 +5,7 @@ define(["./FunctionCall"], function(fc) {
     }
 
     ReturnInstr.prototype.invoke = function invoke(context, process) {
-        var isVoid = context.returnType.type === "void";
+        var isVoid = context.returnType.name === "void" || context.returnType.type === "void";
         var returnValue;
         if (!isVoid)
             returnValue = context.pop();

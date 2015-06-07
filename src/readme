@@ -1,0 +1,18 @@
+Instrukcja instalacji programu VIPER
+====================================
+
+1. Zainstaluj Node.js w najnowszej wersji (procedura instalacji zależy od Twojego środowiska).
+2. Zainstaluj grunt CLI:
+    npm install -g grunt-cli
+
+4. Przejdź do folderu VIPER:
+    cd VIPER
+
+5. Zainstaluj zależności:
+    npm install
+
+6. Uruchom serwer:
+    grunt
+
+Jeśli wszystko przebiegło pomyślnie, serwer będzie nasłuchiwał na porcie 3000.
+
