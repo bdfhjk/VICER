@@ -150,6 +150,11 @@ describe("Complete Integration Test", function() {
 	//     file: "change-char.c",
 	//     expected_printf: "Aladma kota"
 	// }
+	// {
+	//     description: "malloc",
+	//     file: "malloc.c",
+	//     expected: 5
+	// }
     ]
     .map(function(testCase) {
         it (testCase.description, function(done) {

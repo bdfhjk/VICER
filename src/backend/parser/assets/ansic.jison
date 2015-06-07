@@ -256,11 +256,11 @@
         return result.join("");
     }
 
-    function malloc(tvalue, size) {
+    function malloc(tvalue, subexp) {
         return {
             type: "MALLOC",
             tvalue: tvalue,
-            size: size,
+            subexp: subexp,
         };
     }
 %}
@@ -384,7 +384,7 @@ unary_operator
 cast_expression_
     : unary_expression
         { $$ = $1; }
-    | '(' type_specifier '*' ')' MALLOC '(' constant ')'
+    | '(' type_specifier '*' ')' MALLOC '(' unary_expression ')'
         { $$ = malloc($2, $7); }
 /*    | '(' type_name ')' cast_expression */
     ;

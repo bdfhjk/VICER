@@ -17,6 +17,7 @@ define([
     './cfgGenerator/Identifier',
     './cfgGenerator/Deref',
     './cfgGenerator/Ref',
+    './cfgGenerator/Malloc',
     './cfgGenerator/Assign',
     './cfgGenerator/PlusAssign',
     './cfgGenerator/MinusAssign',
@@ -34,7 +35,7 @@ define([
     './cfgGenerator/More',
     './cfgGenerator/Not',
     './cfgGenerator/Subscript'
-], function (LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, BitwiseNot, BitwiseLeftShift, BitwiseRightShift, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
+], function (LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, BitwiseNot, BitwiseLeftShift, BitwiseRightShift, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Malloc, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
     function generateCfg(node) {
 	var generators = {
@@ -56,6 +57,7 @@ define([
 	    'INDENTIFIER': Identifier,
 	    'UNARYOP_*' : Deref,
 	    'UNARYOP_&' : Ref,
+	    'MALLOC' : Malloc,
 	    'ASSIGN': Assign,
 	    '+=': PlusAssign,
 	    '-=': MinusAssign,

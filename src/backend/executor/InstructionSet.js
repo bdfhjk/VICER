@@ -13,6 +13,7 @@ define([
     "./NotInstr",
     "./RefInstr",
     "./DerefInstr",
+    "./MallocInstr",
     "./PaddInstr",
     "./VaEndInstr",
     "./NoopInstr",
@@ -29,9 +30,10 @@ define([
     "./DivInstr"
 ], function(ResolveInstr, FetchInstr, ReturnInstr, AddInstr, SubInstr, AssignInstr,
                 CallInstr, BranchInstr, EqInstr, LeqInstr, LessInstr, NotInstr,
-            RefInstr, DerefInstr, createPointerOp, VaEndInstr, NoopInstr, StepInstr,
-	        AndInstr, OrInstr, BitwiseAndInstr, BitwiseOrInstr, BitwiseNotInstr,
-	    BitwiseLeftShiftInstr, BitwiseRightShiftInstr, ModInstr, MulInstr, DivInstr) {
+            RefInstr, DerefInstr, MallocInstr, createPointerOp, VaEndInstr,
+	        NoopInstr, StepInstr, AndInstr, OrInstr, BitwiseAndInstr,
+	    BitwiseOrInstr, BitwiseNotInstr, BitwiseLeftShiftInstr,
+	        BitwiseRightShiftInstr, ModInstr, MulInstr, DivInstr) {
 
         return {
             "RESOLVE": ResolveInstr,
@@ -48,6 +50,7 @@ define([
             "NOT": NotInstr,
             "REF": RefInstr,
             "DEREF": DerefInstr,
+            "MALLOC": MallocInstr,
             "PADD": createPointerOp("PADD"),
             "PSUB": createPointerOp("PSUB"),
             "VAEND": VaEndInstr,
