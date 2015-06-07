@@ -23,7 +23,7 @@ define(function () {
     }
 
     function Overflow (type, node) {
-	this.name = name;
+	this.type = type;
 	this.location = node.loc;
 	this.message = type + ' OVERFLOW';
     }

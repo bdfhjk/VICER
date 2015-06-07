@@ -1,6 +1,6 @@
 define(['../Errors', '../envGeneratorHelper'], function (Errors, envHelper) {
-    var MAX_INT = (2 << 32) - 1;
-    var MIN_INT = -MAX_INT;
+    var MIN_INT = 2 << 30;
+    var MAX_INT = -MIN_INT - 1;
 
     function IntConstant(ast, nameDict, prefix, globalContext, visit) {
 	if (ast.value > MAX_INT || ast.value < MIN_INT) {

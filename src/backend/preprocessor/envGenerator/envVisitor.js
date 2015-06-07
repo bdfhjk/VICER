@@ -6,10 +6,11 @@ define([
     './Inc',
     './Dec',
     './UnaryOpMinus',
+    './Sizeof',
     './FunctionCall',
     './Return',
     './Generic'
-], function (visIdentifier, visIntConstant, visCharConstant, visLiteral, visInc, visDec, visUnaryOpMinus, visFunctionCall, visReturn, visGeneric) {
+], function (visIdentifier, visIntConstant, visCharConstant, visLiteral, visInc, visDec, visUnaryOpMinus, visSizeof, visFunctionCall, visReturn, visGeneric) {
     var visitFun = {
 	INDENTIFIER: visIdentifier,
 	CONSTANT: visIntConstant,
@@ -20,6 +21,7 @@ define([
 	POST_DEC: visDec,
 	PRE_DEC: visDec,
 	'UNARYOP_-': visUnaryOpMinus,
+	SIZEOF: visSizeof,
 	FUNCTION_CALL: visFunctionCall,
 	'return': visReturn
     };
