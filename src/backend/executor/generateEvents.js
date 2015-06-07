@@ -30,7 +30,7 @@ define(function() {
         function addEvent(name, elemChange) {
             events.push({
                 event: eventNames[elemChange.type],
-                variableName: name.split('|')[1] || eventNames,
+                variableName: name.split('|')[1] || name,
                 value: elemChange.value,
                 offset: elemChange.offset,
                 length: elemChange.length
