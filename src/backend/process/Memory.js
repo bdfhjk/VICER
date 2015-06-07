@@ -27,7 +27,7 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
             this.cells[newId].value = locArray;
         }
 
-        this.emitter.emitEvent("alloc", [newId, type.type === "array" ? type.size : -1]);
+        this.emitter.emitEvent("alloc", [newId, type.type === "array" ? type.size : -1, type]);
 
         return newId;
     };

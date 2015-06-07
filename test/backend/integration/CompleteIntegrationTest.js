@@ -41,6 +41,11 @@ describe("Complete Integration Test", function() {
             expected: 42
         },
         {
+            description: "a return statement from main",
+            file: "return-stmt.c",
+            expected: 0
+        },
+        {
             description: "just exit with code -42",
             file: "negative-integer.c",
             expected: -42
