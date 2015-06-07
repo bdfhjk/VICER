@@ -135,6 +135,11 @@ describe("Complete Integration Test", function() {
 	    file: "div.c",
 	    expected: 2
 	},
+	{
+	    description: "bitwise operations",
+	    file: "bitwise.c",
+	    expected: 0
+	},
 	// {
 	//     description: "change char in char array",
 	//     file: "change-char.c",

@@ -1,6 +1,10 @@
 define([
     './cfgGenerator/LogicalAnd',
     './cfgGenerator/LogicalOr',
+    './cfgGenerator/BitwiseAnd',
+    './cfgGenerator/BitwiseOr',
+    './cfgGenerator/BitwiseLeftShift',
+    './cfgGenerator/BitwiseRightShift',
     './cfgGenerator/Mod',
     './cfgGenerator/Mul',
     './cfgGenerator/Div',
@@ -29,12 +33,16 @@ define([
     './cfgGenerator/More',
     './cfgGenerator/Not',
     './cfgGenerator/Subscript'
-], function (LogicalAnd, LogicalOr, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
+], function (LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, BitwiseLeftShift, BitwiseRightShift, Mod, Mul, Div, Return, CompoundStatement, ExpressionStatement, Add, Sub, Identifier, Deref, Ref, Assign, PlusAssign, MinusAssign, FunctionCall, If, While, For, Break, Continue, Less, Eq, Neq, Leq, Geq, More, Not, Subscript) {
 
     function generateCfg(node) {
 	var generators = {
 	    'LOGICAL_AND': LogicalAnd,
 	    'LOGICAL_OR': LogicalOr,
+	    'AND': BitwiseAnd,
+	    'OR': BitwiseOr,
+	    'LEFT': BitwiseLeftShift,
+	    'RIGHT': BitwiseRightShift,
 	    'MOD': Mod,
 	    'MUL': Mul,
 	    'DIV': Div,
