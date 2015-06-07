@@ -1,4 +1,4 @@
-define(function() {
+define(["./MemoryUtils"], function(MemoryUtils) {
 
     function MemoryTracker(mem) {
         this.mem = mem;
@@ -30,20 +30,26 @@ define(function() {
                 };
             }.bind(this));
         var changesPointers = Object.keys(this.pointers).map(function(loc) {
+                var oldValue = this.pointers[loc].value;
+                var newValue = this.getValueOfPointer(this.pointers[loc]);
+                this.pointers[loc].value = newValue;
                 return {
-                    name: "*" + this.knownLocs[loc],
-                    changes: [{
+                    name: this.knownLocs[loc],
+                    changes: newValue === oldValue ? [] : [{
                         type: "assign",
-                        value: this.getValueOfPointer(this.pointers[loc])
+                        value: newValue
                     }]
                 };
             }.bind(this));
         return changesValues.concat(changesPointers);
     };
 
-    MemoryTracker.prototype.getValueOfPointer = function getValueOfPointer(loc) {
+    MemoryTracker.prototype.getValueOfPointer = function getValueOfPointer(ptr) {
         try {
-            return this.memory.fetch(loc);
+            if (ptr.of.type === "char") {
+                return MemoryUtils.readStringPtr(this.mem, ptr.ptr);
+            }
+            return this.mem.fetch(this.mem.at(loc.base, loc.offset));
         } catch(_) {
             return "???";
         }
@@ -63,7 +69,7 @@ define(function() {
             });
         }
         if (type.type === "pointer") {
-            this.pointers[base] = -1; // pointer recognized, but address unknown
+            this.pointers[base] = { ptr: undefined, of: type.of }; // pointer recognized, but address unknown
         }
     };
 
@@ -84,7 +90,7 @@ define(function() {
     MemoryTracker.prototype.onAssign = function onAssign(base, offset, val) {
         this.changes[base] = this.changes[base] || [];
         if (base in this.pointers) {
-            this.pointers[base] = val;
+            this.pointers[base].ptr = val;
             return;
         }
         if (this.lengths[base] === -1) {
@@ -109,7 +115,9 @@ define(function() {
             }); 
         }
 
-        delete this.pointers[base];
+        if (this.pointers[base]) {
+            delete this.pointers[base];
+        }
     };
 
     return MemoryTracker;
