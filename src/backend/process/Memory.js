@@ -1,4 +1,4 @@
-define(["eventEmitter"], function(EventEmitter) {
+define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
 
     function Memory() {
         this.emitter = new EventEmitter();
@@ -70,7 +70,7 @@ define(["eventEmitter"], function(EventEmitter) {
         }
         var bo = this.getBaseAndOffset(loc);
         this.emitter.emitEvent("assign", [bo.base, bo.offset, val]);
-        this.cells[loc].value = val;
+        this.cells[loc].value = coerceValue(val, this.cells[loc].meta.type);
     };
 
     Memory.prototype.dealloc = function dealloc(loc) {

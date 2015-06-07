@@ -57,7 +57,7 @@ define(['lodash', 'string', './nameHelper'], function(_, S, nameHelper) {
 	if (S(value).startsWith('int|')) {
 	    return Number(S(value).replaceAll('int|', '').s);
 	} else if (S(value).startsWith('char|')) {
-	    return S(value).replaceAll('char|', '').s;
+	    return S(value).replaceAll('char|', '').s.charCodeAt(0);
 	} else if (S(value).startsWith('literal|')) {
 	    return S(value).replaceAll('literal|', '').s;
 	}

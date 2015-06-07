@@ -11,6 +11,7 @@ define([
         
         // stdlib
         "./stdlib/atoi",
+        "./stdlib/free",
         "./stdlib/rand",
         "./stdlib/srand",
         "./stdlib/strtol",
@@ -20,12 +21,13 @@ define([
         "./string/strcpy",
         "./string/strlen"
     ], function(abs, feof, printf, scanf, sprintf, sscanf, atoi,
-        rand, srand, strtol, strcmp, strcpy, strlen) {
+        free, rand, srand, strtol, strcmp, strcpy, strlen) {
 
         return {
             "abs": abs,
             "labs": abs,
             "feof": feof,
+            "free": free,
             "printf": printf,
             "scanf": scanf,
             "sprintf": sprintf,

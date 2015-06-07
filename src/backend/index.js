@@ -1,6 +1,5 @@
 define(["mod_engine"], function(engine) {
 
-    // TODO: Implement input code in backend
     function runProgram(source, world) {
         return engine.runProgram(source, world);
     }
