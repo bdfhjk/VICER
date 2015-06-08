@@ -49,7 +49,7 @@ define(["./MemoryUtils"], function(MemoryUtils) {
             if (ptr.of.type === "char") {
                 return MemoryUtils.readStringPtr(this.mem, ptr.ptr);
             }
-            return this.mem.fetch(this.mem.at(loc.base, loc.offset));
+            return this.mem.fetch(this.mem.at(ptr.ptr.base, ptr.ptr.offset));
         } catch(_) {
             return "???";
         }
