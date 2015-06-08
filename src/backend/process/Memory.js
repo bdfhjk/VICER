@@ -1,4 +1,4 @@
-define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
+define(["eventEmitter", "./ValueTypes", "./coerceValue"], function(EventEmitter, valueTypes, coerceValue) {
 
     function Memory() {
         this.emitter = new EventEmitter();
@@ -15,11 +15,8 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
         var DEFAULT_VALUES = {
             int: function() { return 0; },
             char: function() { return 0; },
-            pointer: function() { return {
-                    base: 0,
-                    offset: 0
-                };
-            }
+            pointer: function() { return new valueTypes.PointerValue(0, 0); },
+            function: function() { return {}; }
         };
 
         return DEFAULT_VALUES[type]();
