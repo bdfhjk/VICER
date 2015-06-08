@@ -1,4 +1,4 @@
-define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
+define(["eventEmitter", "./ValueTypes", "./coerceValue"], function(EventEmitter, valueTypes, coerceValue) {
 
     function Memory() {
         this.emitter = new EventEmitter();
@@ -10,6 +10,17 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
     Memory.prototype.nextId = function nextId() {
         return this.lastId++;
     };
+
+    function getDefaultValue(type) {
+        var DEFAULT_VALUES = {
+            int: function() { return 0; },
+            char: function() { return 0; },
+            pointer: function() { return new valueTypes.PointerValue(0, 0); },
+            function: function() { return {}; }
+        };
+
+        return DEFAULT_VALUES[type]();
+    }
 
     Memory.prototype.alloc = function alloc(type, base, offset) {
         var newId = String(this.nextId());
@@ -28,6 +39,9 @@ define(["eventEmitter", "./coerceValue"], function(EventEmitter, coerceValue) {
         }
 
         this.emitter.emitEvent("alloc", [newId, type.type === "array" ? type.size : -1, type]);
+        if (type.type !== "array") {
+            this.assign(newId, getDefaultValue(type.type));
+        }
 
         return newId;
     };

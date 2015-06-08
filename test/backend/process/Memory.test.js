@@ -10,7 +10,7 @@ describe("VM Memory", function() {
 
     var ARRAY_T = { 
         type: "array", 
-        of: "int",
+        of: { type: "int" },
         size: 10
     };
 
