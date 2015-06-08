@@ -5,9 +5,9 @@ define(function () {
 	this.location = node.loc;
 	//this.stack = new Error().stack;
 	this.message = 'TYPE MISMATCH. EXPECTED ' +
-	    prettyPrint(expected) +
+	    prettyPrintTypes(expected) +
 	    ' GOT ' +
-	    prettyPrint(got);
+	    prettyPrintTypes(got);
     }
 
     function NotAFunction (name, node) {
@@ -41,8 +41,23 @@ define(function () {
 	this.message = 'EXPECTED LVALUE';
     }
 
-    function prettyPrint(obj) {
-	return JSON.stringify(obj, null, 2);
+    function prettyPrintType(type) {
+	if (type.type === 'pointer' || type.type === 'array') {
+	    return type.of.type + ' *';
+	} else {
+	    return type.type;
+	}
+    }
+    
+    function prettyPrintTypes(type) {
+	var result;
+	if (Array.isArray(type)) {
+	    result = _.map(type, prettyPrintType).join(" or ").trim();
+	} else {
+	    result = prettyPrintType(type);
+	}
+
+	return result;
     }
 
     return {
