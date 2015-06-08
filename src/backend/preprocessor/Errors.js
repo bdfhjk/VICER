@@ -5,9 +5,9 @@ define(function () {
 	this.location = node.loc;
 	//this.stack = new Error().stack;
 	this.message = 'TYPE MISMATCH. EXPECTED ' +
-	    prettyPrintTypes(expected) +
+	    expected +
 	    ' GOT ' +
-	    prettyPrintTypes(got);
+	    got;
     }
 
     function NotAFunction (name, node) {
@@ -66,6 +66,7 @@ define(function () {
 	Unknown: Unknown,
 	Overflow: Overflow,
 	WrongArgNum: WrongArgNum,
-	ExpectedLvalue: ExpectedLvalue
+	ExpectedLvalue: ExpectedLvalue,
+	prettyPrintTypes: prettyPrintTypes
     };
 });
