@@ -54,9 +54,11 @@ define([
 
     function matchTypes(type1, type2) {
 	if ((type1.type === 'pointer' && type2.type === 'array') || // case one
-	    (type2.type === 'pointer' && type1.type === 'array')) {
-	    if ((type1.of && type2.of) && type1.of.type !== type2.of.type) {
-		return false; // pointers and arrays are matching
+	    (type2.type === 'pointer' && type1.type === 'array')) { // pointers/arrays
+	    if ((type1.of && type2.of) && // if both have defined underlying types
+		(type1.of.type !== type2.of.type) && // and underlying types don't match
+	        (type1.of.type !== 'void' && type2.of.type !== 'void')) { // and neither of them is void
+		return false; // then they don't match
 	    }
 	} else if (type1.type !== type2.type || // if not pointer/array pair, simple check
 		   type1.of && type2.of && type1.of.type !== type2.of.type) {
