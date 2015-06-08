@@ -80,10 +80,13 @@ define([
 		return nameHelper.getParameterName(funcName, arg);
 	    });
 
-	    var globals = _this.preprocessed.global;
-	    var protos = _.extend(_this.preprocessed.prototypes, _this.stdlib);
+	    var globals = _.extend(_.clone(_this.preprocessed.global),
+				   _this.stdlibConstants);
+	    var constants = {};
+	    var protos = _.extend(_.clone(_this.preprocessed.prototypes),
+				  _this.stdlib);
 
-	    var envAndValues = envGenerator(decl, globals, protos, funcName);
+	    var envAndValues = envGenerator(decl, constants, globals, protos, _this.stdlibConstantsValues);
 	    var env = envAndValues.env;
 
 	    // add constants
@@ -132,12 +135,23 @@ define([
 	_.forOwn(colStdlib, function (value, key) {
 	    colStdlib[key].name = key;
 	});
-	this.stdlib= colStdlib;
+	this.stdlib = colStdlib;
+    };
+
+    AstToCfg.prototype.collectStdLibConstants = function collectStdLibConstants() {
+	var constants = {};
+	var colStdlib = stdlib.getStdLibConstants();
+	_.forOwn(colStdlib, function (value, key) {
+	    constants[key] = { type: 'int' };
+	});
+	this.stdlibConstants = constants;
+	this.stdlibConstantsValues = colStdlib;
     };
 
     AstToCfg.prototype.convert = function convert() {
-	this.retrieveGlobals();
+	this.collectStdLibConstants();
 	this.collectStdLibFunctions();
+	this.retrieveGlobals();
 	this.collectPrototypes();
 	this.generateFunctions();
 	return this.getConverted();

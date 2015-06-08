@@ -1,11 +1,11 @@
 define(['../Errors', '../envGeneratorHelper'], function (Errors, envHelper) {
-    var MIN_INT = 2 << 30;
-    var MAX_INT = -MIN_INT - 1;
-
     function IntConstant(ast, nameDict, prefix, globalContext, visit) {
-	if (ast.value > MAX_INT || ast.value < MIN_INT) {
+	var INT_MIN = globalContext.stdlibConstantsValues.INT_MIN;
+	var INT_MAX = globalContext.stdlibConstantsValues.INT_MAX;
+	if (ast.value > INT_MAX || ast.value < INT_MIN) {
 	    throw new Errors.Overflow('int', ast);
 	}
+
 	ast.type = 'INDENTIFIER';
 	ast.value = envHelper.getOrSetConstantByValue(ast.value, 'int', globalContext, prefix);
 	ast.tvalue = {

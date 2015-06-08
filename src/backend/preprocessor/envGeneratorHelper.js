@@ -1,11 +1,12 @@
 define(['lodash', 'string', './nameHelper'], function(_, S, nameHelper) {
-    function generateGlobalContext(env, constants, globals, decls, funcName) {
+    function generateGlobalContext(env, constants, globals, decls, funcName, stdlibConstantsValues) {
 	return {
 	    env: env,
 	    constants: constants,
 	    globals: globals,
 	    decls: decls,
-	    funcName: funcName
+	    funcName: funcName,
+	    stdlibConstantsValues: stdlibConstantsValues
 	};
     }
     
@@ -41,16 +42,19 @@ define(['lodash', 'string', './nameHelper'], function(_, S, nameHelper) {
     }
 
     function getOrSetConstantByValue(value, type, globalContext, prefix) {
-	var compVal = S('{{type}}|{{value}}').template({
-	    type: type,
-	    value: value
-	});
-
+	var compVal = composeConstantValue(type, value);
 	if (!globalContext.constants[compVal]) {
 	    var constNum = _.size(globalContext.constants);
 	    globalContext.constants[compVal] = nameHelper.getConstantName(prefix, constNum);
 	}
 	return globalContext.constants[compVal];
+    }
+
+    function composeConstantValue(type, value) {
+	return S('{{type}}|{{value}}').template({
+	    type: type,
+	    value: value
+	});
     }
 
     function decomposeConstantValue(value) {
@@ -93,6 +97,7 @@ define(['lodash', 'string', './nameHelper'], function(_, S, nameHelper) {
 	getVariableByName: getVariableByName,
 	getFunctionByName: getFunctionByName,
 	getOrSetConstantByValue: getOrSetConstantByValue,
+	composeConstantValue: composeConstantValue,
 	decomposeConstantValue: decomposeConstantValue,
 	getTypeFromConstantValue: getTypeFromConstantValue,
 	createEnvEntry: createEnvEntry
