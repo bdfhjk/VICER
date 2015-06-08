@@ -1,4 +1,4 @@
-define(["./sizeof"], function(sizeof) {
+    define(["./sizeof"], function(sizeof) {
 
     function Heap(memory) {
         this.memory = memory;
@@ -7,7 +7,7 @@ define(["./sizeof"], function(sizeof) {
 
     Heap.prototype.alloc = function alloc(size, type) {
         var typeSize = sizeof(type);
-        console.log(typeSize, size, type);
+
         if (size % typeSize !== 0) {
             throw new Error("Heap allocation: Attempted to allocate a cell of uneven size");   
         }
