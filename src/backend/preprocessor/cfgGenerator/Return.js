@@ -17,7 +17,7 @@ define([
 
 	if (paramNode.rexpression && cfgHelper.matchTypes({ type: 'void' }, expectedReturnType)) {
 	    throw new Errors.TypeMismatch(
-		errors.prettyPrintTypes(expectedReturnType),
+		'not void',
 		'void',
 		paramNode
 	    );

@@ -11,7 +11,7 @@ define([
 	    lvalue: false,
 	    type: [
 		{ type: 'int' },
-		{ type: 'pointer'}
+		{ type: 'pointer' }
 	    ]
 	},
 	right: {
@@ -32,7 +32,7 @@ define([
 	if (cfgHelper.matchTypes(left.tvalue, { type: 'pointer' }) &&
 	    cfgHelper.matchTypes(right.tvalue, { type: 'pointer' })) {
 	    throw new Errors.TypeMismatch(
-		'pointer, int',
+		'pointer, int/char',
 		'pointer, pointer',
 		paramNode
 	    );

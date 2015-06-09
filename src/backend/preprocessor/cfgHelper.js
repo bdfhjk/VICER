@@ -32,7 +32,19 @@ define([
 		cfg.mergeLeft(fetchInstr);
 	    }
 	}
+	
+	// treat pure char as pure int
+	if (cfg.tvalue.type === 'char') {
+	    cfg.tvalue.type = 'int';
+	}
 
+	if (Array.isArray(type)) {
+	    type = _.map(type, function (t) { return t === 'char' ? 'int' : t; });
+	} else if (typeof type === 'string') {
+	    type = (type === 'char' ? 'int' : type);
+	}
+
+	// compare types
 	var isMatching;
 	if (Array.isArray(type)) {
 	    isMatching = _.find(type, matchTypes.bind(null, cfg.tvalue));
