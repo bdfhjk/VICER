@@ -3,7 +3,7 @@ define(function() {
     // void free(void* ptr);
 
     function free(args, process) {
-        process.heap.free(process.memory.getBaseAndOffset(args.ptr.base, args.ptr.offset));
+        process.heap.free(args.ptr.base);
     }
 
     free.args = ["ptr"];
