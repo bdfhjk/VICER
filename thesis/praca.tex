@@ -155,7 +155,7 @@ W poniższej pracy prezentowana jest aplikacja internetowa służąca do interpr
 
   \section{Biblioteki}
 \par Do wyświetlania i edytowania kodu źródłowego została wykorzystana biblioteka CodeMirror \cite{cm}. Wybraliśmy ją ze względu na największą popularność oraz obsługę wszystkich wymaganych przez nas funkcji - tj. podświetlania składni, wyświetlania numerów linii kodu, możliwości podświetlenia wybranego fragmentu kodu, możliwości wygodnego skalowania oraz dużego wsparcia ze strony społeczności. Jest ona używana w ponad 100 innych projektach, między innymi Adobe Brackets, Chrome DevTools, aplikacja GitHub na platformę Android, JSHint. \cite{jshint}
-\par W celu wyświetlenia wizualizacji użyta została biblioteka D3JS \cite{d3js}. Umożliwia ona wygodne manipulacje obrazem SVG i upraszcza rysowanie podstawowych figur geometrycznych oraz tekstu. Jest również bardzo popularną biblioteką i na jej forach dyskusyjnych można znaleźć rozwiązanie pojawiających się problemów. Jest używana między innymi przez popularny portal New York Times do wyświetlania wykresów \cite{ny}.
+\par W celu wyświetlenia wizualizacji użyta została biblioteka D3JS \cite{d3js}. Umożliwia ona wygodne rysowanie na obrazie SVG i upraszcza rysowanie podstawowych figur geometrycznych oraz tekstu. Jest również bardzo popularną biblioteką i na jej forach dyskusyjnych można znaleźć rozwiązanie pojawiających się problemów. Jest używana między innymi przez popularny portal New York Times do wyświetlania wykresów \cite{ny}.
 \par Aby uprościć operacje na obiektach HTML, zastosowaliśmy bibliotekę jQuery. \cite{jquery} Umożliwia ona wyszukiwanie, grupowanie i dynamiczną modyfikację elementów widoku strony. Jest wykorzystywana w większości zaawansowanych projektów używających JavaScriptu.
 \par W celu automatyzacji procesu budowania, testowania, lintowania, tworzenia wersji dystrybucyjnej i serwera testowego wykorzystaliśmy bibliotekę Grunt.\cite{gruntjs} Za jej pomocą definiujemy zadania do poszczególnych celów, które mają się wykonać w trakcie wymienionych wyżej operacji. 
 \par Sam proces testowania został zrealizowany z wykorzystaniem biblioteki Mocha[5], która umożliwia pisanie testów jednostkowych do języka JavaScript. Jest ona lekkim narzędziem, które idealnie pasuje do naszego projektu.
@@ -190,7 +190,7 @@ W poniższej pracy prezentowana jest aplikacja internetowa służąca do interpr
 	\end {itemize} 
 	\item \texttt{frontend}
 	\begin {itemize}
-	  \item \texttt{code\_input} --- w tym katalogu znajduje się kod związany z obsługą okna wprowadzania kodu źródłowego, w szczególności inicjalizacja i konfiguracja pluginu CodeMirror.
+	  \item \texttt{code\_input} --- w tym katalogu znajduje się kod okna wprowadzania kodu źródłowego, w szczególności inicjalizacja i konfiguracja pluginu CodeMirror.
 	  \item \texttt{console} --- kod źródłowy konsoli, zlokalizowanej w dolnej części strony.
 	  \item \texttt{data\_structures} --- tutaj zdefiniowane sa wszystkie struktury danych, jakie możemy wizualizować, funkcje które je wyświetlają, wywoływane przez backend w trakcie procedury odświeżającej widok.
 	  \item \texttt{interface} --- w tym katalogu znajduje się kod odpowiedzialny za obsługę zdarzeń, obsługę przycisków i pętlę cyklicznie wykonującą kolejny krok programu a także inicjalizację środowiska po stronie frontendu.
@@ -423,7 +423,7 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
 \par Pracowaliśmy w metodologii agile - ze względu na rozmiar i specyfikę zespołu. By zapewnić ciągłość pracy nad projektem, postawiliśmy na częste spotkania. W trakcie pierwszego semestru spotykaliśmy się w weekendy oraz w trakcie zajęć, by dyskutować plany i koncepcje wykonania poszczególnych elementów projektu. W drugim semestrze spotykaliśmy się raz lub dwa na tydzień: na ZPP lub prywatnie, by rozmawiać o postępach w implementacji, napotkanych problemach, a także wynikającej z tego potrzebie zmian i uszczegółowienia ustalonych koncepcji. Konkretne zadania były przydzielane tuż przed rozpoczęciem 2-3 tygodniowego milestone’u, a każda z osób była odpowiedzialna za wykonanie, bądź odpowiednio wcześniej - poinformowanie o problemach związanych z przydzielonym zadaniem.
 
   \section {Zmiana celów w trakcie projektu}
-\par W trakcie projektu, z powodu niedoszacowania nakładu czasu niezbędnego na realizację niektórych zadań, okroiliśmy nieco zakres projektu. Trudnością również okazało się rozpoznawanie drzew i list, dlatego ostatecznie zrezygnowaliśmy z implementacji tych struktur.
+\par W trakcie projektu, z powodu niedoszacowania nakładu czasu niezbędnego na realizację niektórych zadań (np. implementacja parsera VIPER C, czy analizy składniowej), okroiliśmy nieco zakres projektu. Trudnością również okazało się rozpoznawanie drzew i list, dlatego ostatecznie zrezygnowaliśmy z implementacji tych struktur.
   \section {Milestone'y}
 \par Zaplanowaliśmy i wykonaliśmy następujące milestone'y:
   \subsection {Milestone 1}
