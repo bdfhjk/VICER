@@ -6,7 +6,13 @@
             "name": "b",
             "tvalue": {
                 "type": "concrete_type",
-                "name": "int"
+                "name": "int",
+                "loc": {
+                    "first_line": 1,
+                    "last_line": 1,
+                    "first_column": 0,
+                    "last_column": 3
+                }
             }
         },
         {
@@ -14,7 +20,13 @@
             "name": "c",
             "tvalue": {
                 "type": "concrete_type",
-                "name": "int"
+                "name": "int",
+                "loc": {
+                    "first_line": 1,
+                    "last_line": 1,
+                    "first_column": 0,
+                    "last_column": 3
+                }
             }
         },
         {
@@ -26,13 +38,13 @@
                 "param_names": [],
                 "return_tvalue": {
                     "type": "concrete_type",
-                    "name": "int"
-                },
-                "loc": {
-                    "first_line": 3,
-                    "last_line": 3,
-                    "first_column": 0,
-                    "last_column": 14
+                    "name": "int",
+                    "loc": {
+                        "first_line": 3,
+                        "last_line": 3,
+                        "first_column": 0,
+                        "last_column": 3
+                    }
                 }
             },
             "body": {
@@ -43,7 +55,13 @@
                         "name": "h",
                         "tvalue": {
                             "type": "concrete_type",
-                            "name": "int"
+                            "name": "int",
+                            "loc": {
+                                "first_line": 4,
+                                "last_line": 4,
+                                "first_column": 4,
+                                "last_column": 7
+                            }
                         }
                     },
                     {
@@ -51,7 +69,13 @@
                         "name": "j",
                         "tvalue": {
                             "type": "concrete_type",
-                            "name": "int"
+                            "name": "int",
+                            "loc": {
+                                "first_line": 4,
+                                "last_line": 4,
+                                "first_column": 4,
+                                "last_column": 7
+                            }
                         }
                     },
                     {
@@ -59,7 +83,13 @@
                         "name": "k",
                         "tvalue": {
                             "type": "concrete_type",
-                            "name": "int"
+                            "name": "int",
+                            "loc": {
+                                "first_line": 4,
+                                "last_line": 4,
+                                "first_column": 4,
+                                "last_column": 7
+                            }
                         }
                     }
                 ],
@@ -70,25 +100,67 @@
                             "type": "ASSIGN",
                             "left": {
                                 "type": "INDENTIFIER",
-                                "value": "h"
+                                "value": "h",
+                                "loc": {
+                                    "first_line": 6,
+                                    "last_line": 6,
+                                    "first_column": 4,
+                                    "last_column": 5
+                                }
                             },
                             "right": {
                                 "type": "ASSIGN",
                                 "left": {
                                     "type": "INDENTIFIER",
-                                    "value": "j"
+                                    "value": "j",
+                                    "loc": {
+                                        "first_line": 6,
+                                        "last_line": 6,
+                                        "first_column": 8,
+                                        "last_column": 9
+                                    }
                                 },
                                 "right": {
                                     "type": "ASSIGN",
                                     "left": {
                                         "type": "INDENTIFIER",
-                                        "value": "k"
+                                        "value": "k",
+                                        "loc": {
+                                            "first_line": 6,
+                                            "last_line": 6,
+                                            "first_column": 12,
+                                            "last_column": 13
+                                        }
                                     },
                                     "right": {
                                         "type": "CONSTANT",
-                                        "value": 1
+                                        "value": 1,
+                                        "loc": {
+                                            "first_line": 6,
+                                            "last_line": 6,
+                                            "first_column": 16,
+                                            "last_column": 17
+                                        }
+                                    },
+                                    "loc": {
+                                        "first_line": 6,
+                                        "last_line": 6,
+                                        "first_column": 12,
+                                        "last_column": 17
                                     }
+                                },
+                                "loc": {
+                                    "first_line": 6,
+                                    "last_line": 6,
+                                    "first_column": 8,
+                                    "last_column": 17
                                 }
+                            },
+                            "loc": {
+                                "first_line": 6,
+                                "last_line": 6,
+                                "first_column": 4,
+                                "last_column": 17
                             }
                         },
                         "loc": {
@@ -107,36 +179,78 @@
                                 "type": "ASSIGN",
                                 "left": {
                                     "type": "INDENTIFIER",
-                                    "value": "h"
+                                    "value": "h",
+                                    "loc": {
+                                        "first_line": 8,
+                                        "last_line": 8,
+                                        "first_column": 9,
+                                        "last_column": 10
+                                    }
                                 },
                                 "right": {
                                     "type": "CONSTANT",
-                                    "value": 2
+                                    "value": 2,
+                                    "loc": {
+                                        "first_line": 8,
+                                        "last_line": 8,
+                                        "first_column": 13,
+                                        "last_column": 14
+                                    }
+                                },
+                                "loc": {
+                                    "first_line": 8,
+                                    "last_line": 8,
+                                    "first_column": 9,
+                                    "last_column": 14
                                 }
                             },
                             "right": {
                                 "type": "ASSIGN",
                                 "left": {
                                     "type": "INDENTIFIER",
-                                    "value": "j"
+                                    "value": "j",
+                                    "loc": {
+                                        "first_line": 8,
+                                        "last_line": 8,
+                                        "first_column": 16,
+                                        "last_column": 17
+                                    }
                                 },
                                 "right": {
                                     "type": "CONSTANT",
-                                    "value": 3
+                                    "value": 3,
+                                    "loc": {
+                                        "first_line": 8,
+                                        "last_line": 8,
+                                        "first_column": 20,
+                                        "last_column": 21
+                                    }
+                                },
+                                "loc": {
+                                    "first_line": 8,
+                                    "last_line": 8,
+                                    "first_column": 16,
+                                    "last_column": 21
                                 }
                             },
                             "loc": {
                                 "first_line": 8,
                                 "last_line": 8,
                                 "first_column": 9,
-                                "last_column": 22
+                                "last_column": 21
                             }
                         },
                         "post_statement": {
                             "type": "PRE_INC",
                             "subexp": {
                                 "type": "INDENTIFIER",
-                                "value": "j"
+                                "value": "j",
+                                "loc": {
+                                    "first_line": 8,
+                                    "last_line": 8,
+                                    "first_column": 26,
+                                    "last_column": 27
+                                }
                             },
                             "loc": {
                                 "first_line": 8,
@@ -155,18 +269,48 @@
                                         "type": "ASSIGN",
                                         "left": {
                                             "type": "INDENTIFIER",
-                                            "value": "k"
+                                            "value": "k",
+                                            "loc": {
+                                                "first_line": 9,
+                                                "last_line": 9,
+                                                "first_column": 8,
+                                                "last_column": 9
+                                            }
                                         },
                                         "right": {
                                             "type": "ADD",
                                             "left": {
                                                 "type": "INDENTIFIER",
-                                                "value": "h"
+                                                "value": "h",
+                                                "loc": {
+                                                    "first_line": 9,
+                                                    "last_line": 9,
+                                                    "first_column": 12,
+                                                    "last_column": 13
+                                                }
                                             },
                                             "right": {
                                                 "type": "INDENTIFIER",
-                                                "value": "j"
+                                                "value": "j",
+                                                "loc": {
+                                                    "first_line": 9,
+                                                    "last_line": 9,
+                                                    "first_column": 16,
+                                                    "last_column": 17
+                                                }
+                                            },
+                                            "loc": {
+                                                "first_line": 9,
+                                                "last_line": 9,
+                                                "first_column": 12,
+                                                "last_column": 17
                                             }
+                                        },
+                                        "loc": {
+                                            "first_line": 9,
+                                            "last_line": 9,
+                                            "first_column": 8,
+                                            "last_column": 17
                                         }
                                     },
                                     "loc": {
@@ -197,11 +341,23 @@
                             "type": "NE",
                             "left": {
                                 "type": "INDENTIFIER",
-                                "value": "k"
+                                "value": "k",
+                                "loc": {
+                                    "first_line": 12,
+                                    "last_line": 12,
+                                    "first_column": 11,
+                                    "last_column": 12
+                                }
                             },
                             "right": {
                                 "type": "CONSTANT",
-                                "value": 2
+                                "value": 2,
+                                "loc": {
+                                    "first_line": 12,
+                                    "last_line": 12,
+                                    "first_column": 16,
+                                    "last_column": 17
+                                }
                             },
                             "loc": {
                                 "first_line": 12,
@@ -216,7 +372,19 @@
                                 "type": "PRE_INC",
                                 "subexp": {
                                     "type": "INDENTIFIER",
-                                    "value": "k"
+                                    "value": "k",
+                                    "loc": {
+                                        "first_line": 12,
+                                        "last_line": 12,
+                                        "first_column": 21,
+                                        "last_column": 22
+                                    }
+                                },
+                                "loc": {
+                                    "first_line": 12,
+                                    "last_line": 12,
+                                    "first_column": 19,
+                                    "last_column": 22
                                 }
                             },
                             "loc": {
@@ -239,11 +407,23 @@
                             "type": "NE",
                             "left": {
                                 "type": "INDENTIFIER",
-                                "value": "h"
+                                "value": "h",
+                                "loc": {
+                                    "first_line": 14,
+                                    "last_line": 14,
+                                    "first_column": 8,
+                                    "last_column": 9
+                                }
                             },
                             "right": {
                                 "type": "INDENTIFIER",
-                                "value": "j"
+                                "value": "j",
+                                "loc": {
+                                    "first_line": 14,
+                                    "last_line": 14,
+                                    "first_column": 13,
+                                    "last_column": 14
+                                }
                             },
                             "loc": {
                                 "first_line": 14,
@@ -264,9 +444,21 @@
                                         "parameters": [
                                             {
                                                 "type": "STRING_LITERAL",
-                                                "value": "LOL"
+                                                "value": "LOL",
+                                                "loc": {
+                                                    "first_line": 15,
+                                                    "last_line": 15,
+                                                    "first_column": 15,
+                                                    "last_column": 20
+                                                }
                                             }
-                                        ]
+                                        ],
+                                        "loc": {
+                                            "first_line": 15,
+                                            "last_line": 15,
+                                            "first_column": 8,
+                                            "last_column": 21
+                                        }
                                     },
                                     "loc": {
                                         "first_line": 15,
@@ -295,9 +487,21 @@
                                         "parameters": [
                                             {
                                                 "type": "STRING_LITERAL",
-                                                "value": "NOLOL"
+                                                "value": "NOLOL",
+                                                "loc": {
+                                                    "first_line": 17,
+                                                    "last_line": 17,
+                                                    "first_column": 15,
+                                                    "last_column": 22
+                                                }
                                             }
-                                        ]
+                                        ],
+                                        "loc": {
+                                            "first_line": 17,
+                                            "last_line": 17,
+                                            "first_column": 8,
+                                            "last_column": 23
+                                        }
                                     },
                                     "loc": {
                                         "first_line": 17,
@@ -325,7 +529,13 @@
                         "type": "return",
                         "rexpression": {
                             "type": "CONSTANT",
-                            "value": 10
+                            "value": 10,
+                            "loc": {
+                                "first_line": 20,
+                                "last_line": 20,
+                                "first_column": 11,
+                                "last_column": 13
+                            }
                         },
                         "loc": {
                             "first_line": 20,
@@ -351,7 +561,13 @@
                 "param_tvalues": [
                     {
                         "type": "concrete_type",
-                        "name": "int"
+                        "name": "int",
+                        "loc": {
+                            "first_line": 23,
+                            "last_line": 23,
+                            "first_column": 11,
+                            "last_column": 14
+                        }
                     }
                 ],
                 "param_names": [
@@ -359,13 +575,13 @@
                 ],
                 "return_tvalue": {
                     "type": "concrete_type",
-                    "name": "int"
-                },
-                "loc": {
-                    "first_line": 23,
-                    "last_line": 23,
-                    "first_column": 0,
-                    "last_column": 17
+                    "name": "int",
+                    "loc": {
+                        "first_line": 23,
+                        "last_line": 23,
+                        "first_column": 0,
+                        "last_column": 3
+                    }
                 }
             },
             "body": {
@@ -378,11 +594,29 @@
                             "type": "MUL",
                             "left": {
                                 "type": "INDENTIFIER",
-                                "value": "a"
+                                "value": "a",
+                                "loc": {
+                                    "first_line": 24,
+                                    "last_line": 24,
+                                    "first_column": 11,
+                                    "last_column": 12
+                                }
                             },
                             "right": {
                                 "type": "INDENTIFIER",
-                                "value": "a"
+                                "value": "a",
+                                "loc": {
+                                    "first_line": 24,
+                                    "last_line": 24,
+                                    "first_column": 13,
+                                    "last_column": 14
+                                }
+                            },
+                            "loc": {
+                                "first_line": 24,
+                                "last_line": 24,
+                                "first_column": 11,
+                                "last_column": 14
                             }
                         },
                         "loc": {

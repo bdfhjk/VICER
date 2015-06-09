@@ -1,8 +1,8 @@
 require("../../prepare-tests.js");
-
 var JisonLex = require('jison-lex');
 var Jison = require('jison');
 var fs = require('fs');
+var preprocessGrammar = require('../../../src/backend/parser/LocationMacro.js');
 
 describe("Parser Grammar", function() {
 
@@ -13,7 +13,8 @@ describe("Parser Grammar", function() {
 
         var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
         var lexerSource = JisonLex.generate(lexerGrammar);
-        var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
+        var rawParserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
+        var parserGrammar = preprocessGrammar(rawParserGrammar);
 
         parser = new Jison.Parser(parserGrammar);
         parser.lexer = new JisonLex(lexerGrammar);
@@ -33,7 +34,7 @@ describe("Parser Grammar", function() {
             description: "Advanced global structs",
             file: "advanced_global_structs.c",
             expected: "ok"
-        },*/
+        }, */
         {
             description: "Expressions",
             file: "expressions",
@@ -67,7 +68,7 @@ describe("Parser Grammar", function() {
             description: "Simple variable declarations",
             file: "simple_var_decls.c",
             expected: "ok"
-        },*/
+        }, */
         {
             description: "Simple while loop",
             file: "simple_while",
@@ -114,15 +115,21 @@ describe("Parser Grammar", function() {
             options: { locations: false },
             expected: "ok",
         },
-        // {
-        //     description: "Tracking locations",
-        //     file: "locations",
-        //     options: { locations: true },
-        //     expected: "ok",
-        // },
+        {
+             description: "Tracking locations",
+             file: "locations",
+             options: { locations: true },
+             expected: "ok",
+        },
         {
             description: "Sizeof",
             file: "sizeof",
+            options: { locations: false },
+            expected: "ok",
+        },
+        {
+            description: "Dangling else",
+            file: "danglingelse",
             options: { locations: false },
             expected: "ok",
         },
