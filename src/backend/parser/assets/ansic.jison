@@ -283,7 +283,24 @@
 %start translation_unit
 
 %parse-param ops
+
+%nonassoc NO_ELSE
+%nonassoc ELSE
 %%
+
+/* Note, there is a macro for adding location info.
+ * 
+ * Each production with a name in form of:
+ *      NAME_
+ * will trigger creation of a production in form:
+ *      NAME
+ *          : NAME_
+ *              { $$ = addloc($1, @1, ops); }
+ *          ;
+ *
+ * Currently all expressions and statements are built
+ * with detailed location info.
+ * Declarations and definitions are not. */
 
 /* --------- EXPRESSIONS ---------- */
 
@@ -295,32 +312,18 @@ constant_
     | DECIMAL_CONSTANT
         { $$ = parseInt($1, 10); }
     ;
-    
-constant
-    : constant_
-        { $$ = addloc($1, @1, ops); }
-    ;
 
 primary_expression_
     : IDENTIFIER
         { $$ = nullexp("INDENTIFIER", $1); }
     | constant
         { $$ = nullexp("CONSTANT", $1); }
-    
-    /* Note that we assume Javascript escape sequences
-     * which slightly differ from C's - only in handling code points. */
-    
     | CHAR_CONSTANT
         { $$ = nullexp("CHAR_CONSTANT",  interpret_cstring($1.slice(1, -1))); }
     | STRING_LITERAL
         { $$ = nullexp("STRING_LITERAL", interpret_cstring($1.slice(1, -1))); }
     | '(' expression ')'
         { $$ = $2; }
-    ;
-
-primary_expression
-    : primary_expression_
-        { $$ = addloc($1, @1, ops); }
     ;
         
 postfix_expression_
@@ -338,12 +341,7 @@ postfix_expression_
         { $$ = uexp("POST_DEC", $1); }
     ;
 
-postfix_expression
-    : postfix_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-
-argument_expression_list
+argument_expression_list_
     : assignment_expression
         { $$ = [$1]; }
     | argument_expression_list ',' assignment_expression
@@ -366,11 +364,6 @@ unary_expression_
         { $$ = nullexp("SIZEOF", { type: "pointer", tvalue: $3 }); }
     ;
     
-unary_expression
-    : unary_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-    
 unary_operator
     : '&'
     | '*'
@@ -380,7 +373,6 @@ unary_operator
     | '!'
     ;
     
-
 cast_expression_
     : unary_expression
         { $$ = $1; }
@@ -389,11 +381,6 @@ cast_expression_
 /*    | '(' type_name ')' cast_expression */
     ;
 
-cast_expression
-    : cast_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-    
 multiplicative_expression_
     : cast_expression
         { $$ = $1; }
@@ -405,11 +392,6 @@ multiplicative_expression_
         { $$ = bexp("MOD", $1, $3); }
     ;
     
-multiplicative_expression
-    : multiplicative_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-    
 additive_expression_
     : multiplicative_expression
         { $$ = $1; }
@@ -419,11 +401,6 @@ additive_expression_
         { $$ = bexp("SUB", $1, $3); }
     ;
 
-additive_expression
-    : additive_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-    
 shift_expression_
     : additive_expression
         { $$ = $1; }
@@ -433,11 +410,6 @@ shift_expression_
         { $$ = bexp("RIGHT", $1, $3); }
     ;
 
-shift_expression
-    : shift_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;
-    
 relational_expression_
     : shift_expression
         { $$ = $1; }
@@ -451,11 +423,6 @@ relational_expression_
         { $$ = bexp("GREATER_EQUAL", $1, $3); }
     ;
     
-relational_expression
-    : relational_expression_
-        { $$ = addloc($1, @1, ops); }
-    ;    
-
 equality_expression_
     : relational_expression
         { $$ = $1; }
@@ -465,11 +432,6 @@ equality_expression_
         { $$ = bexp("NE", $1, $3); }
     ;
 
-equality_expression
-    : equality_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;    
-    
 and_expression_
     : equality_expression
         { $$ = $1; }
@@ -477,11 +439,6 @@ and_expression_
         { $$ = bexp("AND", $1, $3); }
     ;
 
-and_expression
-    : and_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;    
-    
 exclusive_or_expression_
     : and_expression
         { $$ = $1; }
@@ -489,23 +446,12 @@ exclusive_or_expression_
         { $$ = bexp("XOR", $1, $3); }
     ;
     
-exclusive_or_expression
-    : exclusive_or_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;    
-
 inclusive_or_expression_
     : exclusive_or_expression
         { $$ = $1; }
     | inclusive_or_expression '|' exclusive_or_expression
         { $$ = bexp("OR", $1, $3); }
     ;
-
-inclusive_or_expression
-    : inclusive_or_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;    
-    
 
 logical_and_expression_
     : inclusive_or_expression
@@ -514,22 +460,12 @@ logical_and_expression_
         { $$ = bexp("LOGICAL_AND", $1, $3); }
     ;
     
-logical_and_expression
-    : logical_and_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
-    
 logical_or_expression_
     : logical_and_expression
         { $$ = $1; }
     | logical_or_expression OR_OP logical_and_expression
         { $$ = bexp("LOGICAL_OR", $1, $3); }
     ;
-    
-logical_or_expression
-    : logical_or_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
     
 conditional_expression_
     : logical_or_expression
@@ -538,11 +474,6 @@ conditional_expression_
         { $$ = conditional_exp($1, $3, $5); }
     ;
 
-conditional_expression
-    : conditional_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
-    
 assignment_expression_
     : conditional_expression
         { $$ = $1; }
@@ -550,11 +481,6 @@ assignment_expression_
         { $$ = bexp($2 == "=" ? "ASSIGN" : $2, $1, $3); }
     ;
 
-assignment_expression
-    : assignment_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
-        
 assignment_operator
     : '='
     | MUL_ASSIGN
@@ -576,20 +502,10 @@ expression_
         { $$ = bexp("COMMA", $1, $3); }
     ;
 
-expression
-    : expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
-
 constant_expression_
     : conditional_expression
         { $$ = $1; }
     ;
-
-constant_expression
-    : constant_expression_
-         { $$ = addloc($1, @1, ops); }
-    ;   
 
 /* ---------- DECLARATIONS ---------- */
 
@@ -605,7 +521,7 @@ declarator_list
         { $$ = push_elem($1, $3); }
     ;
 
-type_specifier
+type_specifier_
     : INT 
         { $$ = concrete_type("int"); }
     | CHAR
@@ -670,11 +586,6 @@ parameter_declaration
 /* ---------- STATEMENTS ---------- */
 
 statement
-    : statement_noloc
-        { $$ = addloc($1, @1, ops); }
-    ;
-
-statement_noloc
     : compound_statement
         { $$ = $1; }
     | expression_statement
@@ -687,12 +598,7 @@ statement_noloc
         { $$ = $1; }
     ;
 
-compound_statement
-    : compound_statement_noloc
-        { $$ = addloc($1, @1, ops); }
-    ;
-
-compound_statement_noloc
+compound_statement_
     : '{' '}'
         { $$ = compound_statement([], []); }
     | '{' statement_list '}'
@@ -703,54 +609,47 @@ compound_statement_noloc
         { $$ = compound_statement($2, $3); }
     ;
 
-declaration_list
+declaration_list_
     : declaration
         { $$ = $1; }
     | declaration_list declaration
         { $$ = $1.concat($2); }
     ;
-
-statement_list
+        
+statement_list_
     : statement
         { $$ = [$1]; }
     | statement_list statement
         { $$ = push_elem($1, $2); }
     ;
-
-expression_statement
+        
+expression_statement_
     : ';' 
         { $$ = expression_statement(null); }
     | expression ';'
         { $$ = expression_statement($1); }
     ;
 
-selection_statement /* we use compound_statement to avoid ambiguity */
-    : IF '(' expression ')' compound_statement
-        { $$ = if_statement(addloc($3, @3, ops), $5, null); }
+selection_statement_ /* we use compound_statement to avoid ambiguity */
+    : IF '(' expression ')' statement %prec NO_ELSE
+        { $$ = if_statement($3, $5, null); }
 
-    | IF '(' expression ')' compound_statement ELSE compound_statement
-        { $$ = if_statement(addloc($3, @3, ops), $5, $7); }
+    | IF '(' expression ')' statement ELSE statement
+        { $$ = if_statement($3, $5, $7); }
     ;
 
-iteration_statement
+iteration_statement_
     : WHILE '(' expression ')' statement
-        { $$ = while_statement(addloc($3, @3, ops), $5); }
+        { $$ = while_statement($3, $5); }
 
     | FOR '(' expression_statement expression_statement ')' statement
-        { $$ = for_statement(
-            addloc($4.expression, @4, ops),
-            addloc($3.expression, @3, ops),
-            null, $6); }
+        { $$ = for_statement($4.expression, $3.expression, null, $6); }
 
     | FOR '(' expression_statement expression_statement expression ')' statement
-        { $$ = for_statement(
-            addloc($4.expression, @4, ops),
-            addloc($3.expression, @3, ops),
-            addloc($5, @5, ops),
-            $7); }
+        { $$ = for_statement($4.expression, $3.expression, $5, $7); }
     ;
 
-jump_statement
+jump_statement_
     : CONTINUE ';'
         { $$ = continue_statement(); }
     | BREAK ';'
@@ -760,6 +659,8 @@ jump_statement
     | RETURN expression ';'
         { $$ = return_statement($2); }
     ;
+
+/* PROGRAM */
 
 translation_unit
     : external_declaration_list
@@ -784,7 +685,7 @@ external_declaration
 
 function_definition
     : function_declaration_no_semicolon compound_statement
-        { $$ = function_definition(addloc($1, @1, ops), $2); }
+        { $$ = function_definition($1, $2); }
     ;
 
 function_declaration
