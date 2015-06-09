@@ -124,16 +124,14 @@ define(['jquery', 'backend', 'console', 'code_input', 'visualization', './world'
         if (DEBUG.COMPILE_ERROR_STACK && err.stack) {
             my_console.addToConsole('exception', err.stack);
         }
-	console.log(err.location);
 	if (err.location) {
-	    my_console.addToConsole('exception', err.location);
-	    visualization.changeActualSegment(
-		err.location.first_line - 1,
-		err.location.first_column,
-		err.location.last_line - 1,
-		err.location.last_column
-	    );
+	    my_console.addToConsole('exception', prettyPrintLocation(err.location));
 	}
+    }
+
+    function prettyPrintLocation(loc) {
+	console.log(loc);
+        return 'LINE ' + (loc.first_line - 1) + ', COLUMN ' + loc.first_column;
     }
 
     $('#btn-start').click(startExecution);
