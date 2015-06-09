@@ -34,7 +34,7 @@ define([
 	}
 	
 	// treat pure char as pure int
-	if (cfg.tvalue.type === 'char') {
+	if (cfg.tvalue && cfg.tvalue.type === 'char') {
 	    cfg.tvalue.type = 'int';
 	}
 
@@ -81,11 +81,22 @@ define([
 	return true;
     }
 
+    function noopIfEmpty(node) {
+	if (!node) {
+	    return new Cfg({
+		type: 'NOOP'
+	    });
+	} else {
+	    return node;
+	}
+    }
+
     return {
 	init: init,
 	computeAndCheckSubtrees: computeAndCheckSubtrees,
 	computeAndCheckType: computeAndCheckType,
-	matchTypes: matchTypes
+	matchTypes: matchTypes,
+	noopIfEmpty: noopIfEmpty
     };
 });
 		

@@ -65,14 +65,14 @@ define([
 	    'if': If,
 	    'while': While,
 	    'for': For,
-	    'BREAK': Break,
-	    'CONTINUE': Continue,
+	    'break': Break,
+	    'continue': Continue,
 	    'LESS': Less,
 	    'EQ': Eq,
 	    'NE': Neq,
 	    'LESS_EQUAL': Leq,
 	    'GEQ': Geq,
-	    'MORE': More,
+	    'GREATER': More,
 	    'UNARYOP_!': Not,
 	    'SUBSCRIPT': Subscript
 	};

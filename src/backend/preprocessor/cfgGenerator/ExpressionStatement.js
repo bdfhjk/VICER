@@ -4,9 +4,13 @@ define([
     var cfgGenerator;
     
     function ExpressionStatement(paramNode) {
-	var expression = cfgGenerator(paramNode.expression);
-
-	return expression;
+	if (!paramNode.expression) {
+	    return new Cfg({
+		type: 'NOOP'
+	    });
+	} else {
+	    return cfgGenerator(paramNode.expression);
+	}
     }
 
     return (function (_cfgGenerator) {
