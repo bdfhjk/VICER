@@ -15,7 +15,7 @@ define([
     function While(paramNode) {
 	cfgHelper.init(cfgGenerator);
 	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
-	var body = compSubtrees.body;
+	var body = cfgHelper.noopIfEmpty(compSubtrees.body);
 	var condition = compSubtrees.condition;
 
 	var noopInstr = new Cfg ({

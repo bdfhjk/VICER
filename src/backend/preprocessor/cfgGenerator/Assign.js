@@ -23,8 +23,8 @@ define([
 
 	if (!cfgHelper.matchTypes(lvalue.tvalue, rvalue.tvalue)) {
 	    throw new Errors.TypeMismatch(
-		lvalue.tvalue,
-		rvalue.tvalue,
+		Errors.prettyPrintTypes(lvalue.tvalue),
+		Errors.prettyPrintTypes(rvalue.tvalue),
 		paramNode
 	    );
 	}

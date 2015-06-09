@@ -21,7 +21,7 @@ define([
 
 	var mallocInstr = new Cfg ({
 	    type: 'MALLOC',
-	    tvalue: tvalue
+	    param: paramNode.tvalue
 	});
 
 	var result = size;

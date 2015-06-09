@@ -4,13 +4,13 @@ define([
     var cfgGenerator;
     
     function Break(paramNode) {
-	var breakPlaceholder = new Cfg ({
+	var breakholder = new Cfg ({
 	    type: 'BREAK'
 	});
 
 	breakholder.tvalue = null;
 
-	return breakPlaceholder;
+	return breakholder;
     }
 
     return (function(_cfgGenerator) {

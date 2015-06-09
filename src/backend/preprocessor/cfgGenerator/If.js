@@ -43,13 +43,6 @@ define([
 	result.mergeLeft(branchInstr);
 	result.mergeTwoLeft(tt, ff);
 
-	for (var node in result.graph) {
-	    if (result.graph[node].type == 'BREAK') {
-		result.graph[node].type = 'NOOP';
-		result.graph[node].next = result.last;
-	    }
-	}
-
 	result.tvalue = null;
 
 	return result;

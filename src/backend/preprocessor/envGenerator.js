@@ -1,10 +1,10 @@
 define(['lodash', './nameHelper', './envGeneratorHelper', './envGenerator/envVisitor'], function (_, nameHelper, envHelper, envVisitor) {
-    function generateEnvironment(ast, globals, decls) {
+    function generateEnvironment(ast, constants, globals, decls, stdlibConstantsValues) {
 	// declare some helper variables to make the code more readable
 	var funcName = ast.declaration.name;
 
 	// declare start values of computed objects
-	var globalContext = envHelper.generateGlobalContext({}, {}, globals, decls, funcName);
+	var globalContext = envHelper.generateGlobalContext({}, constants, globals, decls, funcName, stdlibConstantsValues);
 	var nameDict = {};
 
 	// associate param types with their respective names

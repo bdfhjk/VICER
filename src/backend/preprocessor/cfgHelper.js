@@ -32,7 +32,20 @@ define([
 		cfg.mergeLeft(fetchInstr);
 	    }
 	}
+	
+	// treat pure char as pure int
+	if (cfg.tvalue && cfg.tvalue.type === 'char') {
+	    cfg.tvalue.type = 'int';
+	    cfg.pureChar = true;
+	}
 
+	if (Array.isArray(type)) {
+	    type = _.map(type, function (t) { return t === 'char' ? 'int' : t; });
+	} else if (typeof type === 'object' && type !== null) {
+	    type.type = (type.type === 'char' ? 'int' : type.type);
+	}
+
+	// compare types
 	var isMatching;
 	if (Array.isArray(type)) {
 	    isMatching = _.find(type, matchTypes.bind(null, cfg.tvalue));
@@ -43,8 +56,8 @@ define([
 	}
 	if (!isMatching) {
 	    throw new Errors.TypeMismatch(
-		JSON.stringify(type, null, 2),
-		JSON.stringify(cfg.tvalue, null, 2),
+		Errors.prettyPrintTypes(type),
+		Errors.prettyPrintTypes(cfg.tvalue),
 		node
 	    );
 	}
@@ -54,10 +67,14 @@ define([
 
     function matchTypes(type1, type2) {
 	if ((type1.type === 'pointer' && type2.type === 'array') || // case one
-	    (type2.type === 'pointer' && type1.type === 'array')) {
-	    if ((type1.of && type2.of) && type1.of.type !== type2.of.type) {
-		return false; // pointers and arrays are matching
+	    (type2.type === 'pointer' && type1.type === 'array')) { // pointers/arrays
+
+	    if ((type1.of && type2.of) && // if both have defined underlying types
+		(type1.of.type !== type2.of.type) && // and underlying types don't match
+	        (type1.of.type !== 'void' && type2.of.type !== 'void')) { // and neither of them is void
+		return false; // then they don't match
 	    }
+
 	} else if (type1.type !== type2.type || // if not pointer/array pair, simple check
 		   type1.of && type2.of && type1.of.type !== type2.of.type) {
 	    return false;
@@ -65,11 +82,22 @@ define([
 	return true;
     }
 
+    function noopIfEmpty(node) {
+	if (!node) {
+	    return new Cfg({
+		type: 'NOOP'
+	    });
+	} else {
+	    return node;
+	}
+    }
+
     return {
 	init: init,
 	computeAndCheckSubtrees: computeAndCheckSubtrees,
 	computeAndCheckType: computeAndCheckType,
-	matchTypes: matchTypes
+	matchTypes: matchTypes,
+	noopIfEmpty: noopIfEmpty
     };
 });
 		
