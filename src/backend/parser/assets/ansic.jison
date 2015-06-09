@@ -376,7 +376,7 @@ unary_operator
 cast_expression_
     : unary_expression
         { $$ = $1; }
-    | '(' type_specifier '*' ')' MALLOC '(' unary_expression ')'
+    | '(' type_specifier '*' ')' MALLOC '(' expression ')'
         { $$ = malloc($2, $7); }
 /*    | '(' type_name ')' cast_expression */
     ;
