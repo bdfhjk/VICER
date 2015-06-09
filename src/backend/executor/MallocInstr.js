@@ -1,13 +1,14 @@
-define(["./TypeCheck"], function(tc) {
+define(["./TypeCheck", "mod_process"], function(tc, mp) {
 
     function MallocInstr(tvalue) {
-	this.tvalue = tvalue.type;
-
+	   this.type = tvalue.type;
     }
 
     MallocInstr.prototype.invoke = function invoke(context, process) {
         var size = tc.verifyInt(context.pop());
-	console.log('MALLOC TYPE: ' + this.tvalue + ', SIZE: ' + size);
+        var loc = process.heap.alloc(size, this.type);
+        var baseAndOffset = process.memory.getBaseAndOffset(loc);
+        context.push(new mp.valueTypes.PointerValue(baseAndOffset.base, baseAndOffset.offset));
     };
 
     MallocInstr.prototype.toString = function toString() {

@@ -125,41 +125,51 @@ describe("Complete Integration Test", function() {
             file: "mathabs.c",
             expected: 6
         },
-	{
-	    description: "add number to pointer",
-	    file: "pointer-add.c",
-	    expected: 7
-	},
-	{
-	    description: "multiplication",
-	    file: "mul.c",
-	    expected: 4
-	},
-	{
-	    description: "division",
-	    file: "div.c",
-	    expected: 2
-	},
-	{
-	    description: "bitwise operations",
-	    file: "bitwise.c",
-	    expected: 0
-	},
-	{
-	    description: "sizeof",
-	    file: "sizeof.c",
-	    expected: 4
-	},
-	// {
-	//     description: "change char in char array",
-	//     file: "change-char.c",
-	//     expected_printf: "Aladma kota"
-	// }
-	// {
-	//     description: "malloc",
-	//     file: "malloc.c",
-	//     expected: 5
-	// }
+    	{
+    	    description: "add number to pointer",
+    	    file: "pointer-add.c",
+    	    expected: 7
+    	},
+    	{
+    	    description: "multiplication",
+    	    file: "mul.c",
+    	    expected: 4
+    	},
+    	{
+    	    description: "division",
+    	    file: "div.c",
+    	    expected: 2
+    	},
+    	{
+    	    description: "bitwise operations",
+    	    file: "bitwise.c",
+    	    expected: 0
+    	},
+    	{
+    	    description: "sizeof",
+    	    file: "sizeof.c",
+    	    expected: 4
+    	},
+    	{
+    	     description: "change char in char array",
+    	     file: "change-char.c",
+    	     expected_printf: "Aladma kota"
+    	},
+    	{
+             description: "malloc",
+    	     file: "malloc.c",
+    	     expected: 5
+    	},
+        {
+             description: "malloc with free",
+             file: "malloc-free.c",
+             expected: 5
+        },
+        {
+             description: "malloc array",
+             file: "malloc-array.c",
+             expected: 6
+        }
     ]
     .map(function(testCase) {
         it (testCase.description, function(done) {
