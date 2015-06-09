@@ -1,0 +1,54 @@
+{
+    "type": "translation_unit",
+    "external_declarations": [
+        {
+            "type": "function_definition",
+            "declaration": {
+                "type": "function_declaration",
+                "name": "main",
+                "param_tvalues": [],
+                "param_names": [],
+                "return_tvalue": {
+                    "type": "concrete_type",
+                    "name": "int"
+                }
+            },
+            "body": {
+                "type": "compound_statement",
+                "declarations": [],
+                "statements": [
+                    {
+                        "type": "if",
+                        "condition": {
+                            "type": "INDENTIFIER",
+                            "value": "true"
+                        },
+                        "true_body": {
+                            "type": "if",
+                            "condition": {
+                                "type": "INDENTIFIER",
+                                "value": "true"
+                            },
+                            "true_body": {
+                                "type": "expression_statement",
+                                "expression": null
+                            },
+                            "false_body": {
+                                "type": "expression_statement",
+                                "expression": null
+                            }
+                        },
+                        "false_body": null
+                    },
+                    {
+                        "type": "return",
+                        "rexpression": {
+                            "type": "CONSTANT",
+                            "value": 0
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

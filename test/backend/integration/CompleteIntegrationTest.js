@@ -3,6 +3,7 @@ require("../../prepare-tests.js");
 var JisonLex = require('jison-lex');
 var Jison = require('jison');
 var fs = require('fs');
+var preprocessGrammar = require('../../../src/backend/parser/LocationMacro.js');
 
 describe("Complete Integration Test", function() {
     var Parser, Preprocessor, Executor, EventEmitter; 
@@ -13,8 +14,10 @@ describe("Complete Integration Test", function() {
 	    handle.timeout(15000);
 	    var lexerGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jisonlex', 'utf-8');
 	    var lexerSource = JisonLex.generate(lexerGrammar);
-	    var parserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
-	    Parser = new Jison.Parser(parserGrammar);
+        var rawParserGrammar = fs.readFileSync('src/backend/parser/assets/ansic.jison', 'utf-8');
+        var parserGrammar = preprocessGrammar(rawParserGrammar);
+
+        Parser = new Jison.Parser(parserGrammar);
 	    Parser.lexer = new JisonLex(lexerGrammar);
 	    Preprocessor = preprocessor;
             Executor = executor;
