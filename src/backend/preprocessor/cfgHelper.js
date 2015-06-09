@@ -36,12 +36,13 @@ define([
 	// treat pure char as pure int
 	if (cfg.tvalue && cfg.tvalue.type === 'char') {
 	    cfg.tvalue.type = 'int';
+	    cfg.pureChar = true;
 	}
 
 	if (Array.isArray(type)) {
 	    type = _.map(type, function (t) { return t === 'char' ? 'int' : t; });
-	} else if (typeof type === 'string') {
-	    type = (type === 'char' ? 'int' : type);
+	} else if (typeof type === 'object' && type !== null) {
+	    type.type = (type.type === 'char' ? 'int' : type.type);
 	}
 
 	// compare types
@@ -55,8 +56,8 @@ define([
 	}
 	if (!isMatching) {
 	    throw new Errors.TypeMismatch(
-		errors.prettyPrintTypes(type),
-		errors.prettyPrintTypes(cfg.tvalue),
+		Errors.prettyPrintTypes(type),
+		Errors.prettyPrintTypes(cfg.tvalue),
 		node
 	    );
 	}

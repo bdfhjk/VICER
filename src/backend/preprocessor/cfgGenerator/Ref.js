@@ -15,6 +15,10 @@ define([
 	var compSubtrees = cfgHelper.computeAndCheckSubtrees(paramNode, decl);
 	var location = compSubtrees.subexp;
 
+	if (location.pureChar) {
+	    location.tvalue.type = 'char';
+	}
+
 	var refInstr = new Cfg ({
 	    type: 'REF'
 	});
