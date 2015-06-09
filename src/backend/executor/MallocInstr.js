@@ -1,6 +1,7 @@
 define(["./TypeCheck"], function(tc) {
 
-    function MallocInstr() {
+    function MallocInstr(tvalue) {
+	this.tvalue = tvalue.type;
 
     }
 
