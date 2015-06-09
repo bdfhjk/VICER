@@ -30,11 +30,11 @@
       {\LARGE\textbf{Uniwersytet Warszawski}\\
         Wydzia\l{} Matematyki, Informatyki i Mechaniki\par}
       \vspace{1cm plus 1fill} 
-      {\Large\bf Mariusz Kierski, Tom Macieszczka, Adrian Kral, Marek Bardoński\par}
+      {\Large\bf Mariusz Kierski, Tom Macieszczaka, Adrian Kral, Marek Bardoński\par}
       \vspace{0.2cm}
-      {\large Nr albumu: 233639, 236925, 233762, 336912\par}
+      {\large Nr albumu: 334582, 236925, 233762, 336912\par}
       \vspace{8mm plus .1fill}
-      {\Huge\textbf{Wizualizacja algorytmów przeznaczona dla początkujących programistów (Viper)}\par}
+      {\Huge\textbf{Wizualizacja algorytmów przeznaczona dla początkujących programistów (VIPER)}\par}
       \vspace{8mm plus .1fill}
       {\large\bf Praca licencjacka\\[3pt]
         na kierunku \MakeUppercase{Informatyka} \\}
@@ -42,7 +42,7 @@
       \begin{flushright}\large
         \begin{tabular}{l}
           Praca wykonana pod kierunkiem\\
-          \bfseries dr Aleksy Schubert
+          \bfseries dr Aleksego Schuberta
         \end{tabular}
       \end{flushright}
       \vspace{1cm plus 1fill}
@@ -88,8 +88,7 @@
   \begin{center}%
     \bfseries\large \abstractname
   \end{center}
-W poniższej pracy jest zaprezentowana aplikacja internetowa, która służy do interpretowania i wizualizowania wykonania programu napisanego w języku C  poprzez graficzną reprezentację zmiennych i tablic ukazującą, co dokładnie dzieje się w programie w danym momencie.
-  \vspace*{26pt}%
+W poniższej pracy prezentowana jest aplikacja internetowa służąca do interpretowania i wizualizowania wykonania programu napisanego w języku C poprzez graficzną reprezentację zmiennych i tablic ukazującą, ilustrująca krok po kroku, co dzieje się w programie.  \vspace*{26pt}%
   \begin{center}%
     \bfseries\large Słowa kluczowe
   \end{center}
@@ -118,54 +117,54 @@ W poniższej pracy jest zaprezentowana aplikacja internetowa, która służy do 
   %\listoftables
 
   \chapter{Wprowadzenie}
-\par VIPER II jest napisaną od podstaw nową wersją projektu VIPER I \cite{viper1}. Praca została stworzona przez 4 osobowy zespół studentów Uniwersytetu Warszawskiego w trakcie przedmiotu Zespołowy Projekt Programistyczny. Celem projektu jest uczynienie z nowego VIPERa narzędzia, po które jeszcze chętniej będą sięgali studenci, a także uczniowie szkół średnich. Stworzenie aplikacji, która będzie powszechnie używana i pomocna dla uczniów i studentów w nauce języka C oraz nauce algorytmów. 
-\par Struktura pracy jest następująca. W pierwszym rozdziale są opisane podstawy merytoryczne pracy - motywacja, rozwiązania konkurencyjne oraz VIPER I. Rozdziały drugi i trzeci są poświęcone ogólnemu spojrzeniu na VIPER II - użyty stos technologiczny oraz organizację kodu źródłowego i zastosowanych narzędzi deweloperskich. W kolejnych rozdziałach czwartym i piątym są opisane szczegóły wykonania dwóch głównych części VIPERa, nazwanych backendem i frontendem. Rozdział szósty to opis języka VIPER C i jego różnic w stosunku do ANSI C, a rozdział siódmy to organizacja pracy, przy czym wkład pracy poszczególnych osób został opisany osobno w rozdziale ósmym.
+\par VIPER jest napisaną od podstaw nową wersją poprzedniego projektu utworzonego przez studentów Uniwersytetu Warszawskiego. \cite{viper1}. Praca została stworzona przez 4-osobowy zespół studentów Uniwersytetu Warszawskiego w trakcie przedmiotu Zespołowy Projekt Programistyczny. Celem projektu jest uczynienie z VIPER-a narzędzia, po które jeszcze chętniej będą sięgali studenci, a także uczniowie szkół średnich. Stworzenie aplikacji, która będzie powszechnie używana i pomocna dla uczniów i studentów w nauce języka C oraz algorytmów. 
+\par W pierwszym rozdziale opisane są podstawy merytoryczne pracy - motywacja, rozwiązania konkurencyjne oraz poprzednia wersja projektu. Rozdziały drugi i trzeci poświęcone są ogólnemu spojrzeniu na VIPER - użyty stos technologiczny oraz organizację kodu źródłowego i zastosowanych narzędzi deweloperskich. W kolejnych rozdziałach czwartym i piątym są opisane szczegóły wykonania dwóch głównych części VIPER-a, nazywanych backendem i frontendem. Rozdział szósty to opis języka VIPER C i jego różnic w stosunku do ANSI C, a rozdział siódmy to organizacja pracy, przy czym wkład pracy poszczególnych osób został opisany osobno w rozdziale ósmym.
 
   \section{Motywacja}
 \par Studenci pierwszych lat kierunków informatycznych i pokrewnych zmagają się z wyzwaniem zrozumienia i nauczenia się podstaw tworzenia programów komputerowych. O ile zrozumienie składni i semantyki języków programowania nie stanowi problemu dla większości studentów, o tyle dokładna analiza wymaga wyrobienia intuicji dotyczącej przebiegu wykonania programu.
-\par Ponadto programowanie staje się obecnie bardzo ważną umiejętnością. Większość tradycyjnych zawodów powoli staje się zbędna na korzyść robotyki i produkcji mechanicznej. Wielu ludzi traci pracę i staje się bezrobotnymi. Aby mogli się przekwalifikować na bardziej stabilne i przyszłościowe zawody, często wymaga się od nich znajomości programowania. Jednak ta sztuka jest trudna, a jej nauka wymaga dużo czasu i wyobraźni. 
+\par Programowanie staje się obecnie bardzo ważną umiejętnością. Większość tradycyjnych zawodów powoli staje się zbędna na korzyść robotyki i produkcji mechanicznej. Wielu ludzi traci pracę i staje się bezrobotnymi. Aby mogli się przekwalifikować na bardziej stabilne i przyszłościowe zawody, często wymaga się od nich znajomości programowania. Jednak ta sztuka jest trudna, a jej nauka wymaga dużo czasu i wyobraźni. 
 \par Nasza aplikacja jest w stanie w dużym stopniu pomóc w zrozumieniu, co dokładnie dzieje się wewnątrz programu komputerowego oraz podczas skomplikowanych algorytmów, dzięki czemu jest w stanie pomóc wszystkim wyżej wymienionym. Planujemy udostępnić ją bez opłat dla wszystkich zainteresowanych.
 
   \section{Rozwiązania konkurencyjne}
-\par W chwili pisania pracy nie zostało znalezione żadne publicznie dostępne rozwiązanie konkurencyjne z wyjątkiem pierwszej wersji VIPER-a, który obsługiwał jedynie język Pascal. Ogólna koncepcja z której korzystamy, tzw. "glass-box interpreter" została opisana w pracy "Overview of a low-level Program Visualisation Tool for Novice C Programmers"\cite{overview-vistool}, a następnie zweryfikowana w pracy "Evaluation of Low-Level Program Visualisation for Teaching Novice C Programmers." ~\cite{evaluation-vistool}. Niestety nie udało nam się skontaktować z autorami pracy, nasza wiadomość e-mail z dnia 17.05 pozostała bez odpowiedzi.
-\par Wszystkie znane obecnie interpretery kodu online, w tym najpopularniejsze - Ideone, Codepad oraz CPP SH, są pozbawione opcji wizualizacji wykonania. Dobrą możliwością zbadania tego, co dzieje się w programie dają rozmaite debuggery (np. gdb), jednak ich obsługa jest skomplikowana, a programy te zdecydowanie nie są przeznaczone dla osób które dopiero uczą się programowania.
+\par W chwili pisania pracy nie zostało znalezione żadne publicznie dostępne rozwiązanie konkurencyjne z wyjątkiem pierwszej wersji VIPER-a, który obsługiwał jedynie język Pascal. Ogólna koncepcja, z której korzystamy, tzw. "glass-box interpreter", została opisana w pracy "Overview of a low-level Program Visualisation Tool for Novice C Programmers"\cite{overview-vistool}, a następnie zweryfikowana w pracy "Evaluation of Low-Level Program Visualisation for Teaching Novice C Programmers." ~\cite{evaluation-vistool}. Niestety nie udało nam się skontaktować z autorami pracy, nasza wiadomość e-mail z dnia 17.05 pozostała bez odpowiedzi.
+\par Wszystkie znane obecnie interpretery kodu online, w tym najpopularniejsze - Ideone, Codepad oraz CPP SH, są pozbawione opcji wizualizacji wykonania. Dobrą możliwość zbadania tego, co dzieje się w programie dają rozmaite debuggery (np. gdb), jednak ich obsługa jest skomplikowana, a programy te zdecydowanie nie są przeznaczone dla osób, które dopiero uczą się programowania.
 \par W tym kontekście powstanie VIPER-a, jako pierwszego narzędzia online do wizualizowania przebiegu wykonania programu jest niezmiernie pożyteczne. Istniejące na rynku narzędzia umożliwiają tylko śledzenie przebiegu wybranych programów na ograniczonych zbiorach danych. Brakuje narzędzia dydaktycznego ułatwiającego zrozumienie dowolnego programu operującego na podstawowych strukturach danych. 
 
-  \section{VIPER I}
-\par Pierwsza wersja programu VIPER, jak i poprzednie próby stworzenia tego typu oprogramowania, powstały, aby zmierzyć się z tym problemem. Projekt VIPER pomógł studentom pierwszego roku w nauce programowania. Umożliwia on:
+  \section{Poprzednia wersja projektu}
+\par Pierwsza wersja programu VIPER jak i poprzednie próby, powstały, aby zmierzyć się z tym problemem. Projekt VIPER pomógł studentom pierwszego roku w nauce programowania. Umożliwia on:
 \begin{itemize}
 
   \item Wykonanie kodu programu w języku Pascal w sposób interpretowany.
   \item Obserwowanie zmian na rysunkach drzew, tablic, itp \ldots
-  \item Sterowanie wykonaniem - wstrzymanie, wykonanie krok po kroku, obserwowanie stosu wywołania.
+  \item Sterowanie wykonaniem - wstrzymanie, wykonanie krok po kroku, obserwowanie stosu wywołań.
 
 \end{itemize}
  
-\par W porównaniu, VIPER 2 to całkowicie nowy projekt, posiadający większość funkcjonalności swojego poprzednika. Odświeżony został w nim interfejs graficzny - tak, by był bardziej przystępny i intuicyjny. Język programów użytkownika został zmieniony na C, gdyż jest on obecnie częściej wykorzystywany na uczelni. Użycie zostało uproszczone poprzez możliwość uruchomienia bezpośrednio z przeglądarki, bez potrzeby użycia maszyny Java.
+\par W porównaniu, VIPER 2 to całkowicie nowy projekt, posiadający większość funkcjonalności swojego poprzednika. Odświeżony został w nim interfejs graficzny - tak, by był bardziej przystępny i intuicyjny. Język programów użytkownika został zmieniony na C, gdyż jest on obecnie częściej wykorzystywany na uczelni. Użycie zostało uproszczone poprzez możliwość uruchomienia bezpośrednio z przeglądarki, bez potrzeby użycia wtyczki Java.
 
-  \section{Obsługa VIPERa}
-\par VIPER został napisany w języku angielskim, jednak zdecydowana większość licealistów nie powinna mieć problemów z jego obsługą gdyż wszystkie przyciski są opisane w sposób obrazkowy, a użyty język jest bardzo typowy i prosty. Interakcja z użytkownikiem polega na wpisaniu przez niego kodu źródłowego programu do edytora kodu, wpisanie standardowego wejścia (w okno które otworzy się po naciśnięciu przycisku Input) oraz naciśnięcie przycisku Start który rozpoczyna proces parsowania i wykonania programu. 
-\par Użytkownik w dowolnym momencie może zatrzymać wykonanie programu i rozpocząć iterowanie krok po kroku, wykonując skok do następnej linii programu (przycisk Step) bądź przeskok do następnego kroku w obecnej funkcji (przycisk Step Over). Może również zakończyć wykonanie programu i powrócić do stanu pierwotnego aplikacji (przycisk End).
-\par W trakcie wykonania, wszystkie mieszczące się na ekranie zmienne i tablice są automatycznie wizualizowane w oknie wizualizacji. Na czerwono zostaną oznaczone zmienne które zmieniły się w poprzednim kroku wykonania programu, a na żółto zmienne które zostały odczytane w poprzednim kroku wykonania programu. 
-\par Komunikaty wysyłane z programu (tzw. standardowe wyjście), oraz zgłaszane wyjątki i problemy z wykonaniem kodu na bieżąco wyświetlane w konsoli umieszczonej w dolnej części aplikacji. 
+  \section{Obsługa VIPER-a}
+\par VIPER został napisany w języku angielskim, jednak zdecydowana większość licealistów nie powinna mieć problemów z jego obsługą, gdyż wszystkie przyciski są opisane w sposób obrazkowy, a użyty język jest bardzo typowy i prosty. Interakcja z użytkownikiem polega na wpisaniu przez niego kodu źródłowego programu do edytora kodu, wpisanie standardowego wejścia (w okno które otworzy się po naciśnięciu przycisku \texttt{Input}) oraz naciśnięcie przycisku \texttt{Start}, który rozpoczyna proces parsowania i wykonania programu. 
+\par Użytkownik w dowolnym momencie może zatrzymać wykonanie programu i rozpocząć wykonywanie krok po kroku, wykonując skok do następnej linii programu (przycisk Step) bądź ominięcie wejścia do funkcji, której wywołanie jest następnym krokiem (przycisk Step Over). Może również zakończyć wykonanie programu i powrócić do stanu pierwotnego aplikacji (przycisk End).
+\par W trakcie wykonania wszystkie mieszczące się na ekranie zmienne i tablice są automatycznie wizualizowane w oknie wizualizacji. Kolorem czerwonym zostaną oznaczone zmienne, które zmieniły się w poprzednim kroku wykonania programu, a kolorem żółtym zmienne, które zostały odczytane w poprzednim kroku wykonania programu. 
+\par Komunikaty wysyłane z programu (tzw. standardowe wyjście) oraz zgłaszane wyjątki i problemy z wykonaniem kodu są na bieżąco wyświetlane w konsoli umieszczonej w dolnej części aplikacji. 
 
   \chapter{Stos technologiczny}
 
   \section{Aplikacja}
-\par Podstawą wyświetlania w przeglądarce aplikacji VIPER jest HTML5, natomiast logika przetwarzania kodu i wizualizacji elementów dynamicznych została napisana w całości w języku JavaScript. Dzięki temu kod może wykonywać się po stronie użytkownika i nie obciążać w żaden sposób serwera, a dodatkowo możliwe jest korzystanie ze strony w trybie offline co jest znaczną przewagą nad innymi istniejącymi interpreterami kodu online.
+\par Podstawą wyświetlania w przeglądarce aplikacji VIPER jest HTML5, natomiast logika przetwarzania kodu i wizualizacji elementów dynamicznych została napisana w całości w języku JavaScript. Dzięki temu kod może wykonywać się po stronie użytkownika i nie obciążać w żaden sposób serwera, a dodatkowo możliwe jest korzystanie ze strony w trybie offline, co stanowi znaczną przewagę nad innymi istniejącymi interpreterami kodu online.
 
   \section{Biblioteki}
-\par Do wyświetlania i edytowania kodu źródłowego została wykorzystana biblioteka CodeMirror \cite{cm}. Wybraliśmy ją ze względu na największą popularność oraz obsługę wszystkich wymaganych przez nas funkcji - tj. podświetlania składni, wyświetlania numerów linii kodu, możliwości podświetlenia wybranego fragmentu kodu, możliwość wygodnego skalowania oraz duże wsparcie ze strony społeczności. Jest ona używany w ponad 100 innych projektach, między innymi Adobe Brackets, Chrome DevTools, GitHub's Android app, JSHint. \cite{jshint}
-\par W celu wyświetlenia wizualizacji, użyta została biblioteka D3JS \cite{d3js}. Umożliwia ona wygodne manipulacje na obrazie SVG i upraszcza rysowanie podstawowych figur geometrycznych oraz tekstu. Jest również bardzo popularną biblioteką i na jej forach dyskusyjnych można znaleźć rozwiązanie pojawiających się problemów. Jest używana między innymi przez popularny portal New York Times do wyświetlania wykresów \cite{ny}.
-\par Aby uprościć operacje na obiektach HTML, zastosowaliśmy bibliotekę jQuery. \cite{jquery} Umożliwia ona wyszukiwanie, grupowanie i dynamiczną modyfikację elementów widoku strony. Jest wykorzystywana w większości zaawansowanych projektów używających JavaScript-u.
-\par W celu automatyzacji procesu budowania, testowania, lintowania, tworzenia wersji dystrybucyjnej i serwera testowego, wykorzystaliśmy bibliotekę Grunt.\cite{gruntjs} Za jej pomocą definiujemy zadania do poszczególnych celów, które mają się wykonać w trakcie wymienionych wyżej operacji. 
-\par Sam proces testowania został zrealizowany z wykorzystaniem biblioteki Mocha[5], która umożliwia pisanie testów jednostkowych do języka JavaScript. Jest ons lekkim narzędziem, które idealnie pasuje do naszego projektu.
-\par Wykorzystany został również JSHint\cite{jshint} do lintowania kodu źródłowego napisanego w jęzku JavaScript. Pomaga on w szybkim zorientowaniu się, czy do kodu nie wkradły się pewne oczywiste, choć czasem trudne do zauważenia błędy.
-\par Do usprawnienia procesu generowania drzewa AST niezbędnego do wykonania programu napisanego przez użytkownika, posłużyła biblioteka Jison\cite{jison}, zapewniająca funkcjonalność parsera, leksera oraz wspomniane generowanie AST. Jest to odpowiednik GNU Bison dla języka JavaScript.
-\par Proces modularyzacji kodu i ładowania zależności rozwiązaliśmy za pomocą biblioteki Require.js \cite{requirejs}. Jest to biblioteka która w czasie dynamicznym ładuje zależności potrzebne dla danego modułu, co przyśpiesza wstępną inicjalizacje strony. 
+\par Do wyświetlania i edytowania kodu źródłowego została wykorzystana biblioteka CodeMirror \cite{cm}. Wybraliśmy ją ze względu na największą popularność oraz obsługę wszystkich wymaganych przez nas funkcji - tj. podświetlania składni, wyświetlania numerów linii kodu, możliwości podświetlenia wybranego fragmentu kodu, możliwości wygodnego skalowania oraz dużego wsparcia ze strony społeczności. Jest ona używana w ponad 100 innych projektach, między innymi Adobe Brackets, Chrome DevTools, GitHub's Android app, JSHint. \cite{jshint}
+\par W celu wyświetlenia wizualizacji użyta została biblioteka D3JS \cite{d3js}. Umożliwia ona wygodne manipulacje na obrazie SVG i upraszcza rysowanie podstawowych figur geometrycznych oraz tekstu. Jest również bardzo popularną biblioteką i na jej forach dyskusyjnych można znaleźć rozwiązanie pojawiających się problemów. Jest używana między innymi przez popularny portal New York Times do wyświetlania wykresów \cite{ny}.
+\par Aby uprościć operacje na obiektach HTML, zastosowaliśmy bibliotekę jQuery. \cite{jquery} Umożliwia ona wyszukiwanie, grupowanie i dynamiczną modyfikację elementów widoku strony. Jest wykorzystywana w większości zaawansowanych projektów używających JavaScriptu.
+\par W celu automatyzacji procesu budowania, testowania, lintowania, tworzenia wersji dystrybucyjnej i serwera testowego wykorzystaliśmy bibliotekę Grunt.\cite{gruntjs} Za jej pomocą definiujemy zadania do poszczególnych celów, które mają się wykonać w trakcie wymienionych wyżej operacji. 
+\par Sam proces testowania został zrealizowany z wykorzystaniem biblioteki Mocha[5], która umożliwia pisanie testów jednostkowych do języka JavaScript. Jest ona lekkim narzędziem, które idealnie pasuje do naszego projektu.
+\par Wykorzystany został również JSHint\cite{jshint} do lintowania kodu źródłowego napisanego w języku JavaScript. Pomaga on w szybkim zorientowaniu się, czy do kodu nie wkradły się pewne oczywiste, choć czasem trudne do zauważenia błędy.
+\par Do usprawnienia procesu generowania drzewa AST, niezbędnego do wykonania programu napisanego przez użytkownika, posłużyła biblioteka Jison\cite{jison}, zapewniająca funkcjonalność parsera, leksera oraz wspomniane generowanie AST. Jest to odpowiednik GNU Bison dla języka JavaScript.
+\par Proces modularyzacji kodu i ładowania zależności rozwiązaliśmy za pomocą biblioteki Require.js \cite{requirejs}. Jest to biblioteka która w czasie dynamicznym ładuje zależności potrzebne dla danego modułu, co przyspiesza wstępną potencjalizację strony. 
 
   \section{Testy}
-\par Tam, gdzie jest to uzasadnione, zostały napisane testy jednostkowe. Testowany jest głównie backend, natomiast frontend został przetestowany jedynie w sposób manualny.  Kod testujący konkretny moduł jest umieszczony w katalogu testów w ścieżce odpowiadającej ścieżce tego modułu w katalogu źródeł. Pomyślne przejście poprzednich testów i zdefiniowanie nowych jest wymagane, aby po każdej zmianie kod został włączony do głównego repozytorium.
+\par Tam, gdzie jest to uzasadnione, zostały napisane testy jednostkowe. Testowany jest głównie backend, natomiast frontend został przetestowany jedynie w sposób manualny.  Kod testujący konkretny moduł jest umieszczony w katalogu testów w ścieżce odpowiadającej ścieżce tego modułu w katalogu źródeł. Pomyślne przejście testów regresyjnych i zdefiniowanie nowych było wymagane po każdej zmianie, by kod został włączony do głównego repozytorium.
 
   \chapter {Kod źródłowy i automatyzacja}
 \par Projekt został podzielony za pomocą struktury katalogowej kodu źródłowego na moduły frontendu - części wizualizującej oraz obsługującej interfejs użytkownika i backendu - części kompilującej oraz wykonywującej program, zasoby (pliki CSS, obrazki), kod prostego serwera, testy oraz skrypty budujące. 
@@ -175,37 +174,37 @@ W poniższej pracy jest zaprezentowana aplikacja internetowa, która służy do 
   \begin {itemize}
     \item Katalog główny
     \begin {itemize}
-      \item assets --- katalog ten zawiera statyczne elementy aplikacji. Są to między innymi style CSS oraz obrazki.
-      \item server --- zawiera pliki konfiguracyjne serwera express wykorzystywanego do hostowania aplikacji.
-      \item src
+      \item \texttt{assets} --- katalog ten zawiera statyczne elementy aplikacji. Są to między innymi style CSS oraz obrazki.
+      \item \texttt{server} --- zawiera pliki konfiguracyjne serwera express wykorzystywanego do hostowania aplikacji.
+      \item \texttt{src}
       \begin {itemize}
-        \item backend
+        \item \texttt{backend}
 	\begin {itemize}
-	  \item data\_structures --- logika służąca do interpretacji zmiany wartości zmiennych.
-	  \item engine - interfejs udostępniający obsługę programu (uruchomienie, wykoanie kroku, zatrzymanie).
-	  \item executor --- w tej strukturze znajdują się w osobnych plikach definicje podstawowych instrkucji wykonywane przez program. Są to instrukcje: Add, And, Assign, Branch, Call, Deref, Div, Eq, Fetch, Leq, Less, Mod, Mul, Noop, Not, Or, Padd, Ref, Resolve, Return, Step, Sub, VaEnd. Znajduje się tutaj też kod odpowiedzialny za generowanie zdarzeń, budowanie środowiska, sprawdzanie typów oraz wykonywanie instrukcji.
-	  \item parser --- w tym katalogu znajdue się kod configuracyjny Jison-a oraz kod parsujący kod źródłowy programu.
-	  \item preprocessor --- znajduje się tutaj kod procedury compile, która zamienia sparsowany program - postaci drzewa AST (Abstract Syntax Tree), do postaci gotowej to wykonania CFG (Control Flow Graph).
-	  \item process --- zawiera kod obsługujący wykonanie programu według podanego grafu CFG, tzw. maszynę wirtualną. Zawiera się w tym m. in. obsługa pamięci, środowiska, "wirtualnego" procesu.
-	  \item stdlib --- tutaj znajduje się kod obsługujący bibliotekę standardową, zawiera biblioteki limits, math, stdio, stdlib, string (wybrane funkcje poniższych bibliotek) oraz stałe RAND\_MAX, NULL, stdin, CHAR\_BIT, CHAR\_MIN, CHAR\_MAX, INT\_MIN, INT\_MAX.
+	  \item \texttt{data\_structures} --- logika służąca do interpretacji zmiany wartości zmiennych.
+	  \item \texttt{engine} --- interfejs udostępniający obsługę programu (uruchomienie, wykoanie kroku, zatrzymanie).
+	  \item \texttt{executor} --- w tej strukturze znajdują się w osobnych plikach definicje podstawowych instrukcji wykonywane przez program. Są to instrukcje: \texttt{Add, And, Assign, Branch, Call, Deref, Div, Eq, Fetch, Leq, Less, Mod, Mul, Noop, Not, Or, Padd, Ref, Resolve, Return, Step, Sub, VaEnd}. Znajduje się tutaj też kod odpowiedzialny za generowanie zdarzeń, budowanie środowiska, sprawdzanie typów oraz wykonywanie instrukcji.
+	  \item \texttt{parser} --- w tym katalogu znajduje się kod konfiguracyjny Jison-a oraz kod parsujący kod źródłowy programu użytkownika.
+	  \item \texttt{preprocessor} --- znajduje się tutaj kod procedury compile, która zamienia sparsowany program z postaci drzewa \texttt{AST} (Abstract Syntax Tree) do postaci gotowej do wykonania - grafu \texttt{CFG} (Control Flow Graph).
+	  \item \texttt{process} --- zawiera kod obsługujący wykonanie programu według podanego grafu \texttt{CFG}, tzw. maszynę wirtualną. Zawiera się w tym m. in. obsługa pamięci, środowiska, "wirtualnego" procesu.
+	  \item \texttt{stdlib} --- tutaj znajduje się kod obsługujący bibliotekę standardową, zawiera biblioteki \texttt{limits, math, stdio, stdlib, string} oraz stałe \texttt{RAND\_MAX}, \texttt{NULL}, \texttt{stdin}, \texttt{CHAR\_BIT}, \texttt{CHAR\_MIN}, \texttt{CHAR\_MAX}, \texttt{INT\_MIN}, \texttt{INT\_MAX}.
 	\end {itemize} 
-	\item frontend
+	\item \texttt{frontend}
 	\begin {itemize}
-	  \item code\_input --- w tym katalogu znajduje się kod związany z wejściem na kod źródłowy, w szczególności inicjalizacja i konfiguracja pluginu Code Mirror.
-	  \item console --- kod źródłowy konsoli wyjścia danych, zlokalizowanej w dolnej części strony.
-	  \item data\_structures --- tutaj zdefiniowane sa wszystkie struktury danych, jakie możemy wizualizować, funkcje które je wyświetlają, wywoływane przez backend w trakcie procedury odświeżającej widok.
-	  \item interface --- w tym katalogu znajduje się kod odpowiedzialny za obsługę zdarzeń, obsługę przycisków i pętli cyklicznie wykonującej kolejny krok programu a także inicjalizacja środowiska po stronie frontend'u.
-	  \item visual\_elements (variable) --- to miejsce jest przeznaczone na podstawowe, niepodzielne elementy graficznej wizualizacji. Jedynym stworzonym w ramach tej pracy jest element variable, reprezentujący pojedyńczą zmienną. 
-	  \item visualization --- zawiera główny plik frontend'u odpowiadający za najbardziej wysokopoziomowe zadania, opisuje interfejs dla backend'u, implementuje funckę update aktualizującą wizualizacje i redraw wyświetlającą wizualizacje. Określa też logikę przydzielania miejsca dla poszczególnych typu wizualizacji (tablic, zmiennych itp \ldots).
+	  \item \texttt{code\_input} --- w tym katalogu znajduje się kod związany z wejściem na kod źródłowy, w szczególności inicjalizacja i konfiguracja pluginu Code Mirror.
+	  \item \texttt{console} --- kod źródłowy konsoli wyjścia danych, zlokalizowanej w dolnej części strony.
+	  \item \texttt{data\_structures} --- tutaj zdefiniowane sa wszystkie struktury danych, jakie możemy wizualizować, funkcje które je wyświetlają, wywoływane przez backend w trakcie procedury odświeżającej widok.
+	  \item \texttt{interface} --- w tym katalogu znajduje się kod odpowiedzialny za obsługę zdarzeń, obsługę przycisków i pętlę cyklicznie wykonującą kolejny krok programu a także inicjalizację środowiska po stronie frontendu.
+	  \item \texttt{visual\_elements} (variable) --- to miejsce jest przeznaczone na podstawowe, niepodzielne elementy graficznej wizualizacji. Jedynym stworzonym w ramach tej pracy jest element variable, reprezentujący pojedyńczą zmienną. 
+	  \item \texttt{visualization} --- zawiera główny plik frontendu odpowiadający za najbardziej wysokopoziomowe zadania, opisuje interfejs dla backendu, implementuje funkcję update aktualizującą wizualizację i redraw wyświetlającą wizualizację. Określa też logikę przydzielania miejsca dla poszczególnych typów wizualizacji (tablic, zmiennych itp \ldots).
 	\end {itemize}
-	\item index.html --- główny plik określający wygląd strony, punnkt wejściowy dla serwera hostującego. Importuje wszystkie pozostałe pliki używane w aplikacji.
+	\item \texttt{index.html} --- główny plik określający wygląd strony, punkt wejściowy dla serwera hostującego. Importuje wszystkie pozostałe pliki używane w aplikacji.
       \end {itemize}
-    \item test --- ten katalog jest poświęcony na testy jednostkowe backend'u, pogrupowane według modułów.
+    \item \texttt{test} --- ten katalog jest poświęcony na testy jednostkowe backendu, pogrupowane według modułów.
     \end {itemize}
   \end{itemize}
 
   \section{Modularyzacja}
-\par Zarówno kod frontend-u jak i backend-u zmodularyzowaliśmy w taki sposób, aby uniknąć bezpośrednich powiązań między funkcjonalnościami, a także umożliwić tworzenie prawdziwych testów
+\par Zarówno kod frontendu jak i backendu zmodularyzowaliśmy w taki sposób, aby uniknąć bezpośrednich powiązań między funkcjonalnościami, a także umożliwić tworzenie prawdziwych testów
 jednostkowych, gdzie wynik testu jednej biblioteki nie jest uzależniony w żaden sposób od środowiska. 
 \par Zastosowany schemat modularyzacji polega na umieszczeniu modułów w osobnych folderach i wskazywanie zależności poprzez podanie tablicy zależności. Poszczególne moduły nie ładują zależności samodzielnie - są im dostarczane w momencie załadowania modułów (technologia ta jest znana jako wstrzykiwanie zależności).
 \par Dodatkową zaletą tego podejścia jest fakt, że składowe modułu nie mają możliwości ładowania innych bibliotek, przez co funkcjonalności te muszą im także zostać wstrzyknięte. Umożliwia to
@@ -234,7 +233,7 @@ sprawne pisanie testów jednostkowych poprzez podanie obiektów udających funkc
   \includegraphics[width=\textwidth]{ast}
 \end{center}
   
-\par Drzewo AST (Ang. Abstract Syntaxt Tree, Pol Drzewo Składniowe) - Jest to drzewo etykietowane, które powstaje w wniki analizy składniowej zdania zgodnie z zasadami pewnej gramatyki składniowej. W naszym przypadku jest to drzewo powstałe w wyniku parsowania programu, które zawiera logicznie oddzielone instrukcje zawarte w programie.
+\par Drzewo AST (ang. Abstract Syntaxt Tree, pol. Drzewo Składniowe) - Jest drzewem etykietowanym, które powstaje w wniki analizy składniowej zdania zgodnie z zasadami pewnej gramatyki składniowej. W naszym przypadku jest to drzewo powstałe w wyniku parsowania programu, które zawiera logicznie oddzielone instrukcje zawarte w programie.
 
 
 
@@ -243,7 +242,7 @@ sprawne pisanie testów jednostkowych poprzez podanie obiektów udających funkc
   \includegraphics[scale=0.5]{cfg}
 \end{center}
   
-\par Graf CFG (Ang. Control Flow Graph, Pol Graf Przepływu Sterowania) - Graf który pokazuje w jaki sposób zostanie wykonany program po podziale na bloki reprezentujące pojedyncze procedury programu. Wierzchołkami grafu są bloki podstawowe, a skierowane krawędzie wskazują powiązania pomiędzy blokami, mogą mieć etykietę Prawda lub Fałsz i w zależności od wartości związanego z nią predykatu wykonanie przejdzie na kolejny blok.
+\par Graf CFG (ang. Control Flow Graph, pol. Graf Przepływu Sterowania) - Graf który pokazuje w jaki sposób zostanie wykonany program po podziale na bloki reprezentujące pojedyncze procedury programu. Wierzchołkami grafu są bloki podstawowe, a skierowane krawędzie wskazują powiązania pomiędzy blokami, mogą mieć etykietę Prawda lub Fałsz i w zależności od wartości związanego z nią predykatu wykonanie przejdzie na kolejny blok.
 
 
 
@@ -257,28 +256,28 @@ sprawne pisanie testów jednostkowych poprzez podanie obiektów udających funkc
 \end{figure}
 
 
-\par Generowanie drzewa AST jest realizowane w większości przez bibliotekę Jison na podstawie przygotowanych przez nas dwóch plików konfiguracyjnych: \textbf{ansic.jisonlex} oraz \textbf{ansic.jison}. Znajdują się one w katalogu /src/backend/parser/assets i opisują odpowiednio symbole występujące oraz gramatykę języka VIPER C.
+\par Generowanie drzewa AST jest realizowane w większości przez bibliotekę Jison na podstawie przygotowanych przez nas dwóch plików konfiguracyjnych: \texttt{ansic.jisonlex} oraz \texttt{ansic.jison}. Znajdują się one w katalogu /src/backend/parser/assets i opisują odpowiednio symbole występujące oraz gramatykę języka VIPER C.
 
   \subsection {Generowanie parsera}
-\par Jako jeden z etapów przygotowywania środowiska dla serwera przez bibliotekę grunt, w trakcie operacji o nazwie "compileParser", jest generowany plik \textbf{ansic.js} na podstawie opisanych wyżej plików opisujących zasady język VIPER C. 
+\par Jako jeden z etapów przygotowywania środowiska dla serwera przez bibliotekę grunt, w trakcie operacji o nazwie "compileParser", jest generowany plik \texttt{ansic.js} na podstawie opisanych wyżej plików opisujących zasady język VIPER C. 
 \par Plik ten zawiera skrypt umożliwiający generowanie kodu źródłowego dla dowolnego programu VIPER C bądź wyświetlenie informacji o błędach składni jeśli struktura programu jest niepoprawna. 
 
   \subsection {Analiza leksykalna}
 \par Pierwszym krokiem jest analiza leksykalna, inaczej nadawanie tokenów. Jest to proces polegający na wyodrębnienie i oznaczeniu symboli występujących w kodzie źródłowym, tak aby można było dokonać ich interpretacji w kolejnym kroku. 
-\par Dokonujemy tego za pomocą narzędzia Jison, wykorzystując stworzony przez autorów pracy plik ze specjalnie dostosowaną listą symboli - \textbf{ansic.jisonlex}. Szczegółowa zawartość pliku, tj. dostępne symbole i operacje, są opisane w rozdziale poświęconym językowi VIPER C.
+\par Dokonujemy tego za pomocą narzędzia Jison, wykorzystując stworzony przez autorów pracy plik ze specjalnie dostosowaną listą symboli - \texttt{ansic.jisonlex}. Szczegółowa zawartość pliku, tj. dostępne symbole i operacje, są opisane w rozdziale poświęconym językowi VIPER C.
 
-  \subsection {Analiza składowniowa}
+  \subsection {Analiza składniowa}
 \par Drugim krokiem jest proces właściwego parsowania i tworzenia drzewa AST. Polega na analizie kodu źródłowego sprawdzając strukturę gramatyczną dla wyodrębnionych wcześniej symboli, a następnie akceptując i tworząc drzewo AST bądź odrzucając i generując błąd kompilacji. \cite{ansk} 
-\par W tym celu równiez używamy biblioteki Jison, korzystając z przygotowanego przez autorów pracy pliku \textbf{ansic.jison}, zawierający zasady gramatyki VIPER C. Po tym etapie otrzymujemy plik \textbf{ansic.js} będący skryptem w Javascripcie, który potrafi parsować dowolny kod źródłowy.
+\par W tym celu równiez używamy biblioteki Jison, korzystając z przygotowanego przez autorów pracy pliku \texttt{ansic.jison}, zawierający zasady gramatyki VIPER C. Po tym etapie otrzymujemy plik \texttt{ansic.js} będący skryptem w JavaScripcie, który potrafi parsować dowolny kod źródłowy.
 
   \section {Generowanie CFG / Preprocessor}
 	\par Kod obsługujący generowanie CFG został napisany własnoręcznie przez autorów pracy. Mimo poszukiwań, nie udało się znaleźć biblioteki która wykonywałaby tę część i była dostępna w języku javascript.
-	\par Pierwszym elementem implementacji CFG jest implementacja zbioru podstawowych funkcji. Znajdują się one w katalogu \texttt{/src/backend/preprocessor/cfgGenerator/} i opisują dokładnie jakiego typu parametry mogą przyjmować oraz jaki wynik zwracają. 
-	\par Kolejnym elementem jest implementacja podstawowych elementów logicznych, takich jak FunctionCall czy Return. Znajdują się one w katalogu \texttt{/src/backend/preprocessor/ envGenerator/}
+	\par Pierwszym elementem implementacji CFG jest implementacja zbioru podstawowych instrukcji VM. Znajdują się one w katalogu \texttt{/src/backend/preprocessor/cfgGenerator/} i opisują dokładnie jakiego typu parametry mogą przyjmować oraz jaki wynik zwracają. 
+	\par Kolejnym elementem jest implementacja podstawowych elementów przepływu sterowania, takich jak FunctionCall czy Return. Znajdują się one w katalogu \texttt{/src/backend/preprocessor/ envGenerator/}
 	\par Po zaimplementowaniu wszystkich niezbędnych składników, został stworzony główny plik preprocessora, który analizuje drzewo AST i bez dokonywania szczególnych optymalizacji zamienia na postać grafu CFG.
 	  
-  \section {Wykonanie instrukcji programu / Maszyna wirtualna}
- 	\par Za obsługę wykonanie programu skompilowanego do postaci CFG odpowiedzialny jest backend'owy moduł Process, który implementuje model pamięci (opisany w następnym rozdziale) wraz z pomocniczymi funkcjami, kontekst wykonania i środowiska, a także interfejs to sterowania procesem (np. funkcję następny krok).
+  \section {Wykonywanie instrukcji programu / Maszyna wirtualna}
+ 	\par Za obsługę wykonanie programu skompilowanego do postaci CFG odpowiedzialny jest backendowy moduł \texttt{Process}, który implementuje model pamięci (opisany w następnym rozdziale) wraz z pomocniczymi funkcjami, kontekst wykonania i środowiska, a także interfejs to sterowania procesem (np. funkcję następny krok).
 
   \section {Model pamięci programów użytkownika}
   \par Programy użytkownika w języku VIPER C nie mają przydzielonej ciągłej przestrzeni adresowej znanej z tradycyjnych środowisk uruchomieniowych. Zamiast tego interpreter rozróżnia poszczególne zmienne zdefiniowane w programie zarówno przydzielane statycznie, jak i dynamicznie. 
@@ -293,7 +292,7 @@ sprawne pisanie testów jednostkowych poprzez podanie obiektów udających funkc
   \chapter{Frontend - interfejs i wizualizacja}
   
   \section {Design wizualizacji}
-\par Podstawową jednostką jest zmienna, która jest prostokątem rozmiaru 100px na 20px, z nazwą do max. 10 znaków bądź 7 znaków początku i kropkami oznaczającymi że nazwa jest dłuższa i została "ucięta" oraz wartością do 9 znaków (tak żeby zmieścił się Integer ze znakiem). 
+\par Podstawową jednostką jest zmienna, która jest prostokątem rozmiaru 100px na 20px, z nazwą do max. 10 znaków bądź 7 znaków początku i kropkami oznaczającymi że nazwa jest dłuższa i została "ucięta" oraz wartością do 9 znaków (tak żeby zmieściła się liczba całkowita ze znakiem). 
 
 \begin{center}
   \includegraphics[scale=0.8]{wiz1}
@@ -314,15 +313,15 @@ Zastosowaną czcionką jest Monospace o stałej szerokości 10px. Z każdej stro
   \includegraphics[scale=0.8]{wiz3}
 \end{center}
 
-\par Każdy rząd będzie pewnego rodzaju - zmienna lub tablica, przy czym drzewa zawsze będą wyświetlane na końcu jako najbardziej podatne na modyfikacje i rozbudowę w dół, pozostałe według kolejności pojawiania się. 
-\par Czcionka nazwy zmienianej w danym kroku zmieni kolor na czerwony, a użytej na żółty. W przypadku gdy w programie będzie więcej zmiennych niż miejsca, zostanie wyświetlona informacja w rogu i dalsze zmienne nie będą wizualizowane. 
+\par Każdy rząd posiada swój ustalony rodzaj - zmienna lub tablica, przy czym drzewa zawsze są wyświetlane na końcu jako najbardziej podatne na modyfikacje i rozbudowę w dół, pozostałe według kolejności pojawiania się. 
+\par Czcionka nazwy zmienianej w danym kroku zmienia kolor na czerwony, a użytej na żółty. W przypadku gdy w programie jest więcej zmiennych niż miejsca, zostanje wyświetlona informacja w rogu i dalsze zmienne nie są wizualizowane. 
 
   \section{Działanie interfejsu graficznego}
-\par Pierwszym zadaniem interfejsu graficznego jest pobranie kodu źródłowego oraz wejścia programu, oraz wysłanie go do backend-u w celu dalszego przetwarzania. Następnie czeka na wpisanie kodu źródłowego, ułatwiając to poprzez podświetlanie składni i inteligentne wcięcia oraz wpisanie wejścia do programu. 
-\par Po naciśnięciu przycisku Start, program zostaje wysłany do backend-u, który zwraca wynik kompilacji, a ten jest wyświetlany w konsoli. Następnie cyklicznie co którki odstęp czasu wykonuje się kolejny krok programu poprzez wywołanie procedury nextStep w backend-zie, po której zostaje zaktualizowana wizualizacja i wyjście w konsoli.
-\par W momencie naciśnięcia przycisku Pasue, pętla zostaje przerwana. Wtedy użytkownik ma możliwość użycia przycisku Next Step oraz Next Step Over w celu wysłania odpowiedniej komendy do backend-u oraz jak poprzednio aktualizacji struktur graficznych. W momencie wciśnięcia przycisku End, backend czyści swoje struktury i przygotowuje do przyjęcia kolejnego programu, a wszystkie wizualne struktury we frontendzie są zerowane.
+\par Pierwszym zadaniem interfejsu graficznego jest pobranie kodu źródłowego oraz wejścia programu, oraz wysłanie go do backendu w celu dalszego przetwarzania. Następnie czeka na wpisanie kodu źródłowego, ułatwiając to poprzez podświetlanie składni i inteligentne wcięcia oraz wpisanie wejścia do programu. 
+\par Po naciśnięciu przycisku \texttt{Start}, program zostaje wysłany do backend-u, który zwraca wynik kompilacji, a ten jest wyświetlany w konsoli. Następnie cyklicznie w którkich odstępach czasu wykonuje się kolejny krok programu poprzez wywołanie procedury nextStep w backendzie, po której zostaje zaktualizowana wizualizacja i wyjście w konsoli.
+\par W momencie naciśnięcia przycisku \texttt{Pause}, pętla zostaje przerwana. Wtedy użytkownik ma możliwość użycia przycisku \texttt{Step} oraz \texttt{Step Over} w celu wysłania odpowiedniej komendy do backend-u oraz jak poprzednio aktualizacji struktur graficznych. W momencie wciśnięcia przycisku \texttt{End}, backend czyści swoje struktury i przygotowuje do przyjęcia kolejnego programu, a wszystkie wizualne struktury we frontendzie są zerowane.
 
-  \section{Komunikacja frontend-u z backend-em}
+  \section{Komunikacja frontendu z backendem}
 \par Ponieważ frontend ma być w pełni wymienialny, backend nie jest „świadomy” istnienia części frontendowej. Komunikacja odbywa się zamiast tego na podstawie zdarzeń - tj. w momencie
 przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarzeń (tzw. handlery), które są następnie wywoływane w razie wystąpienia zdarzenia (np. dodano wierzchołek w grafie). Dzieje się to również za każdym razem, gdy zostanie utworzony nowy obiekt reprezentujący stan programu - np. drzewo lub tablica.
 
@@ -334,7 +333,7 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
   \section {Możliwości VIPER C}
 
 \par Język VIPER C jest podzbiorem języka C dostosowanym w celu łatwiejszej interpretacji. Został okrojony głównie z cech, które nie są potrzebne w krótkich programach. Podstawową rzeczą, na jaką warto zwrócić uwagę, jest brak dyrektyw kompilatora. Nie można również tworzyć makr. Program zdefiniowany w VIPER C składa się z jednego pliku i zawsze jest wiązany ze zdefinowaną przez nas biblioteką standardową, której plik nagłówkowy jest dołączany automatycznie. 
-\par Podobnie jak w programie w języku C, punktem wejścia jest funkcja main - nie ma jednak możliwości przyjmowania argumentów wiersza poleceń. Istotnym założeniem, które chcemy spełniać, jest przenośność programów pomiędzy ANSI C a VIPER C. Każdy program napisany w VIPER C skompiluje się w środowisku zgodnym z ANSI C (zakładając użycie nowoczesnego kompilatora i dodanie dyrektyw dołączenia plików nagłówkowych). Oczywiście nie możemy zapewnić całkowitej zgodności pomiędzy tymi dwoma standardami, przez co nie ma gwarancji, że program będzie zachowywał się tak samo w obu środowiskach. \par Kierując się zdrowym rozsądkiem, można założyć, że typowy program napisany w VIPER C będzie produkował te same wyniki, co jego odpowiednik w C. Jednak z uwagi na interpretowaną naturę VIPER C należy się spodziewać istotnych różnic w czasie wykonania, a także brak możliwości przewidywania czasu wykonania programu w VIPER C. 
+\par Podobnie jak w programie w języku C, punktem wejścia jest funkcja \texttt{main} - nie ma jednak możliwości przyjmowania argumentów wiersza poleceń. Istotnym założeniem, które chcemy spełniać, jest przenośność programów pomiędzy ANSI C a VIPER C. Każdy program napisany w VIPER C skompiluje się w środowisku zgodnym z ANSI C (zakładając użycie nowoczesnego kompilatora i dodanie dyrektyw dołączenia plików nagłówkowych). Oczywiście nie możemy zapewnić całkowitej zgodności pomiędzy tymi dwoma standardami, przez co nie ma gwarancji, że program będzie zachowywał się tak samo w obu środowiskach. \par Kierując się zdrowym rozsądkiem, można założyć, że typowy program napisany w VIPER C będzie produkował te same wyniki, co jego odpowiednik w C. Jednak z uwagi na interpretowaną naturę VIPER C należy się spodziewać istotnych różnic w czasie wykonania, a także brak możliwości przewidywania czasu wykonania programu w VIPER C. 
 \par Możemy również założyć, że będzie działał program napisany w C, o ile kompiluje się w środowisku VIPER C i nie wykonuje operacji z wynikiem określonym w standardzie VIPER C jako niezdefiniowany. VIPER 2 stara się symulować 32-bitowy model pamięci; należy zatem zakładać, że „słowo procesora” maszyny VIPER 2 jest 32-bitowe. 
 
   \section {Główne cechy ANSI C niedostępne w VIPER C}
@@ -348,17 +347,17 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
       \item Rzutowanie typów innych niż wskaźnikowe na wskaźnikowe
       \item Arytmetyka wskaźnikowa (+/-) z obydwoma wskaźnikowymi operandami
       \item Ustalanie wartości wskaźnika jako liczby (np. poprzez wypisanie) - zachowanie niezdefiniowane
-      \item Arytmetyka wskaźnikowa z użyciem operatorów innych niż ++, —, + (liczba całkowita), - (liczba całkowita), porównanie (==, !=, <, >, <=, >=) z innym wskaźnikiem (semantyka porównania wskaźników wskazujących na rozłączne obszary pamięci jest niezdefiniowana)
+      \item Arytmetyka wskaźnikowa z użyciem operatorów innych niż ++, —, + (liczba całkowita), - (liczba całkowita), porównanie (==, !$=$, $<$, $>$, $<=$, $>=$) z innym wskaźnikiem (semantyka porównania wskaźników wskazujących na rozłączne obszary pamięci jest niezdefiniowana)
     \end{enumerate}
   \subsection {Funkcje}
     \begin{enumerate}
-      \item Funkcje z nieokreślonym typem zwracanym, jak w: main() { }
+      \item Funkcje z nieokreślonym typem zwracanym, jak w: \texttt{main()} { }
       \item Funkcje z modyfikatorem inline
       \item Pobieranie adresu funkcji
-      \item Funkcje z pustą listą argumentów nie mogą być deklarowane z void jako listą argumentów, np. int main(void);
-      \item Funkcje przyjmujące zmienną liczbę argumentów (tzw. varargs)
-      \item Argumenty opcjonalne w funkcjach, jak w: int a(int b, int c = 42) { }
-      \item Argumenty bez identyfikatora zmiennej (nieużywane), jak w: int a(int, char) { }
+      \item Funkcje z pustą listą argumentów nie mogą być deklarowane z void jako listą argumentów, np. \texttt{int main(void);}
+      \item Funkcje przyjmujące zmienną liczbę argumentów (tzw. \texttt{varargs})
+      \item Argumenty opcjonalne w funkcjach, jak w: \texttt{int a(int b, int c = 42)} { }
+      \item Argumenty bez identyfikatora zmiennej (nieużywane), jak w: \texttt{int a(int, char)} { }
     \end{enumerate}
   \subsection {Deklaracje}
     \begin{enumerate}
@@ -366,19 +365,19 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
     \end{enumerate}
   \subsection {Specyfikatory dostępu}
     \begin{enumerate}
-      \item volatile
-      \item static
-      \item auto
-      \item extern
-      \item register
-      \item const
+      \item \texttt{volatile}
+      \item \texttt{static}
+      \item \texttt{auto}
+      \item \texttt{extern}
+      \item \texttt{register}
+      \item \texttt{const}
     \end{enumerate}
   \subsection {Struktury, unie, typy, tablice}
     \begin{enumerate}
       \item Unie
       \item Słowo kluczowe typedef
       \item Typy wyliczeniowe
-      \item Inicjowanie struktur i tablic (int[] a = {1,2,3})
+      \item Inicjowanie struktur i tablic \texttt{(int[] a = {1,2,3})}
       \item Tablice wielowymiarowe (tablice tablic) 
       \item Struktury
     \end{enumerate}
@@ -391,7 +390,7 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
       \item Tworzenie etykiet i słowo kluczowe goto
       \item Bloki bez konstrukcji uzasadniającej wprowadzenie bloku
       \item Wstawki asemblerowe
-      \item Konstrukcja switch...case
+      \item Konstrukcja \texttt{switch...case}
     \end{enumerate}
 
   \section {Biblioteka standardowa}
@@ -400,10 +399,10 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
 
   \subsection {$<$stdlib.h$>$}
     \begin{enumerate}
-      \item alokacja pamięci: funkcje malloc, free, calloc
-      \item konwersje: atoi, atol, strtol
-      \item generowanie liczb losowych: rand, srand
-      \item arytmetyka całkowitoliczbowa: abs, labs
+      \item alokacja pamięci: funkcje \texttt{malloc, free, calloc}
+      \item konwersje: \texttt{atoi, atol, strtol}
+      \item generowanie liczb losowych: \texttt{rand, srand}
+      \item arytmetyka całkowitoliczbowa: \texttt{abs, labs}
     \end{enumerate}
   \subsection {$<$stdio.h$>$}
     \begin{enumerate}
@@ -414,19 +413,19 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
     \end{enumerate}
   \subsection {$<$limits.h$>$}
     \begin{enumerate}
-      \item wszystkie stałe z pliku nagłówkowego (np. MAX\_INT)
+      \item wszystkie stałe z pliku nagłówkowego (np. \texttt{MAX\_INT})
     \end{enumerate}
   \subsection {$<$math.h$>$}
     \begin{enumerate}
-      \item funkcje trygonometryczne: cos, sin, tan, acos, asin, atan, atan2
-      \item funkcje hiperboliczne: cosh, sinh, tanh
-      \item wartość absolutna: abs, labs
+      \item funkcje trygonometryczne: \texttt{cos, sin, tan, acos, asin, atan, atan2}
+      \item funkcje hiperboliczne: \texttt{cosh, sinh, tanh}
+      \item wartość absolutna: \texttt{abs, labs}
     \end{enumerate}
   \subsection {$<$string.h$>$}
     \begin{enumerate}
-      \item długość łańcucha: strlen
-      \item porównanie: strcmp
-      \item kopia łańcucha: strcpy
+      \item długość łańcucha: \texttt{strlen}
+      \item porównanie: \texttt{strcmp}
+      \item kopia łańcucha: \texttt{strcpy}
     \end{enumerate}
 
   \chapter {Organizacja pracy}
@@ -435,9 +434,9 @@ przygotowania silnika, część frontendowa rejestruje procedury obsługi zdarze
 \par Pracowaliśmy w metodologii agile - ze względu na rozmiar i specyfikę zespołu. By zapewnić ciągłość pracy nad projektem, postawiliśmy na częste spotkania. W trakcie pierwszego semestru spotykaliśmy się w weekendy oraz w trakcie zajęć, by dyskutować plany i koncepcje wykonania poszczególnych elementów projektu. W drugim semestrze spotykaliśmy się raz lub dwa na tydzień: na ZPP lub prywatnie, by rozmawiać o postępach w implementacji, napotkanych problemach, a także wynikającej z tego potrzebie zmian i uszczegółowienia ustalonych koncepcji. Konkretne zadania były przydzielane tuż przed rozpoczęciem 2-3 tygodniowego milestone’u, a każda z osób była odpowiedzialna za wykonanie, bądź odpowiednio wcześniej - poinformowanie o problemach związanych z przydzielonym zadaniem.
 
   \section {Zmiana celów w trakcie projektu}
-\par W trakcie projektu, z powodu niedoszacowania nakładu czasu niezbędnego na przygotowanie parsera i pojawiające się niespodziewane problemy, np. w jaki sposób przekazywać informację o przetwarzanej linii kodu programu, jeśli jest on już w postaci CFG gdzie nie ma logicznie wyodrębnionych linijek kodu. Trudnością również okazało się rozpoznawanie drzew i list, dlatego ostatecznie zrezygowaliśmy z tych struktur.
+\par W trakcie projektu, z powodu niedoszacowania nakładu czasu niezbędnego na przygotowanie parsera i pojawiające się niespodziewane problemy, np. w jaki sposób przekazywać informację o przetwarzanej linii kodu programu, jeśli jest on już w postaci CFG, gdzie nie ma logicznie wyodrębnionych linijek kodu. Trudnością również okazało się rozpoznawanie drzew i list, dlatego ostatecznie zrezygowaliśmy z tych struktur.
   \section {Milestone'y}
-\par Zaplanowaliśmy i wykonaliśmy następujące milestone-y:
+\par Zaplanowaliśmy i wykonaliśmy następujące milestone'y:
   \subsection {Milestone 1}
   \begin {enumerate}
     \item Program wklejony w okienko wyjścia jest weryfikowany przez parser jako poprawne/niepoprawne syntaktycznie dla prostych, przykładowych programów.
@@ -462,30 +461,30 @@ Przygotowana jest wstępna definicja API do każdego z modułów, a także konce
   \subsection {Milestone 3}
   \begin {enumerate}
     \item Przygotowana jest wstępna wersja pracy licencjackiej.
-    \item Biblioteka standardowa jest zaimplementowana w 50% założeń. 
+    \item Biblioteka standardowa jest zaimplementowana w 50%. 
     \item Parser jest dopracowany tak, aby każdy typowy program był rozpoznawany, być może z wyjątkiem skrajnie wyjątkowych sytuacji.
     \item Działa standardowe wejście do programu.
-    \item Zaimplementowana jest wizualizowacja tablic.
+    \item Zaimplementowana jest wizualizacja tablic.
   \end {enumerate}
   \subsection {Milestone 4}
   \begin {enumerate}
-    \item Praca licencjacka jest ukończona
-    \item Biblioteka standardowa jest gotowa w 100%
-    \item Parser rozpoznaje wszystkie programy VIPER C
-    \item Interfejs jest w pełni dopracowany
-    \item Wszystkie znalezione błędy są naprawione a aplikacja dopracowana.
+    \item Praca licencjacka jest ukończona.
+    \item Biblioteka standardowa jest zaimplementowana w 100%.
+    \item Parser rozpoznaje wszystkie programy VIPER C.
+    \item Interfejs jest w pełni dopracowany.
+    \item Wszystkie znalezione błędy są naprawione, a aplikacja. dopracowana.
   \end {enumerate}
 
   \chapter {Wkład pracy poszczególnych osób}
-\par Mariusz Kierski posiadający rozległe doświadczenie komercyjne oraz akademickie w języku javascript kierował projektem, przydzielał zadania oraz dokonywał Code Review. Zajmował się on także stworzeniem maszyny wirtualnej, jak również stworzył ogólny plan i wizję projektu.
-\par Tom Macieszczak, jako biegły matematyk posiadający dużą wiedzę teoretyczną, był odpowiedzialny za obsługę parser'a i stworzenie drzewa AST. Jego rolą była również weryfikacja formalnych podstaw i zasad działania VIPER'A II, a także przygotowanie projektu technicznego.
+\par Mariusz Kierski posiadający rozległe doświadczenie komercyjne oraz akademickie w języku JavaScript kierował projektem, przydzielał zadania oraz dokonywał Code Review. Zajmował się on także stworzeniem maszyny wirtualnej, jak również stworzył ogólny plan i wizję projektu.
+\par Tom Macieszczak, jako biegły matematyk posiadający dużą wiedzę teoretyczną, był odpowiedzialny za obsługę parser'a i stworzenie drzewa AST. Jego rolą była również weryfikacja formalnych podstaw i zasad działania VIPER, a także przygotowanie projektu technicznego.
 \par Adrian Kral, mający dużą wprawę i biegłość programistyczną, dostał najtrudniejsze pod względem programistycznym zadania, to znaczy przeprowadzenie analizy syntaktycznej i wygenerowanie grafu CFG na podstawie drzewa AST.  
 \par Marek Bardoński, z uwagi na rozległe doświadczenie w tej dziedzinie - w tym pracą nad wydajnością kart graficznych w firmie NVIDIA, interfejsem graficznym biznesowego Outlooka w firmie Microsoft czy symulacją graficzną międzynarodowej stacji kosmicznej w organizacji NASA, wykonał część związaną z wizualizacją zmiennych i interfejsem użytkownika, a także napisaniem większości i redakcją / składem pracy licencjackiej.
-\par Każdy wywiązał się bez zarzutu ze swojej pracy, mimo iż każdemu zdażyło się czasem niewyrobić na czas ze swoim zadaniem, np. z powodu ciężkiej sytuacji z innymi przedmiotami bądź choroby.
+\par Każdy wywiązał się bez zarzutu ze swojej pracy, mimo iż każdemu zdarzyło się nie zdążyć na czas ze swoim zadaniem.
 
   \chapter {Spis rzeczy na załączonej płycie CD}
   \begin {enumerate}
-    \item Folder "VIPER2" z kodem źródłowym.
+    \item Folder "VIPER" z kodem źródłowym.
     \item Plik "readme" z instrukcją kompilacji i uruchomienia serwera.
     \item Folder "Screenshots" z kilkunastoma zrzutami ekranu przedstawiającymi działanie programu.
   \end {enumerate}
