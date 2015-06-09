@@ -105,6 +105,5 @@ E           [ntvbrfa\\?'"]
 
 [ \t\v\n\f]     /* skip tabs */
 \s+             /* skip whitespace */
-.               /* ignore bad characters */
 
 %%
