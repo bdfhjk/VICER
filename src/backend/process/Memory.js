@@ -71,7 +71,9 @@ define(["eventEmitter", "./ValueTypes", "./coerceValue"], function(EventEmitter,
             throw new Error("Attempted to fetch a nonexistent location " + loc);
         }
         var bo = this.getBaseAndOffset(loc);
-        this.emitter.emitEvent("fetch", [bo.base, bo.offset]);
+        if (!Array.isArray(this.cells[loc].value)) {
+            this.emitter.emitEvent("fetch", [bo.base, bo.offset]);
+        }
         return this.cells[loc].value;
     };
 
