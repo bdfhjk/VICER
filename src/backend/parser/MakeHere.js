@@ -2,6 +2,7 @@ var JisonLex = require('jison-lex');
 var Jison = require('jison');
 var fs = require('fs');
 var path = require('path');
+var preprocessGrammar = require('./LocationMacro');
 
 var dest = process.cwd();
 
@@ -12,7 +13,7 @@ var lexerGrammar = fs.readFileSync('assets/ansic.jisonlex', 'utf-8');
 var lexerSource = JisonLex.generate(lexerGrammar);
 fs.writeFileSync(lexerFilename, lexerSource);
 
-var parserGrammar = fs.readFileSync('assets/ansic.jison', 'utf-8');
+var parserGrammar = preprocessGrammar(fs.readFileSync('assets/ansic.jison', 'utf-8'));
 var parser = new Jison.Parser(parserGrammar);
 parser.lexer = new JisonLex(lexerGrammar);
 var parserSource = parser.generate();
@@ -37,3 +38,9 @@ var finalParserSource = parserSource.replace(
     );
 
 fs.writeFileSync(parserFilename, finalParserSource);
+
+function processLocationMacro (parserGrammar) {
+    var reg = /^(\w+)_\b/gm;
+    var replacement = '$1\n    : $1_\n        { $$$$ = addloc($$1, @1, ops); }\n    ;\n\n$&';
+    return parserGrammar.replace(reg, replacement);
+}
